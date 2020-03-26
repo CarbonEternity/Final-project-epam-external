@@ -121,7 +121,7 @@
                     </tbody>
                 </table>
             </c:when>
-            <c:otherwise><h4><fmt:message key="error.empty"/></h4></c:otherwise>
+            <c:otherwise><h4><fmt:message key="error.listFaculties.empty"/></h4></c:otherwise>
         </c:choose>
 
     </div>

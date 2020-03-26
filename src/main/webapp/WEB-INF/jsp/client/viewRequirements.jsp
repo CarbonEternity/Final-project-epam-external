@@ -25,18 +25,12 @@
     <title>Faculty</title>
     <style>
         body {
-            background: url('fondark.jpg') no-repeat;
             background-size: cover;
+            background: url('fondark.jpg') no-repeat fixed;
         }
         .small{
-            margin: auto;
             width: 20%;
-            margin-bottom: 20px;
-        }
-        .small2{
-            margin: auto;
-            width: 30%;
-            margin-bottom: 20px;
+            margin: auto auto 20px;
         }
         h1{
             color: white;
@@ -71,16 +65,12 @@
             list-style: square;
             text-align: center;
         }
-        .fa-map{
-
-        }
-
     </style>
 </head>
-<body>
+
 
 <div class="bs-example">
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
         <a href="#" class="navbar-brand">Home</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
@@ -106,95 +96,74 @@
 </div>
 
 
-
-    <form action="controller" method="get">
+    <form action="controller" method="post">
         <input type="hidden" name="command" value="createOrder">
-        <div class="small">
-        <div class="col align-self-center">
-            <c:choose>
-            <c:when test="${not empty disciplineList}">
+        <div class="row">
 
-            <table class="table table-striped table-dark table-condensed">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">Minimal needed mark</th>
-                    <th scope="col">Your mark</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="item" items="${disciplineList}">
-                    <tr>
-                        <td>${item.disciplineName}</td>
-                        <td>${item.minMark}</td>
-                        <td><input type="text" name="${item.id}" class="form-control"></td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
-            </c:when>
-            <c:otherwise><h4><fmt:message key="error.empty"/></h4>
-            </c:otherwise>
-            </c:choose>
+            <div class="small">
+                <div class="col align-self-center">
+                    <c:choose>
+                        <c:when test="${not empty disciplineList}">
 
-            <input class="btn btn-success" type="submit" value="I want study here!">
-    </form>
-</div>
-</div>
+                            <table class="table table-striped table-dark table-condensed">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Minimal needed mark</th>
+                                    <th scope="col">Your mark</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="item" items="${disciplineList}">
+                                    <tr>
+                                        <td>${item.disciplineName}</td>
+                                        <td>${item.minMark}</td>
+                                        <td><input type="text" name="zno_${item.disciplineName}" class="form-control"></td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:when>
+                        <c:otherwise><h4><fmt:message key="error.disciplineList.empty"/></h4>
+                        </c:otherwise>
+                    </c:choose>
 
-<div class="small2">
-<div class="container">
-    <div class="row clearfix">
-        <div class="col align-self-center column">
-            <table class="table table-striped table-dark table-condensed" id="tab_logic">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col"> # </th>
-                    <th scope="col"> Discipline </th>
-                    <th scope="col"> Mark </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr id='addr0'>
-                    <td> 1 </td>
-                    <td>
-                        <input type="text" name='name0' placeholder='Discipline' class="form-control"/>
-                    </td>
-                    <td>
-                        <input type="text" name='mail0' placeholder='Mark' class="form-control"/>
-                    </td>
-                </tr>
-                <tr id='addr1'></tr>
-                </tbody>
-            </table>
+                </div>
+            </div>
+
+            <div class="small">
+                <div class="col align-self-center">
+                    <c:choose>
+                        <c:when test="${not empty certificateDisciplineList}">
+
+                            <table class="table table-striped table-dark table-condensed">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col"> #</th>
+                                    <th scope="col"> Discipline</th>
+                                    <th scope="col"> Mark</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="item2" items="${certificateDisciplineList}">
+                                    <tr>
+                                        <td>${item2.id}</td>
+                                        <td>${item2.disciplineName}</td>
+                                        <td><input type="text" name="cert_${item2.id}" class="form-control"></td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:when>
+                        <c:otherwise><h4><fmt:message key="error.certificateDisciplineList.empty"/></h4>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <input class="btn btn-success" type="submit" value="I want study here!">
+                </div>
+            </div>
         </div>
-    </div>
-    <input class="btn btn-success btn-xs" style="margin-right: 20px;" id="add_row" value="Add Row">
-    <input class="btn btn-success btn-xs " id="delete_row" value="Delete Row">
-
-</div>
-</div>
-<%--       <3  - <3      --%>
-
-<script type="text/javascript">
-    $(document).ready(function(){
-        var i=1;
-        $("#add_row").click(function(){
-            $('#addr'+i).html("<td>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='Discipline' class='form-control input-md'  /> </td>" +
-                "<td><input  name='mark"+i+"' type='text' placeholder='Mark'  class='form-control input-md'></td>");
-
-            $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
-            i++;
-        });
-        $("#delete_row").click(function(){
-            if(i>1){
-                $("#addr"+(i-1)).html('');
-                i--;
-            }
-        });
-
-    });
-</script>
+    </form>
 
 
 </body>

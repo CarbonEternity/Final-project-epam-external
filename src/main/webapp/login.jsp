@@ -116,14 +116,7 @@
 
 <form id="login_form" action="controller" method="post">
 
-
-<%--
-    Hidden field. In the query it will act as command=login.
-    The purpose of this to define the command name, which have to be executed
-    after you submit current form.
-  =--%>
     <div class="form-inner">
-
 
         <input type="hidden" name="command" value="login"/>
         <fieldset>

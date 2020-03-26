@@ -26,16 +26,13 @@ public class CommandContainer {
 //        // client commands
         commands.put("sortFacultyList", new ListOrdersCommand());
         commands.put("viewFacultyAndRequirements", new ListRequirementsCommand());
-//
+        commands.put("createOrder", new CreateOrderCommand());  //TODO
+
+
+
+
 //        // admin commands
         commands.put("adminkahome", new ListEnrolleesCommand());
-
-
-
-
-
-
-
 
 
         LOG.debug("Command container was successfully initialized");

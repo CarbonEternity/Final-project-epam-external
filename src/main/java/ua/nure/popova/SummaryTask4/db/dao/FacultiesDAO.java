@@ -5,10 +5,8 @@ import ua.nure.popova.SummaryTask4.db.Fields;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.exception.DBException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +15,12 @@ public class FacultiesDAO {
     private static final String SQL_FIND_FACULTY_AND_ZNO_NEED_BY_ID = "SELECT * FROM faculties INNER JOIN requirements r ON faculties.id = r.id_faculty inner join disciplines d on r.id_subject = d.id where faculties.id = ";
     private static final String SQL_ALL_FACULTIES = "SELECT * FROM faculties ";
     private static final String SQL_FIND_FACULTY_BY_ID = "SELECT * FROM faculties where id = ";
+    private static final String SQL_ALL_DISCIPLINES = "SELECT * FROM disciplines ";
+    private static final String SQL_DISCIPLINE_BY_ID = "SELECT * FROM disciplines where id = ";
+    private static final String SQL_FIND_DISCIPLINE_BY_NAME = "SELECT * FROM disciplines where discipline_name = ?";
+    private static final String SQL_INSERT_ZNO = "INSERT INTO zno (id_enrollee, id_subject, mark) VALUES (?,?,?)";
+    private static final String SQL_INSERT_SERTIFICATE = "INSERT INTO certificates (id_enrollee, id_subject, mark) VALUES (?,?,?)";
+    private static final String SQL_INSERT_DISCIPLINE = "INSERT INTO disciplines (discipline_name) VALUE (?)";
 
     public List<Faculty> findAllFaculties() throws DBException {
         List<Faculty> list = new ArrayList<>();
@@ -31,7 +35,7 @@ public class FacultiesDAO {
                 list.add(extractFaculty(rs));
             rs.close();
             pstmt.close();
-       } catch (SQLException ex) {
+        } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -39,6 +43,33 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         return list;
+    }
+
+    public Discipline findDisciplineByName(String name) throws DBException {
+        Discipline discipline = new Discipline();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_FIND_DISCIPLINE_BY_NAME);
+            pstmt.setString(1,name);
+
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                discipline = extractDiscipline(rs);
+
+
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return discipline;
     }
 
     public List<Faculty> sortFaculties(String query) throws DBException {
@@ -75,15 +106,146 @@ public class FacultiesDAO {
         return faculty;
     }
 
-    private Discipline extractDiscipline(ResultSet rs)throws SQLException{
+    private Discipline extractDiscipline(ResultSet rs) throws SQLException {
         Discipline discipline = new Discipline();
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int columns = rsmd.getColumnCount();
+        for (int x = 1; x <= columns; x++) {
+            if (Fields.ENTITY_MIN_MARK.equals(rsmd.getColumnName(x))) {
+                discipline.setMinMark(rs.getInt(Fields.ENTITY_MIN_MARK));
+            }
+        }
         discipline.setId(rs.getLong(Fields.ENTITY_ID));
         discipline.setDisciplineName(rs.getString("discipline_name"));
-        discipline.setMinMark(rs.getInt(Fields.ENTITY_MIN_MARK));
         return discipline;
     }
 
-    public List<Discipline> findDisciplinesByFacultyId(Integer id) throws DBException{
+    // на сколько сдал зно
+    public boolean insertZNO(Long enrolleeId, String key, String[] values) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        Discipline discipline = findDisciplineByName(key);
+        ResultSet rs = null;
+        boolean flag = false;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_INSERT_ZNO);
+
+            for (String value : values) {
+                pstmt.setLong(1, enrolleeId);
+                pstmt.setLong(2, discipline.getId());
+                pstmt.setString(3, value);
+            }
+
+            pstmt.executeUpdate();
+            pstmt.close();
+            flag = true;
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return flag;
+    }
+
+    private Discipline checkDiscipline(String d) throws DBException {  //TODO
+        PreparedStatement pstmt;
+        Connection con = null;
+        Discipline discipline = new Discipline();
+        ResultSet rs;
+        long id = 0;
+        boolean flag = false;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_ALL_DISCIPLINES);
+            rs = pstmt.executeQuery();
+
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int columns = rsmd.getColumnCount();
+            for (int x = 1; x <= columns; x++) {
+                if (d.equals(rsmd.getColumnName(x))) { //if such exists
+
+                    discipline = findDisciplineByName(d);
+                    flag = true;
+                }
+            }
+
+            if (!flag) {
+                insertNewDiscipline(d);
+                discipline = findDisciplineByName(d);
+                flag = true;
+            }
+
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return discipline;
+    }
+
+    private boolean insertNewDiscipline(String name) throws DBException {
+        PreparedStatement pstmt = null;
+        Connection con = null;
+        ResultSet rs = null;
+        boolean flag = false;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_INSERT_DISCIPLINE);
+            pstmt.setString(1, name);
+            pstmt.executeUpdate();
+            pstmt.close();
+            flag = true;
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return flag;
+    }
+
+    //занесении результата атестата
+    public boolean insertCertificate(Long enrolleeId, String key, String[] values) throws DBException {
+        PreparedStatement pstmt = null;
+        Connection con = null;
+        Discipline discipline = checkDiscipline(key);
+
+        boolean flag = false;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_INSERT_SERTIFICATE);
+
+            for (String value : values) {
+                pstmt.setLong(1, enrolleeId);
+                pstmt.setLong(2, discipline.getId());
+                pstmt.setString(3, value);
+            }
+
+            pstmt.executeUpdate();
+            pstmt.close();
+            flag = true;
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return flag;
+    }
+
+    public List<Discipline> findDisciplinesByFacultyId(Integer id) throws DBException {
         List<Discipline> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -106,7 +268,7 @@ public class FacultiesDAO {
         return list;
     }
 
-    public Faculty findFacultyById(Integer id) throws DBException{
+    public Faculty findFacultyById(Integer id) throws DBException {
         Faculty faculty = new Faculty();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -128,4 +290,29 @@ public class FacultiesDAO {
         }
         return faculty;
     }
+
+    public List<Discipline> findDisciplineList() throws DBException {
+        List<Discipline> list = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_ALL_DISCIPLINES);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(extractDiscipline(rs));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
+    }
+
+
 }
