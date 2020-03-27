@@ -25,23 +25,31 @@
     <title>List faculties</title>
     <style>
         body {
-            background: url('fondark.jpg') no-repeat;
+            background: url('back.png') no-repeat;
             background-size: cover;
         }
-        .small{
+
+        .small {
             margin: 20px auto;
             width: 30%;
         }
-        h1{
+
+        h1 {
             color: white;
         }
-        .table-condensed{
+
+        .table,
+        .table tr,
+        .table td {
+            /*background-color: #e2e2e2 !important;*/
             font-size: 16px;
         }
-        .bs-example{
+
+        .bs-example {
             margin: 0;
         }
-        .navbar{
+
+        .navbar {
             position: relative;
         }
     </style>
@@ -91,7 +99,7 @@
         <c:choose>
             <c:when test="${not empty listFaculties}">
 
-                <table class="table table-striped table-dark table-condensed">
+                <table class="table table-light table-striped table-hover">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -103,8 +111,9 @@
                     </thead>
                     <tbody>
                     <c:forEach var="item" items="${listFaculties}">
+
                         <tr>
-                            <th scope="row">${item.id }</th>
+                            <th>${item.id}</th>
                             <td>${item.name}</td>
                             <td>${item.countBudget}</td>
                             <td>${item.countTotal}</td>
@@ -112,11 +121,20 @@
                                 <form action="controller" method="get">
                                     <input type="hidden" name="command" value="viewFacultyAndRequirements">
                                     <input type="hidden" name="id_faculty" value="${item.id}">
-                                    <input class="btn btn-success" type="submit"
-                                           value="show requirements">
+
+                                    <c:choose>
+                                        <c:when test="${listApplications.contains(item.id)}">
+                                            <input class="btn btn-success" type="submit" value="show requirements"
+                                                   disabled>
+                                        </c:when>
+                                        <c:otherwise><input class="btn btn-success" type="submit"
+                                                            value="show requirements">
+                                        </c:otherwise>
+                                    </c:choose>
                                 </form>
                             </td>
                         </tr>
+
                     </c:forEach>
                     </tbody>
                 </table>
@@ -130,9 +148,15 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
 <script lang="javascript">
     // Material Select Initialization

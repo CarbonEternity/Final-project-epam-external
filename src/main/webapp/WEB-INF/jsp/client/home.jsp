@@ -25,16 +25,19 @@
     <style>
         body {
             background-size: cover;
-            background: url('fondark.jpg') no-repeat fixed;
+            background: url('back.png') no-repeat fixed;
         }
         .small{
-            width: 20%;
+            width: 30%;
             margin: auto auto 20px;
         }
         h1{
             color: white;
         }
-        .table-condensed{
+        .table,
+        .table tr,
+        .table td {
+            background-color:  #e2e2e2 !important;
             font-size: 16px;
         }
         .bs-example{
@@ -42,27 +45,6 @@
         }
         .navbar{
             position: relative;
-        }
-        p{
-            margin-top:10px;
-            text-align:center;
-            color:#65ff4e;
-            font-size:30px;
-        }
-        .faculty_info{
-            width:20%;
-            height: 150px;
-            background-color: #1d1715;
-            color: #65ff4e;
-            font-size: 16px;
-            margin: auto auto 20px;
-        }
-        .faculty_info ul li{
-            margin: 10px 0; /*расстояние между пунктами по высоте*/
-        }
-        ul{
-            list-style: square;
-            text-align: center;
         }
     </style>
 </head>
@@ -78,29 +60,58 @@
             <div class="collapse navbar-collapse" id="navbarCollapse1">
                 <div class="navbar-nav">
                     <a href="#" class="nav-item nav-link active">Home</a>
+                    <a href="#" class="nav-item nav-link">Never again)</a>
                     <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
                 </div>
                 <form class="form-inline ml-auto">
-                    <a href="/logout" class="nav-item nav-link active">Logout</a>
+                    <a href="/controller?command=logout" class="nav-item nav-link active">Logout</a>
                 </form>
             </div>
         </nav>
     </div>
 
-    <div>
-    <h1>Welcome home</h1>
-    <b>${user.firstName} (${user.email})</b>
+    <form action="controller" method="post">
+        <input type="hidden" name="command" value="changeApplication">
 
-    <c:forEach var="item2" items="${certificateDisciplineList}">
-        <tr>
-            <td>${item2.id}</td>
-            <td>${item2.disciplineName}</td>
-            <td><input type="text" name="cert_${item2.disciplineName}" class="form-control"></td>
-        </tr>
-    </c:forEach>
+            <div class="small">
+                <div class="col align-self-center">
+                    <c:choose>
+                        <c:when test="${not empty listApplications}">
 
-    <br><br>
-    <a href="">Logout</a>
-</div>
+                            <table class="table table-striped table-hover">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <c:forEach var="item" items="${listApplications}">
+                                    <tr>
+                                        <td>${item.name}</td>
+                                        <td>Allowed</td>
+                                        <td>
+                                            <form action="controller" method="get">
+                                                <input type="hidden" name="command" value="changeData">
+                                                <input type="hidden" name="id_faculty" value="${item.id}">
+                                                <input class="btn btn-primary" type="submit"
+                                                       value="change application">
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </c:when>
+                        <c:otherwise><h4><fmt:message key="error.disciplineList.empty"/></h4>
+                        </c:otherwise>
+                    </c:choose>
+
+                </div>
+            </div>
+    </form>
+
+
 </body>
 </html>

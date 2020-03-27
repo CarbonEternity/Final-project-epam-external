@@ -26,7 +26,7 @@
     <style>
         body {
             background-size: cover;
-            background: url('fondark.jpg') no-repeat fixed;
+            background: url('back.png') no-repeat fixed;
         }
         .small{
             width: 20%;
@@ -35,7 +35,10 @@
         h1{
             color: white;
         }
-        .table-condensed{
+        .table,
+        .table tr,
+        .table td {
+            /*background-color:  #e2e2e2!important;*/
             font-size: 16px;
         }
         .bs-example{
@@ -80,7 +83,11 @@
             <div class="navbar-nav">
                 <a href="#" class="nav-item nav-link active">Home</a>
                 <a href="#" class="nav-item nav-link">Never again)</a>
+                <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
             </div>
+            <form class="form-inline ml-auto">
+                <a href="/controller?command=logout" class="nav-item nav-link active">Logout</a>
+            </form>
         </div>
     </nav>
 </div>
@@ -106,7 +113,7 @@
                     <c:choose>
                         <c:when test="${not empty disciplineList}">
 
-                            <table class="table table-striped table-dark table-condensed">
+                            <table class="table table-striped table-hover">
                                 <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Name</th>
@@ -137,7 +144,7 @@
                     <c:choose>
                         <c:when test="${not empty certificateDisciplineList}">
 
-                            <table class="table table-striped table-dark table-condensed">
+                            <table class="table table-striped">
                                 <thead class="thead-dark">
                                 <tr>
                                     <th scope="col"> #</th>

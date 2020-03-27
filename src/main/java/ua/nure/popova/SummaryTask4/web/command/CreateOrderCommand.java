@@ -22,7 +22,7 @@ public class CreateOrderCommand extends Command {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws  AppException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
 
         LOG.debug("Command start");
         HttpSession session = request.getSession();
@@ -46,9 +46,9 @@ public class CreateOrderCommand extends Command {
         facultiesDAO.insertIntoApplications(faculty.getId(), user.getId());
 
 
-        List<Faculty> list = facultiesDAO.findOrderedFaculties(user.getId());
+        List<Faculty> applications = facultiesDAO.findOrderedFaculties(user.getId());
 
-        request.setAttribute("listOrders",list);
+        request.setAttribute("listApplications", applications);
 
         return Path.PAGE_USER_HOME;
     }
@@ -57,8 +57,6 @@ public class CreateOrderCommand extends Command {
         Map<String, String[]> m = request.getParameterMap();
         Set s = m.entrySet();
 
-        boolean flag=false;
-
         for (Object o : s) {
 
             Map.Entry<String, String[]> entry = (Map.Entry<String, String[]>) o;
@@ -66,25 +64,23 @@ public class CreateOrderCommand extends Command {
             String key = entry.getKey();
             String[] values = entry.getValue();
 
-            if(key.contains("zno")){  //TODO заменить название предмета на айди
-                String [] zno = key.split("_");
+            if (key.contains("zno")) {  //TODO заменить название предмета на айди
+                String[] zno = key.split("_");
                 String subject = zno[1];
 
                 for (String value : values) {
                     if (!value.equals("")) {
-                        flag=true;
 
-                        boolean result = new FacultiesDAO().insertZNO(user.getId(), subject,values);
+                        boolean result = new FacultiesDAO().insertZNO(user.getId(), subject, values);
                     }
                     LOG.info("Result insert ZNO to table +");
                 }
-            } else if(key.contains("cert") && values.length!=0) {
+            } else if (key.contains("cert") && values.length != 0) {
                 String[] subject = key.split("_");
                 String schoolDiscipline = subject[1];
 
                 for (String value : values) {
                     if (!value.equals("")) {
-                        flag = true;
                         boolean resultInsertCertificate = new FacultiesDAO().insertCertificate(user.getId(), schoolDiscipline, values);
                     }
                     LOG.info("Result insert disciplines to table + ");

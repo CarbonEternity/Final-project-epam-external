@@ -24,7 +24,7 @@ public class FacultiesDAO {
     private static final String SQL_INSERT_ZNO = "INSERT INTO zno (id_enrollee, id_subject, mark) VALUES (?,?,?)";
     private static final String SQL_INSERT_SERTIFICATE = "INSERT INTO certificates (id_enrollee, id_subject, mark) VALUES (?,?,?)";
     private static final String SQL_INSERT_DISCIPLINE = "INSERT INTO disciplines (discipline_name) VALUE (?)";
-    private static final String SQL_ALL_FACULTIES_BY_ENROLLEE_ID = "SELECT * FROM faculties INNER JOIN applications a ON faculties.id = a.id_faculty";
+    private static final String SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID = "SELECT * FROM faculties INNER JOIN applications a ON faculties.id = a.id_faculty where id_enrollee = ";
     private static final String SQL_INSERT_INTO_APPLICATIONS = "INSERT INTO applications (id_faculty ,id_enrollee) VALUES (?,?)";
     private static final String SQL_FIND_FACULTY_BY_NAME = "SELECT * FROM faculties WHERE faculties.name = ?";
 
@@ -164,7 +164,7 @@ public class FacultiesDAO {
                 pstmt = con.prepareStatement(SQL_INSERT_ZNO);
 
                 for (String value : values) {
-                    if(!value.equals(" ")) {
+                    if(!value.isEmpty()) {
                         pstmt.setLong(1, enrolleeId);
                         pstmt.setLong(2, discipline.getId());
                         pstmt.setString(3, value);
@@ -388,7 +388,7 @@ public class FacultiesDAO {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_ALL_FACULTIES_BY_ENROLLEE_ID);
+            pstmt = con.prepareStatement(SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID + userId);
             rs = pstmt.executeQuery();
             while (rs.next())
                 list.add(extractFaculty(rs));

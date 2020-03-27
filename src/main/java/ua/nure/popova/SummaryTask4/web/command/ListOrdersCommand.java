@@ -12,6 +12,7 @@ import ua.nure.popova.SummaryTask4.exception.AppException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,11 +42,11 @@ public class ListOrdersCommand extends Command {
         }
 
         // sort by count_budget, count_total, namelast (Z-A), namefirst (A-Z)
-
+        FacultiesDAO facultiesDAO = new FacultiesDAO();
         List<Faculty> list;
         String sort = request.getParameter("sort");
         if (sort == null || (!sort.contains("count") && !sort.contains("name"))) {
-            list = new FacultiesDAO().findAllFaculties();    // at the beginning
+            list = facultiesDAO.findAllFaculties();    // at the beginning
         } else { // when button *sort* was clicked
             StringBuilder sr = new StringBuilder("ORDER BY "); //part of SQL query
             if(!sort.contains("name")){
@@ -54,13 +55,20 @@ public class ListOrdersCommand extends Command {
                 sr.append(Fields.ENTITY_NAME);
             }
 
-            list = new FacultiesDAO().sortFaculties(sr.toString());
+            list = facultiesDAO.sortFaculties(sr.toString());
             if(sort.contains("namelast")){     // sort like namelast (Z-A) OR namefirst (A-Z) ?
                 list.sort(Collections.reverseOrder());
             }else if(sort.contains("namefirst")){
                 Collections.sort(list);
             }
         }
+
+        List<Faculty> applications = facultiesDAO.findOrderedFaculties(user.getId());
+        List<Long> ids = new ArrayList<>();
+        applications.forEach(x-> {
+            ids.add(x.getId());
+        });
+        request.setAttribute("listApplications", ids);
 
         request.setAttribute("listFaculties", list);
 //        request.setAttribute("title", "Список факультетов"); TODO
