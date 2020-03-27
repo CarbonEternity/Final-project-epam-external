@@ -4,14 +4,15 @@ import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.Role;
 import ua.nure.popova.SummaryTask4.db.dao.FacultiesDAO;
+import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.AppException;
+import ua.nure.popova.SummaryTask4.exception.DBException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,7 +22,7 @@ public class CreateOrderCommand extends Command {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws  AppException {
 
         LOG.debug("Command start");
         HttpSession session = request.getSession();
@@ -37,9 +38,26 @@ public class CreateOrderCommand extends Command {
             return Path.PAGE_ERROR_PAGE;
         }
 
+        parseDisciplinesAndZNO(request, user);
+        FacultiesDAO facultiesDAO = new FacultiesDAO();
+
+        String title = request.getParameter("title");
+        Faculty faculty = facultiesDAO.findFacultyByName(title);
+        facultiesDAO.insertIntoApplications(faculty.getId(), user.getId());
+
+
+        List<Faculty> list = facultiesDAO.findOrderedFaculties(user.getId());
+
+        request.setAttribute("listOrders",list);
+
+        return Path.PAGE_USER_HOME;
+    }
+
+    private void parseDisciplinesAndZNO(HttpServletRequest request, User user) throws DBException {
         Map<String, String[]> m = request.getParameterMap();
         Set s = m.entrySet();
 
+        boolean flag=false;
 
         for (Object o : s) {
 
@@ -48,22 +66,31 @@ public class CreateOrderCommand extends Command {
             String key = entry.getKey();
             String[] values = entry.getValue();
 
-            if(key.contains("zno")){
+            if(key.contains("zno")){  //TODO заменить название предмета на айди
                 String [] zno = key.split("_");
                 String subject = zno[1];
-                boolean result = new FacultiesDAO().insertZNO(user.getId(), subject,values);
-                LOG.info("Result insert ZNO to table - " +result);
-            }else if(key.contains("cert")){
-                String [] subject = key.split("_");
+
+                for (String value : values) {
+                    if (!value.equals("")) {
+                        flag=true;
+
+                        boolean result = new FacultiesDAO().insertZNO(user.getId(), subject,values);
+                    }
+                    LOG.info("Result insert ZNO to table +");
+                }
+            } else if(key.contains("cert") && values.length!=0) {
+                String[] subject = key.split("_");
                 String schoolDiscipline = subject[1];
-                boolean resultInsertCertificate = new FacultiesDAO().insertCertificate(user.getId(), schoolDiscipline, values);
-                LOG.info("Result insert disciplines to table - " + resultInsertCertificate);
+
+                for (String value : values) {
+                    if (!value.equals("")) {
+                        flag = true;
+                        boolean resultInsertCertificate = new FacultiesDAO().insertCertificate(user.getId(), schoolDiscipline, values);
+                    }
+                    LOG.info("Result insert disciplines to table + ");
+                }
             }
 
-
         }
-
-
-        return "user_home.jsp";
     }
 }

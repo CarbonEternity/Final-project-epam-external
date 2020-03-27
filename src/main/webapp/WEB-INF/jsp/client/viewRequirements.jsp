@@ -22,7 +22,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
-    <title>Faculty</title>
+    <title>${title}</title>
     <style>
         body {
             background-size: cover;
@@ -98,6 +98,7 @@
 
     <form action="controller" method="post">
         <input type="hidden" name="command" value="createOrder">
+        <input type="hidden" name="title" value=${facultyInfo.name}>
         <div class="row">
 
             <div class="small">
@@ -149,7 +150,7 @@
                                     <tr>
                                         <td>${item2.id}</td>
                                         <td>${item2.disciplineName}</td>
-                                        <td><input type="text" name="cert_${item2.id}" class="form-control"></td>
+                                        <td><input type="text" name="cert_${item2.disciplineName}" class="form-control"></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

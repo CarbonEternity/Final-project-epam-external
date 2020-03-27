@@ -14,4 +14,5 @@ public final class Path {
     public static final String COMMAND_LIST_FACULTIES = "/controller?command=sortFacultyList";
 
     public static final String COMMAND_VIEW_REQUIREMENT = "/WEB-INF/jsp/client/viewRequirements.jsp";
+    public static final String PAGE_USER_HOME = "/WEB-INF/jsp/client/home.jsp";
 }

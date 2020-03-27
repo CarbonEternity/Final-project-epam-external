@@ -40,6 +40,8 @@ public class ListRequirementsCommand extends Command {
         Faculty facultyInfo = new FacultiesDAO().findFacultyById(id);
         List<Discipline> disciplineList = new FacultiesDAO().findDisciplinesByFacultyId(id);
         List<Discipline> certificateDisciplineList = new FacultiesDAO().findDisciplineList();
+
+
         if (facultyInfo == null && disciplineList == null) {
             String errorMessage = "error.id_faculty";
             request.setAttribute("errorMessage", errorMessage);
@@ -51,6 +53,8 @@ public class ListRequirementsCommand extends Command {
 
         request.setAttribute("disciplineList", disciplineList);
         request.setAttribute("certificateDisciplineList", certificateDisciplineList);
+        assert facultyInfo != null;
+        request.setAttribute("title", facultyInfo.getName());
 
         LOG.debug("Command finished");
         return Path.COMMAND_VIEW_REQUIREMENT;
