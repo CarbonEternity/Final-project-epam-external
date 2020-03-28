@@ -27,8 +27,8 @@ public class FacultiesDAO {
     private static final String SQL_INSERT_INTO_APPLICATIONS = "INSERT INTO applications (id_faculty ,id_enrollee) VALUES (?,?)";
     private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO results (id_application, result) VALUES (?, ?)";
     private static final String SQL_FIND_FACULTY_BY_NAME = "SELECT * FROM faculties WHERE faculties.name = ?";
-    private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id = ?";
-    private static final String SQL_FIND_APPLICATION_ID = "SELECT id FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
+    private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id = ";
+    private static final String SQL_FIND_APPLICATION_ID = "SELECT * FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
 
     public List<Faculty> findAllFaculties() throws DBException {
         List<Faculty> list = new ArrayList<>();
@@ -277,11 +277,11 @@ public class FacultiesDAO {
         return flag;
     }
 
-    public long getApplicationId(Long facultyId, Long enrolleeId) throws DBException {
-        LOG.info("get application's id");
+    public int getApplicationId(Long facultyId, Long enrolleeId) throws DBException {
+        LOG.info("get application's id in getApplicationId");
         PreparedStatement pstmt;
         Connection con = null;
-        long applicationId = 0;
+        int applicationId = 0;
         ResultSet rs;
 
         try {
@@ -291,10 +291,10 @@ public class FacultiesDAO {
             pstmt.setLong(2, enrolleeId);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                applicationId = rs.getLong(Fields.ENTITY_ID);
+                applicationId = rs.getInt(Fields.ENTITY_ID);
             }
-            pstmt.close();
             rs.close();
+            pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
@@ -463,16 +463,13 @@ public class FacultiesDAO {
 
     public void deleteApplicationByFacultyAndEnroleeId(long idFaculty, Long userId) throws DBException {
         PreparedStatement pstmt;
-        ResultSet rs;
         Connection con = null;
-        long applicationId = getApplicationId(idFaculty, userId);
+        int applicationId = getApplicationId(idFaculty, userId);
+        LOG.info("delete application");
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_DELETE_APPLICATION);
-            pstmt.setLong(1, idFaculty);
-
-            rs = pstmt.executeQuery();
-            rs.close();
+            pstmt = con.prepareStatement(SQL_DELETE_APPLICATION+applicationId);
+            pstmt.executeUpdate();
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);

@@ -13,7 +13,7 @@
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="/WEB-INF/style/css/login.css">
+    <link rel="stylesheet" href="style/css/login.css">
     <meta charset="utf-8">
     <title>Login</title>
 </head>

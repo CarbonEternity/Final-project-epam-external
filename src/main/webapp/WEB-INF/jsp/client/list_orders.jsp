@@ -15,7 +15,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="/WEB-INF/style/css/order.css">
+    <link rel="stylesheet" href="style/css/order.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -26,7 +26,7 @@
 </head>
 <body>
 
-div class="bs-example">
+<div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <a href="#" class="navbar-brand">Home</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
@@ -95,9 +95,7 @@ div class="bs-example">
                                         <form action="controller" method="get">
                                             <input type="hidden" name="command" value="deleteApplication">
                                             <input type="hidden" name="id_faculty" value="${item.id}">
-                                            <input class="btn btn-primary" type="submit"
-                                                   value="delete application">
-
+                                            <input class="btn btn-primary" type="submit" value="delete application">
                                         </form>
                                     </c:when>
                                     <c:otherwise>
@@ -106,7 +104,6 @@ div class="bs-example">
                                             <input type="hidden" name="id_faculty" value="${item.id}">
                                             <input class="btn btn-success" type="submit" value="show requirements">
                                         </form>
-
                                     </c:otherwise>
                                 </c:choose>
                             </td>

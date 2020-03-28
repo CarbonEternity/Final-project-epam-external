@@ -36,7 +36,8 @@ public class DeleteOrderCommand extends Command {
             return Path.PAGE_ERROR_PAGE;
         }
 
-        long idForDelete = Long.parseLong(request.getParameter("id_faculty"));
+        int idForDelete = Integer.parseInt(request.getParameter("id_faculty"));
+        LOG.info("for delete application " + idForDelete);
         FacultiesDAO facultiesDAO = new FacultiesDAO();
         facultiesDAO.deleteApplicationByFacultyAndEnroleeId(idForDelete, user.getId());
 
