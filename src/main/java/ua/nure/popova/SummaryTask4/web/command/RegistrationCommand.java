@@ -1,6 +1,7 @@
 package ua.nure.popova.SummaryTask4.web.command;
 
 import org.apache.log4j.Logger;
+import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.web.util.SendMail;
@@ -45,6 +46,6 @@ public class RegistrationCommand extends Command {
         sendMail.send("University entrance", "You have successfully registered for university!", email);
         LOG.info("Mail was send");
 
-        return "enrolleedetails.jsp";
+        return Path.PAGE_LOGIN;
     }
 }

@@ -15,44 +15,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="stylesheet" href="/WEB-INF/style/css/order.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-
     <title>List faculties</title>
-    <style>
-        body {
-            background: url('back.png') no-repeat;
-            background-size: cover;
-        }
-
-        .small {
-            margin: 20px auto;
-            width: 30%;
-        }
-
-        h1 {
-            color: white;
-        }
-
-        .table,
-        .table tr,
-        .table td {
-            /*background-color: #e2e2e2 !important;*/
-            font-size: 16px;
-        }
-
-        .bs-example {
-            margin: 0;
-        }
-
-        .navbar {
-            position: relative;
-        }
-    </style>
 </head>
 <body>
 
@@ -68,6 +38,7 @@
                 <a href="#" class="nav-item nav-link active">Home</a>
                 <a href="#" class="nav-item nav-link">About</a>
                 <a href="#" class="nav-item nav-link">Welcome, you're enrollee)</a>
+                <a href="controller?command=logout" class="nav-item nav-link active">Logout</a>
             </div>
             <form class="form-inline ml-auto">
 
@@ -99,7 +70,7 @@
         <c:choose>
             <c:when test="${not empty listFaculties}">
 
-                <table class="table table-light table-striped table-hover">
+                <table class="table table-dark table-striped table-hover">
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -107,6 +78,7 @@
                         <th scope="col">Budget</th>
                         <th scope="col">Total</th>
                         <th scope="col">Action</th>
+                        <th scope="col"> </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -118,20 +90,25 @@
                             <td>${item.countBudget}</td>
                             <td>${item.countTotal}</td>
                             <td>
+                                <c:choose>
+                                <c:when test="${listApplications.contains(item.id)}">
                                 <form action="controller" method="get">
-                                    <input type="hidden" name="command" value="viewFacultyAndRequirements">
+                                    <input type="hidden" name="command" value="deleteApplication">
                                     <input type="hidden" name="id_faculty" value="${item.id}">
+                                    <input class="btn btn-primary" type="submit"
+                                           value="delete application">
 
-                                    <c:choose>
-                                        <c:when test="${listApplications.contains(item.id)}">
-                                            <input class="btn btn-success" type="submit" value="show requirements"
-                                                   disabled>
-                                        </c:when>
-                                        <c:otherwise><input class="btn btn-success" type="submit"
-                                                            value="show requirements">
-                                        </c:otherwise>
-                                    </c:choose>
                                 </form>
+                                </c:when>
+                                    <c:otherwise>
+                                        <form action="controller" method="get">
+                                            <input type="hidden" name="command" value="viewFacultyAndRequirements">
+                                            <input type="hidden" name="id_faculty" value="${item.id}">
+                                            <input class="btn btn-success" type="submit" value="show requirements">
+                                        </form>
+
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
 

@@ -15,60 +15,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="stylesheet" href="/WEB-INF/style/css/requirements.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-
     <title>${title}</title>
-    <style>
-        body {
-            background-size: cover;
-            background: url('back.png') no-repeat fixed;
-        }
-        .small{
-            width: 20%;
-            margin: auto auto 20px;
-        }
-        h1{
-            color: white;
-        }
-        .table,
-        .table tr,
-        .table td {
-            /*background-color:  #e2e2e2!important;*/
-            font-size: 16px;
-        }
-        .bs-example{
-            margin: 0;
-        }
-        .navbar{
-            position: relative;
-        }
-        p{
-            margin-top:10px;
-            text-align:center;
-            color:#65ff4e;
-            font-size:30px;
-        }
-        .faculty_info{
-            width:20%;
-            height: 150px;
-            background-color: #1d1715;
-            color: #65ff4e;
-            font-size: 16px;
-            margin: auto auto 20px;
-        }
-        .faculty_info ul li{
-            margin: 10px 0; /*расстояние между пунктами по высоте*/
-        }
-        ul{
-            list-style: square;
-            text-align: center;
-        }
-    </style>
 </head>
 
 
@@ -113,7 +67,7 @@
                     <c:choose>
                         <c:when test="${not empty disciplineList}">
 
-                            <table class="table table-striped table-hover">
+                            <table class="table table-light table-striped table-hover">
                                 <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">Name</th>
@@ -144,7 +98,7 @@
                     <c:choose>
                         <c:when test="${not empty certificateDisciplineList}">
 
-                            <table class="table table-striped">
+                            <table class="table table-dark table-striped table-hover">
                                 <thead class="thead-dark">
                                 <tr>
                                     <th scope="col"> #</th>
