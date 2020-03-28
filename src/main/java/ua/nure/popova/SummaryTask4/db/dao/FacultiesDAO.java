@@ -19,14 +19,16 @@ public class FacultiesDAO {
     private static final String SQL_ALL_FACULTIES = "SELECT * FROM faculties ";
     private static final String SQL_FIND_FACULTY_BY_ID = "SELECT * FROM faculties where id = ";
     private static final String SQL_ALL_DISCIPLINES = "SELECT * FROM disciplines ";
-    private static final String SQL_DISCIPLINE_BY_ID = "SELECT * FROM disciplines where id = ";
     private static final String SQL_FIND_DISCIPLINE_BY_NAME = "SELECT * FROM disciplines where discipline_name = ?";
     private static final String SQL_INSERT_ZNO = "INSERT INTO zno (id_enrollee, id_subject, mark) VALUES (?,?,?)";
-    private static final String SQL_INSERT_SERTIFICATE = "INSERT INTO certificates (id_enrollee, id_subject, mark) VALUES (?,?,?)";
+    private static final String SQL_INSERT_CERTIFICATES = "INSERT INTO certificates (id_enrollee, id_subject, mark) VALUES (?,?,?)";
     private static final String SQL_INSERT_DISCIPLINE = "INSERT INTO disciplines (discipline_name) VALUE (?)";
     private static final String SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID = "SELECT * FROM faculties INNER JOIN applications a ON faculties.id = a.id_faculty where id_enrollee = ";
     private static final String SQL_INSERT_INTO_APPLICATIONS = "INSERT INTO applications (id_faculty ,id_enrollee) VALUES (?,?)";
+    private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO results (id_application, result) VALUES (?, ?)";
     private static final String SQL_FIND_FACULTY_BY_NAME = "SELECT * FROM faculties WHERE faculties.name = ?";
+    private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id = ?";
+    private static final String SQL_FIND_APPLICATION_ID = "SELECT id FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
 
     public List<Faculty> findAllFaculties() throws DBException {
         List<Faculty> list = new ArrayList<>();
@@ -59,7 +61,7 @@ public class FacultiesDAO {
         try {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(SQL_FIND_DISCIPLINE_BY_NAME);
-            pstmt.setString(1,name);
+            pstmt.setString(1, name);
 
             rs = pstmt.executeQuery();
             while (rs.next())
@@ -101,33 +103,209 @@ public class FacultiesDAO {
         return list;
     }
 
-    public boolean insertIntoApplications(Long facultyId , Long enrolleeId) throws DBException {
-        PreparedStatement pstmt = null;
+    public Faculty findFacultyByName(String name) throws DBException {
+        Faculty faculty = new Faculty();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_FIND_FACULTY_BY_NAME);
+            pstmt.setString(1, name);
+
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                faculty = extractFaculty(rs);
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return faculty;
+    }
+
+    public Faculty findFacultyById(Integer id) throws DBException {
+        Faculty faculty = new Faculty();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_FIND_FACULTY_BY_ID + id);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                faculty = extractFaculty(rs);
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return faculty;
+    }
+
+    public List<Discipline> findDisciplineList() throws DBException {
+        List<Discipline> list = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_ALL_DISCIPLINES);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(extractDiscipline(rs));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
+    }
+
+    public List<Faculty> findOrderedFaculties(Long userId) throws DBException {
+        List<Faculty> list = new ArrayList<>();
+
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID + userId);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(extractFaculty(rs));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
+    }
+
+    public List<Discipline> findDisciplinesByFacultyId(Integer id) throws DBException {
+        List<Discipline> list = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_FIND_FACULTY_AND_ZNO_NEED_BY_ID + id);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(extractDiscipline(rs));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
+    }
+
+    public boolean insertIntoApplications(Long facultyId, Long enrolleeId) throws DBException {
+        LOG.info("start insert application");
+        PreparedStatement pstmt;
         Connection con = null;
         boolean flag = false;
+        long idApplication;
 
-            try {
-                con = DBManager.getInstance().getConnection();
-                pstmt = con.prepareStatement(SQL_INSERT_INTO_APPLICATIONS);
-                pstmt.setLong(1, facultyId);
-                pstmt.setLong(2, enrolleeId);
-                pstmt.executeUpdate();
-                pstmt.close();
-                flag = true;
-            } catch (SQLException ex) {
-                DBManager.getInstance().rollbackAndClose(con);
-                ex.printStackTrace();
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_INSERT_INTO_APPLICATIONS);
+            pstmt.setLong(1, facultyId);
+            pstmt.setLong(2, enrolleeId);
+            pstmt.executeUpdate();
+            pstmt.close();
 
-            } finally {
-                assert con != null;
-                DBManager.getInstance().commitAndClose(con);
-            }
+            idApplication = getApplicationId(facultyId, enrolleeId);
+            flag = insertIntoResults(idApplication, false);
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
 
         return flag;
     }
 
+    private boolean insertIntoResults(long idApplication, boolean result) throws DBException {
+        LOG.info("start insert result");
+        PreparedStatement pstmt = null;
+        Connection con = null;
+        boolean flag;
 
-    //TODO
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_INSERT_INTO_RESULTS);
+            pstmt.setLong(1, idApplication);
+            pstmt.setBoolean(2, result);
+            pstmt.executeUpdate();
+            pstmt.close();
+
+            flag = true;
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+            flag = false;
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+
+        return flag;
+    }
+
+    public long getApplicationId(Long facultyId, Long enrolleeId) throws DBException {
+        LOG.info("get application's id");
+        PreparedStatement pstmt;
+        Connection con = null;
+        long applicationId = 0;
+        ResultSet rs;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_FIND_APPLICATION_ID);
+            pstmt.setLong(1, facultyId);
+            pstmt.setLong(2, enrolleeId);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                applicationId = rs.getLong(Fields.ENTITY_ID);
+            }
+            pstmt.close();
+            rs.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return applicationId;
+    }
+
     private Faculty extractFaculty(ResultSet rs) throws SQLException {
         Faculty faculty = new Faculty();
         faculty.setId(rs.getLong(Fields.ENTITY_ID));
@@ -158,13 +336,13 @@ public class FacultiesDAO {
         Connection con = null;
         Discipline discipline = findDisciplineByName(key);
         boolean flag = false;
-        if(values.length!=0) {
+        if (values.length != 0) {
             try {
                 con = DBManager.getInstance().getConnection();
                 pstmt = con.prepareStatement(SQL_INSERT_ZNO);
 
                 for (String value : values) {
-                    if(!value.isEmpty()) {
+                    if (!value.isEmpty()) {
                         pstmt.setLong(1, enrolleeId);
                         pstmt.setLong(2, discipline.getId());
                         pstmt.setString(3, value);
@@ -226,11 +404,11 @@ public class FacultiesDAO {
         return discipline;
     }
 
-    private boolean insertNewDiscipline(String name) throws DBException {
+    private boolean insertNewDiscipline(String name) throws DBException { //TODO
         PreparedStatement pstmt = null;
         Connection con = null;
         boolean flag = false;
-        if(!name.equals(" ")) {
+        if (!name.equals(" ")) {
             try {
                 con = DBManager.getInstance().getConnection();
                 pstmt = con.prepareStatement(SQL_INSERT_DISCIPLINE);
@@ -259,10 +437,10 @@ public class FacultiesDAO {
         boolean flag = false;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_INSERT_SERTIFICATE);
+            pstmt = con.prepareStatement(SQL_INSERT_CERTIFICATES);
 
             for (String value : values) {
-                if(!value.isEmpty()) {
+                if (!value.isEmpty()) {
                     pstmt.setLong(1, enrolleeId);
                     pstmt.setLong(2, discipline.getId());
                     pstmt.setString(3, value);
@@ -283,17 +461,17 @@ public class FacultiesDAO {
         return flag;
     }
 
-    public List<Discipline> findDisciplinesByFacultyId(Integer id) throws DBException {
-        List<Discipline> list = new ArrayList<>();
+    public void deleteApplicationByFacultyAndEnroleeId(long idFaculty, Long userId) throws DBException {
         PreparedStatement pstmt;
         ResultSet rs;
         Connection con = null;
+        long applicationId = getApplicationId(idFaculty, userId);
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_FIND_FACULTY_AND_ZNO_NEED_BY_ID + id);
+            pstmt = con.prepareStatement(SQL_DELETE_APPLICATION);
+            pstmt.setLong(1, idFaculty);
+
             rs = pstmt.executeQuery();
-            while (rs.next())
-                list.add(extractDiscipline(rs));
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
@@ -303,104 +481,6 @@ public class FacultiesDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
-        return list;
-    }
 
-
-    public Faculty findFacultyByName(String name) throws DBException {
-        Faculty faculty = new Faculty();
-        PreparedStatement pstmt;
-        ResultSet rs;
-        Connection con = null;
-        try {
-            con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_FIND_FACULTY_BY_NAME);
-            pstmt.setString(1, name);
-
-            rs = pstmt.executeQuery();
-            while (rs.next())
-                faculty = extractFaculty(rs);
-            rs.close();
-            pstmt.close();
-        } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-        } finally {
-            assert con != null;
-            DBManager.getInstance().commitAndClose(con);
-        }
-        return faculty;
-    }
-    
-    
-    public Faculty findFacultyById(Integer id) throws DBException {
-        Faculty faculty = new Faculty();
-        PreparedStatement pstmt;
-        ResultSet rs;
-        Connection con = null;
-        try {
-            con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_FIND_FACULTY_BY_ID + id);
-            rs = pstmt.executeQuery();
-            while (rs.next())
-                faculty = extractFaculty(rs);
-            rs.close();
-            pstmt.close();
-        } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-        } finally {
-            assert con != null;
-            DBManager.getInstance().commitAndClose(con);
-        }
-        return faculty;
-    }
-
-    public List<Discipline> findDisciplineList() throws DBException {
-        List<Discipline> list = new ArrayList<>();
-        PreparedStatement pstmt;
-        ResultSet rs;
-        Connection con = null;
-        try {
-            con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_ALL_DISCIPLINES);
-            rs = pstmt.executeQuery();
-            while (rs.next())
-                list.add(extractDiscipline(rs));
-            rs.close();
-            pstmt.close();
-        } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-        } finally {
-            assert con != null;
-            DBManager.getInstance().commitAndClose(con);
-        }
-        return list;
-    }
-
-
-    public List<Faculty> findOrderedFaculties(Long userId) throws DBException {
-        List<Faculty> list = new ArrayList<>();
-
-        PreparedStatement pstmt;
-        ResultSet rs;
-        Connection con = null;
-        try {
-            con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID + userId);
-            rs = pstmt.executeQuery();
-            while (rs.next())
-                list.add(extractFaculty(rs));
-            rs.close();
-            pstmt.close();
-        } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-        } finally {
-            assert con != null;
-            DBManager.getInstance().commitAndClose(con);
-        }
-        return list;
     }
 }

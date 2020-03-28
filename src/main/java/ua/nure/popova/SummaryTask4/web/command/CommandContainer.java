@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class CommandContainer {
+public final class CommandContainer {
 
     private CommandContainer(){
         //no op
@@ -22,11 +22,12 @@ public class CommandContainer {
         commands.put("logout", new LogoutCommand());
         commands.put("viewSettings", new ViewSettingsCommand());
         commands.put("noCommand", new NoCommand());
-//
+
 //        // client commands
         commands.put("sortFacultyList", new ListOrdersCommand());
         commands.put("viewFacultyAndRequirements", new ListRequirementsCommand());
-        commands.put("createOrder", new CreateOrderCommand());  //TODO
+        commands.put("createOrder", new CreateOrderCommand());
+        commands.put("deleteApplication", new DeleteOrderCommand()); //TODO
 
 
 

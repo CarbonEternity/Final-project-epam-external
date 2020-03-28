@@ -35,7 +35,7 @@
 
             <div class="collapse navbar-collapse" id="navbarCollapse1">
                 <div class="navbar-nav">
-                    <a href="#" class="nav-item nav-link active">Home</a>
+                    <a href="controller?command=sortFacultyList" class="nav-item nav-link active">All faculties</a>
                     <a href="#" class="nav-item nav-link">Never again)</a>
                     <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
                 </div>

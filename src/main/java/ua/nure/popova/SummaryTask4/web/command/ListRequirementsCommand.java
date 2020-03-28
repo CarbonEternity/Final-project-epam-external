@@ -50,7 +50,6 @@ public class ListRequirementsCommand extends Command {
         request.setAttribute("facultyInfo", facultyInfo);
 
 
-
         request.setAttribute("disciplineList", disciplineList);
         request.setAttribute("certificateDisciplineList", certificateDisciplineList);
         assert facultyInfo != null;

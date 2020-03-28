@@ -35,12 +35,13 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
-                <a href="#" class="nav-item nav-link active">Home</a>
+                <a href="#" class="nav-item nav-link">About</a>
+                <a href="controller?command=sortFacultyList" class="nav-item nav-link">All faculties</a>
                 <a href="#" class="nav-item nav-link">Never again)</a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
             </div>
             <form class="form-inline ml-auto">
-                <a href="/controller?command=logout" class="nav-item nav-link active">Logout</a>
+                <a href="controller?command=logout" class="nav-item nav-link active">Logout</a>
             </form>
         </div>
     </nav>
