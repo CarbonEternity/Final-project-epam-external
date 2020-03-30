@@ -1,9 +1,10 @@
-package ua.nure.popova.SummaryTask4.web.command;
+package ua.nure.popova.SummaryTask4.web.command.client;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
+import ua.nure.popova.SummaryTask4.web.command.Command;
 import ua.nure.popova.SummaryTask4.web.util.SendMail;
 
 import javax.servlet.http.HttpServletRequest;

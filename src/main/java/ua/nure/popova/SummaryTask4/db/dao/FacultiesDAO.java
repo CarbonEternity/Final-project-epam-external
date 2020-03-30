@@ -29,6 +29,7 @@ public class FacultiesDAO {
     private static final String SQL_FIND_FACULTY_BY_NAME = "SELECT * FROM faculties WHERE faculties.name = ?";
     private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id = ";
     private static final String SQL_FIND_APPLICATION_ID = "SELECT * FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
+    private static final String SQL_DELETE_RESULT = "DELETE FROM results WHERE id_application = ?";
 
     public List<Faculty> findAllFaculties() throws DBException {
         List<Faculty> list = new ArrayList<>();
@@ -246,6 +247,7 @@ public class FacultiesDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
+        LOG.info("application inserted successful");
 
         return flag;
     }
@@ -273,12 +275,12 @@ public class FacultiesDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
-
+        LOG.info("result inserted successful");
         return flag;
     }
 
     public int getApplicationId(Long facultyId, Long enrolleeId) throws DBException {
-        LOG.info("get application's id in getApplicationId");
+        LOG.info("get application's id");
         PreparedStatement pstmt;
         Connection con = null;
         int applicationId = 0;
@@ -364,7 +366,7 @@ public class FacultiesDAO {
         return flag;
     }
 
-    private Discipline checkDiscipline(String d) throws DBException {  //TODO
+    /*private Discipline checkDiscipline(String d) throws DBException {  //TODO
         PreparedStatement pstmt;
         Connection con = null;
         Discipline discipline = new Discipline();
@@ -402,9 +404,9 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         return discipline;
-    }
+    }*/
 
-    private boolean insertNewDiscipline(String name) throws DBException { //TODO
+  /*  private boolean insertNewDiscipline(String name) throws DBException { //TODO
         PreparedStatement pstmt = null;
         Connection con = null;
         boolean flag = false;
@@ -426,13 +428,13 @@ public class FacultiesDAO {
             }
         }
         return flag;
-    }
+    }*/
 
     //занесении результата атестата
     public boolean insertCertificate(Long enrolleeId, String key, String[] values) throws DBException {
         PreparedStatement pstmt = null;
         Connection con = null;
-        Discipline discipline = checkDiscipline(key);
+        Discipline discipline = findDisciplineByName(key);
 
         boolean flag = false;
         try {
@@ -471,6 +473,7 @@ public class FacultiesDAO {
             pstmt = con.prepareStatement(SQL_DELETE_APPLICATION+applicationId);
             pstmt.executeUpdate();
             pstmt.close();
+            deleteResultByApplicationId(applicationId);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
@@ -478,6 +481,26 @@ public class FacultiesDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
+        LOG.info("application deleted");
+    }
 
+    public void deleteResultByApplicationId(int applicationId) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        LOG.info("delete result");
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_DELETE_RESULT);
+            pstmt.setInt(1, applicationId);
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        LOG.info("result deleted");
     }
 }

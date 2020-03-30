@@ -35,9 +35,9 @@ public class LoginCommand extends Command {
             throw new AppException("Email/password cannot be empty");
         }
 
-        User user = manager.findSomebodyByEmail(email);  //TODO
+        User user = manager.findSomebodyByEmail(email);
 
-        LOG.info("Found in DB: user --> " + user); //TODO
+        LOG.info("Found in DB: user --> " + user);
 
         if (user == null || !password.equals(user.getPassword())) {
             throw new AppException("Cannot find user with such email/password");
@@ -49,7 +49,7 @@ public class LoginCommand extends Command {
         String forward = Path.PAGE_ERROR_PAGE; // ты кто такой?
 
         if (userRole == Role.ADMIN) {
-            forward = Path.COMMAND_LIST_ENROLLEES_AND_ORDERS; //на админку
+            forward = Path.PAGE_ADMIN_HOME; //на админку
         }
 
         if (userRole == Role.CLIENT) {

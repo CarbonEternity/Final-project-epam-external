@@ -13,7 +13,6 @@
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
-
     <!--============================================================
         Controllers
     =============================================================-->
@@ -47,7 +46,6 @@
         <servlet-name>Controller</servlet-name>
     </filter-mapping>
 
-
     <!--============================================================
         Security filter.
         1) admin: admin commands
@@ -62,7 +60,7 @@
         <filter-class>ua.nure.popova.SummaryTask4.web.filter.CommandAccessFilter</filter-class>
         <init-param>
             <param-name>admin</param-name>
-            <param-value>listOrders</param-value>
+            <param-value>actionWithFaculties actionWithEnrollees statement sortFaculties</param-value>
         </init-param>
         <init-param>
             <param-name>client</param-name>
@@ -83,8 +81,6 @@
         <servlet-name>Controller</servlet-name>
     </filter-mapping>
 
-
-
     <!--============================================================
         Context listener
     =============================================================-->
@@ -94,7 +90,7 @@
 
     <!--============================================================
 	Error page
-=============================================================-->
+    =============================================================-->
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/WEB-INF/jsp/error_page.jsp</location>

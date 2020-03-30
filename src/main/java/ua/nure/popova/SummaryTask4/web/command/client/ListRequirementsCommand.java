@@ -1,4 +1,4 @@
-package ua.nure.popova.SummaryTask4.web.command;
+package ua.nure.popova.SummaryTask4.web.command.client;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
@@ -8,6 +8,8 @@ import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.AppException;
+import ua.nure.popova.SummaryTask4.web.command.Command;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -56,7 +58,7 @@ public class ListRequirementsCommand extends Command {
         request.setAttribute("title", facultyInfo.getName());
 
         LOG.debug("Command finished");
-        return Path.COMMAND_VIEW_REQUIREMENT;
+        return Path.PAGE_VIEW_REQUIREMENT;
 
     }
 }
