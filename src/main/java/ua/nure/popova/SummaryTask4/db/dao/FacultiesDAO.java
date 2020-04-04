@@ -534,8 +534,9 @@ public class FacultiesDAO {
         Connection con = null;
         LOG.info("update disciplines");
         List<Integer> ids = getRequirementsIdByFacultyId(facultyId);
+
         Map<Integer, Discipline> replace = IntStream.range(0, ids.size()).boxed()
-                .collect(Collectors.toMap(i -> ids.get(i), i -> disciplines.get(i)));
+                .collect(Collectors.toMap(ids::get, disciplines::get));
 
         try {
             con = DBManager.getInstance().getConnection();
@@ -620,5 +621,30 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         LOG.info("faculty updated");
+    }
+
+    private static final String SQL_SELECT_ALL_DISCIPLINES = "SELECT discipline_name from disciplines order by id_d";
+
+    public List<String> findAllDisciplinesNames() throws DBException {
+        List<String > list = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_SELECT_ALL_DISCIPLINES);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(rs.getString("discipline_name"));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
     }
 }

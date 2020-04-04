@@ -55,10 +55,16 @@ public class ChangeFacultyCommand extends Command {
             LOG.info("command edit id = "+ facultyId);
             Faculty faculty = facultiesDAO.findFacultyById(facultyId);
             List<Discipline> disciplines = facultiesDAO.findDisciplinesByFacultyId(facultyId);
+            List<String> allDisciplines = facultiesDAO.findAllDisciplinesNames();
+
+            disciplines.forEach(x-> {
+                allDisciplines.remove(x.getDisciplineName());
+            });
 
 
             request.setAttribute("faculty", faculty);
             request.setAttribute("listExams", disciplines);
+            request.setAttribute("allDisciplines", allDisciplines);
             forward= Path.PAGE_REDACT_FACULTY;
             return forward;
         }

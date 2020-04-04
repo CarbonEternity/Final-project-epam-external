@@ -63,8 +63,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(to right bottom,rgba(0, 0, 0, 0.233),rgba(255, 255, 255, 0.233));
+            background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.233), rgba(255, 255, 255, 0.233));
         }
+
         .form-inner {
             position: relative;
         }
@@ -179,30 +180,38 @@
     </div>
 
     <div class="col align-self-center">
-            <c:choose>
-                <c:when test="${not empty listExams}">
+        <c:choose>
+            <c:when test="${not empty listExams}">
 
-                    <table class="table table-light table-striped table-hover">
-                        <thead class="thead-dark">
+                <table class="table table-light table-striped table-hover">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Mark</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="item" items="${listExams}">
                         <tr>
-                            <th scope="col">Name</th>
-                            <th scope="col">Mark</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach var="item" items="${listExams}">
-                            <tr>
-                                <td><input type="text" name="disciplineName" value="${item.disciplineName}"></td>
-                                <td><input type="number" min="100" name="minMark" max="200" value="${item.minMark}"></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                </c:when>
-                <c:otherwise><h4><fmt:message key="error.listExams.empty"/></h4></c:otherwise>
-            </c:choose>
+                            <td>
+                                <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
+                                    <option selected value="${item.disciplineName}">${item.disciplineName}</option>
 
-        </div>
+                                    <c:forEach var="newDisc" items="${allDisciplines}">
+                                        <option value="${newDisc}">${newDisc}</option>
+                                    </c:forEach>
+                                </select>
+                            </td>
+                            <td><input type="number" step="10" min="100" name="minMark"  max="200" value="${item.minMark}"></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </c:when>
+            <c:otherwise><h4><fmt:message key="error.listExams.empty"/></h4></c:otherwise>
+        </c:choose>
+
+    </div>
 
 </form>
 
