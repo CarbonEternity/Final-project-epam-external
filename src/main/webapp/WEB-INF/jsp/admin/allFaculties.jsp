@@ -38,6 +38,10 @@
             width: 30%;
         }
 
+        .add{
+           margin-top: 20px;
+        }
+
         .table,
         .table tr,
         .table td {
@@ -93,6 +97,12 @@
     </nav>
 </div>
 
+<form action="controller" method="get">
+    <input type="hidden" name="command" value="addFaculty">
+    <div class="col add text-center">
+        <button type="submit" class="btn btn-lg btn-outline-light">Add Faculty</button>
+    </div>
+</form>
 
 <div class="small">
     <div class="col align-self-center">

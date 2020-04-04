@@ -28,4 +28,5 @@ public final class Path {
     public static final String COMMAND_ACTION_WITH_FACULTIES = "/controller?command=actionWithFaculties"; // FACULTIES WITH BUTTONS
     public static final String PAGE_ADMIN_SHOW_ALL_FACULTIES = "/WEB-INF/jsp/admin/allFaculties.jsp";
     public static final String PAGE_REDACT_FACULTY = "/WEB-INF/jsp/admin/redactFaculty.jsp";
+    public static final String PAGE_CREATE_FACULTY = "/WEB-INF/jsp/admin/createFaculty.jsp";
 }
