@@ -120,14 +120,14 @@
                             <td>
                                     <form action="controller" method="get">
                                         <input type="hidden" name="command" value="changeFaculty">
+                                        <input type="hidden" name="id" value=${item.id}>
                                         <!-- select-->
                                         <select class="mdb-select md-form colorful-select dropdown-primary" name="action">
-                                            <option selected>Action</option>
-                                            <option value="edit_faculty">Edit faculty</option>
-                                            <option value="delete_faculty">Delete faculty</option>
+                                            <option value="edit">Edit faculty</option>
+                                            <option value="delete">Delete faculty</option>
                                         </select>
                                         <!--/ select-->
-                                        <button type="submit" class="btn btn-outline-light">Action</button>
+                                        <button type="submit" class="btn btn-outline-primary">Action</button>
                                     </form>
                             </td>
                         </tr>

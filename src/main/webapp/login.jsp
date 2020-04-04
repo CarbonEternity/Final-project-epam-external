@@ -41,7 +41,6 @@
     <input type="hidden" name="command" value="login"/>
 
 </form>
-</div>
 </body>
 
 </html>

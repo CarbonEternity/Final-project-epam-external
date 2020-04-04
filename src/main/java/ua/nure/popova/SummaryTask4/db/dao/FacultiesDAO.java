@@ -10,12 +10,16 @@ import ua.nure.popova.SummaryTask4.exception.DBException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class FacultiesDAO {
 
     private static final Logger LOG = Logger.getLogger(FacultiesDAO.class);
 
-    private static final String SQL_FIND_FACULTY_AND_ZNO_NEED_BY_ID = "SELECT * FROM faculties INNER JOIN requirements r ON faculties.id = r.id_faculty inner join disciplines d on r.id_subject = d.id where faculties.id = ";
+    private static final String SQL_FIND_FACULTY_AND_ZNO_NEED_BY_ID = "SELECT * FROM faculties INNER JOIN requirements r ON faculties.id = r.id_faculty inner join disciplines d on r.id_subject = d.id_d where faculties.id = ";
     private static final String SQL_ALL_FACULTIES = "SELECT * FROM faculties ";
     private static final String SQL_FIND_FACULTY_BY_ID = "SELECT * FROM faculties where id = ";
     private static final String SQL_ALL_DISCIPLINES = "SELECT * FROM disciplines ";
@@ -30,6 +34,7 @@ public class FacultiesDAO {
     private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id = ";
     private static final String SQL_FIND_APPLICATION_ID = "SELECT * FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
     private static final String SQL_DELETE_RESULT = "DELETE FROM results WHERE id_application = ?";
+    private static final String SQL_DELETE_FACULTY_BY_ID = "DELETE FROM faculties WHERE id = ";
 
     public List<Faculty> findAllFaculties() throws DBException {
         List<Faculty> list = new ArrayList<>();
@@ -67,7 +72,6 @@ public class FacultiesDAO {
             rs = pstmt.executeQuery();
             while (rs.next())
                 discipline = extractDiscipline(rs);
-
 
             rs.close();
             pstmt.close();
@@ -327,7 +331,7 @@ public class FacultiesDAO {
                 discipline.setMinMark(rs.getInt(Fields.ENTITY_MIN_MARK));
             }
         }
-        discipline.setId(rs.getLong(Fields.ENTITY_ID));
+        discipline.setId(rs.getLong("id_d"));
         discipline.setDisciplineName(rs.getString("discipline_name"));
         return discipline;
     }
@@ -470,7 +474,7 @@ public class FacultiesDAO {
         LOG.info("delete application");
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_DELETE_APPLICATION+applicationId);
+            pstmt = con.prepareStatement(SQL_DELETE_APPLICATION + applicationId);
             pstmt.executeUpdate();
             pstmt.close();
             deleteResultByApplicationId(applicationId);
@@ -502,5 +506,119 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         LOG.info("result deleted");
+    }
+
+    public void deleteFacultyById(int facultyId) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        LOG.info("delete faculty");
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_DELETE_FACULTY_BY_ID + facultyId);
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        LOG.info("faculty deleted");
+    }
+
+    private static final String SQL_UPDATE_REQUIREMENTS_BY_FACULTY_ID = "UPDATE requirements SET id_subject=?, min_mark=? where id=?";
+
+    public void updateDisciplinesByFacultyId(List<Discipline> disciplines, Long facultyId) throws DBException {
+        PreparedStatement pstmt = null;
+        Connection con = null;
+        LOG.info("update disciplines");
+        List<Integer> ids = getRequirementsIdByFacultyId(facultyId);
+        Map<Integer, Discipline> replace = IntStream.range(0, ids.size()).boxed()
+                .collect(Collectors.toMap(i -> ids.get(i), i -> disciplines.get(i)));
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_UPDATE_REQUIREMENTS_BY_FACULTY_ID);
+
+            Set<Map.Entry<Integer, Discipline>> entries = replace.entrySet();
+
+            for (Map.Entry<Integer, Discipline> entry : entries) {
+
+                Discipline d = entry.getValue();
+                Integer reqId = entry.getKey();
+                d.setId(findDisciplineIdByName(d.getDisciplineName()));
+
+                pstmt.setInt(1, Math.toIntExact(d.getId()));
+                pstmt.setInt(2, d.getMinMark());
+                pstmt.setInt(3, reqId);
+
+                pstmt.executeUpdate();
+            }
+
+            assert pstmt != null;
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        LOG.info("disciplines updated");
+    }
+
+    private List<Integer> getRequirementsIdByFacultyId(Long facultyId) throws DBException {
+        List<Integer> list = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement("select id from requirements where id_faculty = " + facultyId);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(rs.getInt("id"));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
+    }
+
+    private Long findDisciplineIdByName(String disciplineName) throws DBException {
+        Discipline d = findDisciplineByName(disciplineName);
+        return d.getId();
+    }
+
+
+    private static final String SQL_UPDATE_FACULTY = "UPDATE faculties SET count_budget=?, count_total=? WHERE id=?";
+
+    public void updateFaculty(Faculty newFaculty) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        LOG.info("update faculty");
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_UPDATE_FACULTY);
+            pstmt.setInt(1, newFaculty.getCountBudget());
+            pstmt.setInt(2, newFaculty.getCountTotal());
+            pstmt.setLong(3, newFaculty.getId());
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        LOG.info("faculty updated");
     }
 }

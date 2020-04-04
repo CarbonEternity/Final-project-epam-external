@@ -19,7 +19,7 @@ body {
     background: rgba(3, 3, 59, 0.767);
 }
 
-#login_form:before {
+#redact_form:before {
     content: "";
     position: absolute;
     top: 0;

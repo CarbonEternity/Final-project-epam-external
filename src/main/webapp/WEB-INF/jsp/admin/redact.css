@@ -1,21 +1,43 @@
 body {
-    background: url('../img/karazina-kharkov-2.jpg') ;
+    background: url('admin-back.jpg');
 
     /* Full height */
-    height: 100%;
+    /*height: 100%;*/
 
     /* Center and scale the image nicely */
-    background-position: center;
+    /*background-position: center;*/
     background-repeat: no-repeat;
     background-size: cover;
 }
 
+/* .small {
+    margin: 20px auto;
+    width: 30%;
+}
+ */
+.table,
+.table tr,
+.table td {
+    /*background-color: #e2e2e2 !important;*/
+    font-size: 16px;
+}
+
+.bs-example {
+    margin: 0;
+}
+
+.navbar {
+    position: relative;
+}
+
 #redact_form {
+
+
+
     position: relative;
     max-width: 600px;
     padding: 30px 50px;
-    margin: 10px auto;
-
+    margin: 150px auto;
     background: rgba(3, 3, 59, 0.767);
 }
 
@@ -82,7 +104,6 @@ body {
 }
 
 .form-inner legend {
-
     color: rgb(241, 231, 87);
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: 300;

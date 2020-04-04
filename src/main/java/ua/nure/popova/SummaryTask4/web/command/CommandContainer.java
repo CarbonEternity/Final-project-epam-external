@@ -1,7 +1,9 @@
 package ua.nure.popova.SummaryTask4.web.command;
 
 import org.apache.log4j.Logger;
+import ua.nure.popova.SummaryTask4.web.command.admin.ChangeFacultyCommand;
 import ua.nure.popova.SummaryTask4.web.command.admin.ListFacultiesForAdminCommand;
+import ua.nure.popova.SummaryTask4.web.command.admin.RedactFaculty;
 import ua.nure.popova.SummaryTask4.web.command.admin.SortFacultiesCommand;
 import ua.nure.popova.SummaryTask4.web.command.client.*;
 
@@ -36,6 +38,8 @@ public final class CommandContainer {
 //        // admin commands
         commands.put("actionWithFaculties", new ListFacultiesForAdminCommand()); //faculties with buttons
         commands.put("sortFaculties", new SortFacultiesCommand()); // just sort faculties
+        commands.put("changeFaculty", new ChangeFacultyCommand());
+        commands.put("redactFaculty", new RedactFaculty());
 
 
         LOG.debug("Command container was successfully initialized");

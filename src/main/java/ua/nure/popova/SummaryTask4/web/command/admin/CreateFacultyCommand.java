@@ -36,6 +36,6 @@ public class CreateFacultyCommand extends Command {
 
 
 
-        return Path.PAGE_ADMIN_SHOW_ALL_FACULTIES;
+        return Path.PAGE_REDACT_FACULTY;
     }
 }
