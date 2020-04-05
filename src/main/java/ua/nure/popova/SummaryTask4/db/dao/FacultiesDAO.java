@@ -626,7 +626,7 @@ public class FacultiesDAO {
     private static final String SQL_SELECT_ALL_DISCIPLINES = "SELECT discipline_name from disciplines order by id_d";
 
     public List<String> findAllDisciplinesNames() throws DBException {
-        List<String > list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
         Connection con = null;
@@ -646,5 +646,63 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         return list;
+    }
+
+    private static final String SQL_INSERT_FACULTY = "INSERT into faculties (name, count_budget, count_total) VALUES (?,?,?)";
+
+    public Faculty addFaculty(Faculty newFaculty) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_INSERT_FACULTY);
+            pstmt.setString(1, newFaculty.getName());
+            pstmt.setInt(2, newFaculty.getCountBudget());
+            pstmt.setInt(3, newFaculty.getCountTotal());
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return findFacultyByName(newFaculty.getName());
+    }
+
+
+    //TODO
+    private static final String SQL_INSERT_REQUIREMENTS = "INSERT INTO requirements (id_faculty, id_subject, min_mark) VALUES (?,?,?)";
+
+    public void addRequirements(Long idFaculty, List<Discipline> disciplines) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+
+        //сделать так чтобы на фронт уходил список дисциплин с айдишниками, отображалось только имя
+        // чтобы не вычислять айди по имени
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_INSERT_REQUIREMENTS);
+
+            for (Discipline discipline : disciplines) {
+                pstmt.setInt(1, Math.toIntExact(idFaculty));
+                pstmt.setInt(2, Math.toIntExact(findDisciplineIdByName(discipline.getDisciplineName())));
+                pstmt.setInt(3, discipline.getMinMark());
+
+                pstmt.executeUpdate();
+            }
+
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
     }
 }

@@ -13,6 +13,7 @@ public class Enrollee extends User {
     private String school;
     private String password;
     private int roleId;
+    private boolean accessAllowed;
 
     public int getRoleId() {
         return roleId;
@@ -96,5 +97,13 @@ public class Enrollee extends User {
                 ", region='" + region + '\'' +
                 ", school='" + school + '\'' +
                 '}';
+    }
+
+    public boolean isAccessAllowed() {
+        return accessAllowed;
+    }
+
+    public void setAccessAllowed(boolean accessAllowed) {
+        this.accessAllowed = accessAllowed;
     }
 }

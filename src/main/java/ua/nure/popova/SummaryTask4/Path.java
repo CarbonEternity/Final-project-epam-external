@@ -14,6 +14,7 @@ public final class Path {
     // commands
     public static final String COMMAND_ADMIN_HOME = "/controller?command=adminHome";
     public static final String COMMAND_LIST_FACULTIES = "/controller?command=sortFacultyList";
+    public static final String COMMAND_ENROLLEES_LIST = "/controller?command=actionWithEnrollees";
 
 
 
@@ -29,4 +30,5 @@ public final class Path {
     public static final String PAGE_ADMIN_SHOW_ALL_FACULTIES = "/WEB-INF/jsp/admin/allFaculties.jsp";
     public static final String PAGE_REDACT_FACULTY = "/WEB-INF/jsp/admin/redactFaculty.jsp";
     public static final String PAGE_CREATE_FACULTY = "/WEB-INF/jsp/admin/createFaculty.jsp";
+    public static final String PAGE_ACTIONS_WITH_ENROLLEES = "/WEB-INF/jsp/admin/actionWithEnrollees.jsp";
 }

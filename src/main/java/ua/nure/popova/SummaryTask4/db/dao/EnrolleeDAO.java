@@ -1,16 +1,23 @@
 package ua.nure.popova.SummaryTask4.db.dao;
 
 import org.apache.log4j.Logger;
+import ua.nure.popova.SummaryTask4.db.DBManager;
+import ua.nure.popova.SummaryTask4.db.Fields;
+import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
+import ua.nure.popova.SummaryTask4.db.entity.Faculty;
+import ua.nure.popova.SummaryTask4.db.entity.User;
+import ua.nure.popova.SummaryTask4.exception.DBException;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EnrolleeDAO {
 
     private static final Logger LOG = Logger.getLogger(EnrolleeDAO.class);
+    private static final String SQL_CHECK_ACCESS_ALLOWED = "SELECT accessAllowed from enrollees where id=?";
+    private static final String SQL_SELECT_ALL_ENROLLEES = "select * from enrollees";
 
     public int registerEmployee(Enrollee enrollee) {
         String INSERT_USERS_SQL = "INSERT INTO enrollees" +
@@ -44,7 +51,7 @@ public class EnrolleeDAO {
 
         } catch (SQLException e) {
             // process sql exception
-//            printSQLException(e);
+            printSQLException(e);
             e.printStackTrace();
         }
         return result;
@@ -64,4 +71,70 @@ public class EnrolleeDAO {
             }
         }
     }
+
+    public boolean checkEnrolleeAccess(User user) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        boolean accessAllowed = false;
+        ResultSet rs;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_CHECK_ACCESS_ALLOWED);
+
+            pstmt.setInt(1, Math.toIntExact(user.getId()));
+            rs=pstmt.executeQuery();
+
+            while (rs.next()) {
+                accessAllowed = rs.getBoolean("accessAllowed");
+            }
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return accessAllowed;
+    }
+
+    public List<Enrollee> findAllEnrollees() throws DBException {
+        List<Enrollee> list = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_SELECT_ALL_ENROLLEES);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(extractEnrollee(rs));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
+    }
+
+    private Enrollee extractEnrollee(ResultSet rs) throws SQLException {
+        Enrollee enrollee = new Enrollee();
+        enrollee.setId(rs.getLong(Fields.ENTITY_ID));
+        enrollee.setFirstName(rs.getString("first_name"));
+        enrollee.setSecName(rs.getString("sec_name"));
+        enrollee.setLastName(rs.getString("last_name"));
+        enrollee.setEmail(rs.getString("email"));
+        enrollee.setSchool(rs.getString("school"));
+        enrollee.setCity(rs.getString("city"));
+        enrollee.setRegion(rs.getString("region"));
+        enrollee.setAccessAllowed(rs.getBoolean("accessAllowed"));
+
+        return enrollee;
+    }
+
 }

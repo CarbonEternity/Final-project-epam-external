@@ -3,6 +3,9 @@ package ua.nure.popova.SummaryTask4.web.filter;
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.Role;
+import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
+import ua.nure.popova.SummaryTask4.db.entity.User;
+import ua.nure.popova.SummaryTask4.exception.DBException;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +18,11 @@ public class CommandAccessFilter implements Filter {
     private static final Logger LOG = Logger.getLogger(CommandAccessFilter.class);
 
     // commands access
-    private Map<Role, List<String>> accessMap = new HashMap<Role, List<String>>();
-    private List<String> commons = new ArrayList<String>();
-    private List<String> outOfControl = new ArrayList<String>();
+    private Map<Role, List<String>> accessMap = new HashMap<>();
+    private List<String> commons = new ArrayList<>();
+    private List<String> outOfControl = new ArrayList<>();
 
+    @Override
     public void destroy() {
         LOG.debug("Filter destruction starts");
         // do nothing
@@ -64,10 +68,22 @@ public class CommandAccessFilter implements Filter {
             return false;
         }
 
+        User user = (User) session.getAttribute("user");  //TODO
+        boolean accessEnrolleeAllowed = false;
+        try {
+             accessEnrolleeAllowed = new EnrolleeDAO().checkEnrolleeAccess(user);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        if(!accessEnrolleeAllowed){
+            return false;
+        }
+
         return accessMap.get(userRole).contains(commandName)
                 || commons.contains(commandName);
     }
 
+    @Override
     public void init(FilterConfig fConfig) throws ServletException {
         LOG.debug("Filter initialization starts");
 
@@ -88,7 +104,7 @@ public class CommandAccessFilter implements Filter {
     }
 
     private List<String> asList(String str) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(str);
         while (st.hasMoreTokens()) {
             list.add(st.nextToken());
