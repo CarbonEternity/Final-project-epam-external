@@ -35,6 +35,7 @@ public final class CommandContainer {
 //        // admin commands
         commands.put("actionWithFaculties", new ListFacultiesForAdminCommand()); //faculties with buttons
         commands.put("sortFaculties", new SortFacultiesCommand()); // just sort faculties
+        commands.put("sortEnrolleeList", new SortEnrolleesCommand()); // just sort enrollees
         commands.put("changeFaculty", new ChangeFacultyCommand());
         commands.put("redactFaculty", new RedactFaculty());
         commands.put("addFaculty", new AddFaculty());

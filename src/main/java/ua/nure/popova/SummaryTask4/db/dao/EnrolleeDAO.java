@@ -181,4 +181,27 @@ public class EnrolleeDAO {
         }
 
     }
+
+    public List<Enrollee> sortEnrollees(String query) throws DBException {
+        List<Enrollee> list = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_SELECT_ALL_ENROLLEES + query);
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(extractEnrollee(rs));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
+    }
 }

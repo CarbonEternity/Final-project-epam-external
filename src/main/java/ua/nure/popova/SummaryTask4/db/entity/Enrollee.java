@@ -1,6 +1,8 @@
 package ua.nure.popova.SummaryTask4.db.entity;
 
-public class Enrollee extends User {
+import java.util.Objects;
+
+public class Enrollee extends User implements Comparable<Enrollee> {
 
     private static final long serialVersionUID = 5692708766041889396L;
 
@@ -93,6 +95,7 @@ public class Enrollee extends User {
                 "firstName='" + firstName + '\'' +
                 ", secName='" + secName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
                 ", city='" + city + '\'' +
                 ", region='" + region + '\'' +
                 ", school='" + school + '\'' +
@@ -106,4 +109,26 @@ public class Enrollee extends User {
     public void setAccessAllowed(boolean accessAllowed) {
         this.accessAllowed = accessAllowed;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Enrollee enrollee = (Enrollee) o;
+        return getFirstName().equals(enrollee.getFirstName()) &&
+                getSecName().equals(enrollee.getSecName()) &&
+                getLastName().equals(enrollee.getLastName()) &&
+                getEmail().equals(enrollee.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getFirstName(), getSecName(), getLastName(), getEmail());
+    }
+
+    @Override
+    public int compareTo(Enrollee o) {
+        return this.getLastName().compareTo(o.getLastName());
+    }
+
 }
