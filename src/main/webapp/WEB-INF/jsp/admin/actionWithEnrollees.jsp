@@ -43,15 +43,11 @@
             <form class="form-inline ml-auto">
 
                 <form action="controller" method="get">
-                    <input type="hidden" name="command" value="sortFacultyList">
+                    <input type="hidden" name="command" value="sortEnrolleeList">
                     <!-- select-->
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="sort">
-                        <option selected>Select sort</option>
-                        <optgroup label="> by count">
-                            <option value="count_budget">Count budget</option>
-                            <option value="count_total">Count total</option>
-                        </optgroup>
-                        <optgroup label="> by name">
+                        <option selected disabled>Select sort</option>
+                        <optgroup label="> by last name">
                             <option value="namefirst">Name A-Z</option>
                             <option value="namelast">Name Z-A</option>
                         </optgroup>
@@ -78,7 +74,7 @@
                         <th scope="col">Second name</th>
                         <th scope="col">Last name</th>
                         <th scope="col">City</th>
-                        <th scope="col">Email@</th>
+                        <th scope="col">@Email</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -95,15 +91,19 @@
                                 <c:choose>
                                     <c:when test="${item.accessAllowed==true}">
                                         <form action="controller" method="get">
-                                            <input type="hidden" name="command" value="blockEnrollee">
-                                            <input type="hidden" name="id_enrollee" value="${item.id}">
+                                            <input type="hidden" name="command" value="actionWithEnrollees">
+
+                                            <input type="hidden" name="block" value="${item.id}">
+                                                <%--                                            <input type="hidden" name="id_enrollee" value="${item.id}">--%>
                                             <input class="btn btn-warning" type="submit" value="block">
                                         </form>
                                     </c:when>
                                     <c:otherwise>
                                         <form action="controller" method="get">
-                                            <input type="hidden" name="command" value="unblockEnrollee">
-                                            <input type="hidden" name="id_enrollee" value="${item.id}">
+                                            <input type="hidden" name="command" value="actionWithEnrollees">
+
+                                            <input type="hidden" name="unblock" value="${item.id}">
+                                                <%--                                            <input type="hidden" name="id_enrollee" value="${item.id}">--%>
                                             <input class="btn btn-danger" type="submit" value="unblock">
                                         </form>
                                     </c:otherwise>

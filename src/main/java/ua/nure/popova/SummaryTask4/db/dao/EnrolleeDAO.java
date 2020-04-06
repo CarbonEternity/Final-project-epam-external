@@ -3,9 +3,7 @@ package ua.nure.popova.SummaryTask4.db.dao;
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.db.DBManager;
 import ua.nure.popova.SummaryTask4.db.Fields;
-import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
-import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.DBException;
 
@@ -18,6 +16,8 @@ public class EnrolleeDAO {
     private static final Logger LOG = Logger.getLogger(EnrolleeDAO.class);
     private static final String SQL_CHECK_ACCESS_ALLOWED = "SELECT accessAllowed from enrollees where id=?";
     private static final String SQL_SELECT_ALL_ENROLLEES = "select * from enrollees";
+    private static final String SQL_BLOCK_ENROLLEE_WHERE_ID = "UPDATE enrollees SET accessAllowed=false where id =?";
+    private static final String SQL_UNBLOCK_ENROLLEE_WHERE_ID = "UPDATE enrollees SET accessAllowed=true where id =?";
 
     public int registerEmployee(Enrollee enrollee) {
         String INSERT_USERS_SQL = "INSERT INTO enrollees" +
@@ -137,4 +137,48 @@ public class EnrolleeDAO {
         return enrollee;
     }
 
+    public void blockEnrolleeByid(int enrolleeId) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_BLOCK_ENROLLEE_WHERE_ID);
+
+            pstmt.setInt(1, enrolleeId);
+
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+
+    }
+
+
+    public void unblockEnrolleeByid(int enrolleeId) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_UNBLOCK_ENROLLEE_WHERE_ID);
+
+            pstmt.setInt(1, enrolleeId);
+
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+
+    }
 }

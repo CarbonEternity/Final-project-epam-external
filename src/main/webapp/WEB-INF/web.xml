@@ -60,7 +60,9 @@
         <filter-class>ua.nure.popova.SummaryTask4.web.filter.CommandAccessFilter</filter-class>
         <init-param>
             <param-name>admin</param-name>
-            <param-value>actionWithFaculties actionWithEnrollees statement sortFaculties changeFaculty redactFaculty addFaculty createFaculty</param-value>
+            <param-value>actionWithFaculties actionWithEnrollees statement sortFaculties changeFaculty redactFaculty
+                addFaculty createFaculty blockEnrollee
+            </param-value>
         </init-param>
         <init-param>
             <param-name>client</param-name>

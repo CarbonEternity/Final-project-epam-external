@@ -39,7 +39,7 @@ public final class CommandContainer {
         commands.put("redactFaculty", new RedactFaculty());
         commands.put("addFaculty", new AddFaculty());
         commands.put("createFaculty", new CreateFaculty());
-        commands.put("actionWithEnrollees", new ActionsWithEnrollees());
+        commands.put("actionWithEnrollees", new ActionsWithEnrollees()); // block and unblock, show enrollees list
 
 
         LOG.debug("Command container was successfully initialized");

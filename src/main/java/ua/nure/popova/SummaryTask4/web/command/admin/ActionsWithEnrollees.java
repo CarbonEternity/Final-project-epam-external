@@ -20,10 +20,25 @@ public class ActionsWithEnrollees extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
+        LOG.info("Command start");
+
+        EnrolleeDAO dao = new EnrolleeDAO();
+        int enrolleeId;
+
+        if (request.getParameterMap().containsKey("block")) {
+            LOG.info("user blocked");
+            enrolleeId = Integer.parseInt(request.getParameter("block"));
+            dao.blockEnrolleeByid(enrolleeId);
+        } else if (request.getParameterMap().containsKey("unblock")) {
+            LOG.info("user unblocked");
+            enrolleeId = Integer.parseInt(request.getParameter("unblock"));
+            dao.unblockEnrolleeByid(enrolleeId);
+        }
 
         List<Enrollee> enrollees = new EnrolleeDAO().findAllEnrollees();
         request.setAttribute("enrolleesList", enrollees);
 
+        LOG.info("Command finished");
         return Path.PAGE_ACTIONS_WITH_ENROLLEES;
     }
 }
