@@ -81,7 +81,7 @@
                                     <tr>
                                         <td>${item.disciplineName}</td>
                                         <td>${item.minMark}</td>
-                                        <td><input type="text" name="zno_${item.disciplineName}" class="form-control"></td>
+                                        <td><input type="number" min="100" max="200" required name="zno_${item.disciplineName}" class="form-control"></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -112,7 +112,7 @@
                                     <tr>
                                         <td>${item2.id}</td>
                                         <td>${item2.disciplineName}</td>
-                                        <td><input type="text" name="cert_${item2.disciplineName}" class="form-control"></td>
+                                        <td><input type="number" required min="1" max="12" name="cert_${item2.disciplineName}" class="form-control"></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>

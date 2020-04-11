@@ -78,7 +78,6 @@
                         <th scope="col">Budget</th>
                         <th scope="col">Total</th>
                         <th scope="col">Action</th>
-                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>

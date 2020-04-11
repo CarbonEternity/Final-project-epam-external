@@ -25,8 +25,13 @@ public class FacultiesDAO {
     private static final String SQL_ALL_DISCIPLINES = "SELECT * FROM disciplines ";
     private static final String SQL_FIND_DISCIPLINE_BY_NAME = "SELECT * FROM disciplines where discipline_name = ?";
     private static final String SQL_INSERT_ZNO = "INSERT INTO zno (id_enrollee, id_subject, mark) VALUES (?,?,?)";
+
+    private static final String SQL_CHECK_ZNO = "SELECT 1 from zno where id_enrollee=? and id_subject=? and mark=?";
+    private static final String SQL_CHECK_CERTIFICATE = "SELECT 1 from certificates where id_enrollee=? and id_subject=? and mark=?";
+
+
+
     private static final String SQL_INSERT_CERTIFICATES = "INSERT INTO certificates (id_enrollee, id_subject, mark) VALUES (?,?,?)";
-    private static final String SQL_INSERT_DISCIPLINE = "INSERT INTO disciplines (discipline_name) VALUE (?)";
     private static final String SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID = "SELECT * FROM faculties INNER JOIN applications a ON faculties.id = a.id_faculty where id_enrollee = ";
     private static final String SQL_INSERT_INTO_APPLICATIONS = "INSERT INTO applications (id_faculty ,id_enrollee) VALUES (?,?)";
     private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO results (id_application, result) VALUES (?, ?)";
@@ -231,7 +236,7 @@ public class FacultiesDAO {
         PreparedStatement pstmt;
         Connection con = null;
         boolean flag = false;
-        long idApplication;
+//        long idApplication;
 
         try {
             con = DBManager.getInstance().getConnection();
@@ -241,8 +246,8 @@ public class FacultiesDAO {
             pstmt.executeUpdate();
             pstmt.close();
 
-            idApplication = getApplicationId(facultyId, enrolleeId);
-            flag = insertIntoResults(idApplication, false);
+//            idApplication = getApplicationId(facultyId, enrolleeId);
+//            flag = insertIntoResults(idApplication, false);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
@@ -342,20 +347,21 @@ public class FacultiesDAO {
         Connection con = null;
         Discipline discipline = findDisciplineByName(key);
         boolean flag = false;
-        if (values.length != 0) {
+
             try {
                 con = DBManager.getInstance().getConnection();
                 pstmt = con.prepareStatement(SQL_INSERT_ZNO);
 
                 for (String value : values) {
-                    if (!value.isEmpty()) {
+                    if (!value.isEmpty() && checkIfZnoNotExists(enrolleeId, discipline.getId(), value)) {
                         pstmt.setLong(1, enrolleeId);
                         pstmt.setLong(2, discipline.getId());
                         pstmt.setString(3, value);
+                        pstmt.executeUpdate();
                     }
                 }
-                LOG.info("insertZNO success");
-                pstmt.executeUpdate();
+                LOG.info("insert ZNO success");
+
                 pstmt.close();
                 flag = true;
             } catch (SQLException ex) {
@@ -366,39 +372,31 @@ public class FacultiesDAO {
                 assert con != null;
                 DBManager.getInstance().commitAndClose(con);
             }
-        }
+
         return flag;
     }
 
-    /*private Discipline checkDiscipline(String d) throws DBException {  //TODO
+
+    private boolean checkIfZnoNotExists(Long enrolleeId, Long id, String value) throws DBException {
         PreparedStatement pstmt;
         Connection con = null;
-        Discipline discipline = new Discipline();
+        boolean flag = true; //true если нет совпадений
         ResultSet rs;
-        long id = 0;
-        boolean flag = false;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_ALL_DISCIPLINES);
-            rs = pstmt.executeQuery();
+            pstmt = con.prepareStatement(SQL_CHECK_ZNO);
 
-            ResultSetMetaData rsmd = rs.getMetaData();
-            int columns = rsmd.getColumnCount();
-            for (int x = 1; x <= columns; x++) {
-                if (d.equals(rsmd.getColumnName(x))) { //if such exists
+            pstmt.setLong(1, enrolleeId);
+            pstmt.setLong(2,id);
+            pstmt.setString(3, value);
 
-                    discipline = findDisciplineByName(d);
-                    flag = true;
-                }
-            }
+            rs=pstmt.executeQuery();
 
-            if (!flag && !d.equals(" ")) {
-                insertNewDiscipline(d);
-                discipline = findDisciplineByName(d);
-                flag = true;
-            }
-
+          if(rs.isBeforeFirst()){
+              flag=false;
+          }
             pstmt.close();
+            LOG.warn("checkIfZnoNotExists success, column was added - " + flag);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
@@ -407,36 +405,43 @@ public class FacultiesDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
-        return discipline;
-    }*/
+        return flag;
+    }
 
-  /*  private boolean insertNewDiscipline(String name) throws DBException { //TODO
-        PreparedStatement pstmt = null;
+    private boolean checkIfCertificateNotExists(Long enrolleeId, Long id, String value) throws DBException {
+        PreparedStatement pstmt;
         Connection con = null;
-        boolean flag = false;
-        if (!name.equals(" ")) {
-            try {
-                con = DBManager.getInstance().getConnection();
-                pstmt = con.prepareStatement(SQL_INSERT_DISCIPLINE);
-                pstmt.setString(1, name);
-                pstmt.executeUpdate();
-                pstmt.close();
-                flag = true;
-            } catch (SQLException ex) {
-                DBManager.getInstance().rollbackAndClose(con);
-                ex.printStackTrace();
+        boolean flag = true; //true если нет совпадений
+        ResultSet rs;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_CHECK_CERTIFICATE);
 
-            } finally {
-                assert con != null;
-                DBManager.getInstance().commitAndClose(con);
+            pstmt.setLong(1, enrolleeId);
+            pstmt.setLong(2,id);
+            pstmt.setString(3, value);
+
+            rs=pstmt.executeQuery();
+
+            if(rs.isBeforeFirst()){
+                flag=false;
             }
+            pstmt.close();
+            LOG.warn("checkIfCertificateNotExists success, columns added - " + flag);
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
         }
         return flag;
-    }*/
+    }
 
     //занесении результата атестата
     public boolean insertCertificate(Long enrolleeId, String key, String[] values) throws DBException {
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         Connection con = null;
         Discipline discipline = findDisciplineByName(key);
 
@@ -446,14 +451,15 @@ public class FacultiesDAO {
             pstmt = con.prepareStatement(SQL_INSERT_CERTIFICATES);
 
             for (String value : values) {
-                if (!value.isEmpty()) {
+                if (!value.isEmpty() && checkIfCertificateNotExists(enrolleeId, discipline.getId(), value)) {
                     pstmt.setLong(1, enrolleeId);
                     pstmt.setLong(2, discipline.getId());
                     pstmt.setString(3, value);
+                    pstmt.executeUpdate();
                 }
             }
 
-            pstmt.executeUpdate();
+            LOG.info("certificate inserted success");
             pstmt.close();
             flag = true;
         } catch (SQLException ex) {
