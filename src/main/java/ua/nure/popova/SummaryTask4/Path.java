@@ -31,4 +31,7 @@ public final class Path {
     public static final String PAGE_REDACT_FACULTY = "/WEB-INF/jsp/admin/redactFaculty.jsp";
     public static final String PAGE_CREATE_FACULTY = "/WEB-INF/jsp/admin/createFaculty.jsp";
     public static final String PAGE_ACTIONS_WITH_ENROLLEES = "/WEB-INF/jsp/admin/actionWithEnrollees.jsp";
+    public static final String PAGE_COMPETITION = "/WEB-INF/jsp/admin/competetion.jsp";
+    public static final String PAGE_FACULTIES_FOR_APPLICATIONS = "/WEB-INF/jsp/admin/facultiesForCompetition.jsp";
+    public static final String PAGE_SHOW_ENROLLEE_INFO = "/WEB-INF/jsp/admin/showEnrollee.jsp";
 }

@@ -1,0 +1,68 @@
+body {
+    background: url('admin-back.jpg') no-repeat fixed;
+    background-size: cover;
+}
+
+.block {
+    padding: 30px;
+    float:left;
+}
+
+.info {
+    color:whitesmoke;
+    padding: 30px;
+    text-align: left;
+    background: rgba(60, 63, 65, 0.4);
+}
+
+.zno {
+    color:whitesmoke;
+    padding: 30px;
+    text-align: left;
+    background: rgba(60, 63, 65, 0.5);
+}
+
+.table-mark{
+    color:whitesmoke;
+    border-collapse:collapse;
+    padding: 30px;
+    background: rgba(60, 63, 65, 0.6);
+}
+
+.general {
+    margin-top:40px;
+    margin-left:420px;
+    text-align:center;
+}
+
+h3{
+    text-align: center;
+}
+
+.table,
+.table tr,
+.table td {
+    /*background-color: #e2e2e2 !important;*/
+    font-size: 16px;
+}
+
+.bs-example {
+    margin: 0;
+}
+
+.navbar {
+    position: relative;
+}
+
+#button1{
+    width: 300px;
+    height: 40px;
+}
+#button2{
+    width: 300px;
+    height: 40px;
+}
+#container{
+    padding-top: 30px;
+    text-align: center;
+}

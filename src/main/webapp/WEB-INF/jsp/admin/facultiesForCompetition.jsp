@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: carbon
-  Date: 30.03.2020
-  Time: 18:37
+  Date: 12.04.2020
+  Time: 12:20
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -14,7 +14,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="style/css/allFacultiesStyles.css">
+    <%--    <link rel="stylesheet" href="style/css/allFacultiesStyles.css">--%>
+    <%--    <link rel="stylesheet" href="allFacultiesStyles.css">--%>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -22,6 +23,40 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <title>${title}</title>
 
+
+    <style>
+        body {
+            /* Full height */
+            height: 100%;
+
+            background: url('admin-back.jpg') no-repeat center;
+            background-size: cover;
+        }
+
+        .small {
+            margin: 20px auto;
+            width: 40%;
+        }
+
+        .add{
+            margin-top: 20px;
+        }
+
+        .table,
+        .table tr,
+        .table td {
+            /*background-color: #e2e2e2 !important;*/
+            font-size: 16px;
+        }
+
+        .bs-example {
+            margin: 0;
+        }
+
+        .navbar {
+            position: relative;
+        }
+    </style>
 </head>
 <body>
 <div class="bs-example">
@@ -43,7 +78,7 @@
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="sortFaculties">
                     <!-- select-->
-                    <select class="mdb-select md-form colorful-select dropdown-primary" name="sort">
+                    <select class="mdb-select md-form colorful-select dropdown-primary" name="sortFacultiesForCompetition">
                         <option selected>Select sort</option>
                         <optgroup label="> by count">
                             <option value="count_budget">Count budget</option>
@@ -62,13 +97,6 @@
     </nav>
 </div>
 
-<form action="controller" method="get">
-    <input type="hidden" name="command" value="addFaculty">
-    <div class="col add text-center">
-        <button type="submit" class="btn btn-lg btn-outline-light">Add Faculty</button>
-    </div>
-</form>
-
 <div class="small">
     <div class="col align-self-center">
         <c:choose>
@@ -81,7 +109,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Budget</th>
                         <th scope="col">Total</th>
-                        <th scope="col">Action</th>
+                        <th scope="col"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -93,17 +121,12 @@
                             <td>${item.countBudget}</td>
                             <td>${item.countTotal}</td>
                             <td>
-                                    <form action="controller" method="get">
-                                        <input type="hidden" name="command" value="changeFaculty">
-                                        <input type="hidden" name="id" value=${item.id}>
-                                        <!-- select-->
-                                        <select class="mdb-select md-form colorful-select dropdown-primary" name="action">
-                                            <option value="edit">Edit faculty</option>
-                                            <option value="delete">Delete faculty</option>
-                                        </select>
-                                        <!--/ select-->
-                                        <button type="submit" class="btn btn-outline-primary">Action</button>
-                                    </form>
+                                <form action="controller" method="get">
+                                    <input type="hidden" name="command" value="showApplications">
+                                    <input type="hidden" name="id_fac" value=${item.id}>
+
+                                    <button type="submit" class="btn btn-outline-primary">Show applications</button>
+                                </form>
                             </td>
                         </tr>
 
@@ -120,3 +143,4 @@
 
 </body>
 </html>
+

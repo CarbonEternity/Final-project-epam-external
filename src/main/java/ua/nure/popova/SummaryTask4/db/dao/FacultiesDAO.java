@@ -34,11 +34,11 @@ public class FacultiesDAO {
     private static final String SQL_INSERT_CERTIFICATES = "INSERT INTO certificates (id_enrollee, id_subject, mark) VALUES (?,?,?)";
     private static final String SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID = "SELECT * FROM faculties INNER JOIN applications a ON faculties.id = a.id_faculty where id_enrollee = ";
     private static final String SQL_INSERT_INTO_APPLICATIONS = "INSERT INTO applications (id_faculty ,id_enrollee) VALUES (?,?)";
-    private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO results (id_application, result) VALUES (?, ?)";
+    private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO competition (id_application, ser_mark) VALUES (?, ?)";
     private static final String SQL_FIND_FACULTY_BY_NAME = "SELECT * FROM faculties WHERE faculties.name = ?";
     private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id = ";
     private static final String SQL_FIND_APPLICATION_ID = "SELECT * FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
-    private static final String SQL_DELETE_RESULT = "DELETE FROM results WHERE id_application = ?";
+    private static final String SQL_DELETE_RESULT = "DELETE FROM competition WHERE id_application = ?";
     private static final String SQL_DELETE_FACULTY_BY_ID = "DELETE FROM faculties WHERE id = ";
 
     public List<Faculty> findAllFaculties() throws DBException {
@@ -333,7 +333,7 @@ public class FacultiesDAO {
         int columns = rsmd.getColumnCount();
         for (int x = 1; x <= columns; x++) {
             if (Fields.ENTITY_MIN_MARK.equals(rsmd.getColumnName(x))) {
-                discipline.setMinMark(rs.getInt(Fields.ENTITY_MIN_MARK));
+                discipline.setMark(rs.getInt(Fields.ENTITY_MIN_MARK));
             }
         }
         discipline.setId(rs.getLong("id_d"));
@@ -557,7 +557,7 @@ public class FacultiesDAO {
                 d.setId(findDisciplineIdByName(d.getDisciplineName()));
 
                 pstmt.setInt(1, Math.toIntExact(d.getId()));
-                pstmt.setInt(2, d.getMinMark());
+                pstmt.setInt(2, d.getMark());
                 pstmt.setInt(3, reqId);
 
                 pstmt.executeUpdate();
@@ -696,7 +696,7 @@ public class FacultiesDAO {
             for (Discipline discipline : disciplines) {
                 pstmt.setInt(1, Math.toIntExact(idFaculty));
                 pstmt.setInt(2, Math.toIntExact(findDisciplineIdByName(discipline.getDisciplineName())));
-                pstmt.setInt(3, discipline.getMinMark());
+                pstmt.setInt(3, discipline.getMark());
 
                 pstmt.executeUpdate();
             }

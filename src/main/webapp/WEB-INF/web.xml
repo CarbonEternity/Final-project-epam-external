@@ -61,7 +61,7 @@
         <init-param>
             <param-name>admin</param-name>
             <param-value>actionWithFaculties actionWithEnrollees statement sortFaculties changeFaculty redactFaculty
-                addFaculty createFaculty sortEnrolleeList
+                addFaculty createFaculty sortEnrolleeList showApplications competition admitEnrolee
             </param-value>
         </init-param>
         <init-param>

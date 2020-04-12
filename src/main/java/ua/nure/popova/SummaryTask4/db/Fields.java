@@ -16,4 +16,5 @@ public final class Fields {
     public static final String ENTITY_FACULTY_COUNT_BUDGET = "count_budget";
     public static final String ENTITY_FACULTY_COUNT_TOTAL = "count_total";
     public static final String ENTITY_MIN_MARK = "min_mark";
+    public static final String ENTITY_MARK = "mark";
 }

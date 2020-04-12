@@ -19,7 +19,6 @@ public final class CommandContainer {
 
     static {
         // common commands
-
         commands.put("register", new RegistrationCommand());
         commands.put("login", new LoginCommand());
         commands.put("logout", new LogoutCommand());
@@ -41,6 +40,14 @@ public final class CommandContainer {
         commands.put("addFaculty", new AddFaculty());
         commands.put("createFaculty", new CreateFaculty());
         commands.put("actionWithEnrollees", new ActionsWithEnrollees()); // block and unblock, show enrollees list
+        commands.put("statement", new ShowFacultiesForStatement()); //list faculties with button *show applications*
+        commands.put("showApplications", new ApplicationsCommand()); //list enrollees with select *show* and *add to competition*
+        commands.put("competition", new CompetitionsCommand()); // *show* or *add to competition*
+        commands.put("admitEnrolee", new AdmitEnroleeCommand()); // *show* or *add to competition*
+
+
+
+
 
 
         LOG.debug("Command container was successfully initialized");

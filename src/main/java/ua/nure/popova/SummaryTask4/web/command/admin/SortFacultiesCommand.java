@@ -25,24 +25,21 @@ public class SortFacultiesCommand extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         LOG.debug("Commands starts");
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        Role role = (Role) session.getAttribute("userRole");
-
-        if (user == null || role == null) {
-            return Path.PAGE_LOGIN;
-        }
-
-        if (role != Role.ADMIN) {
-            String errorMessage = "error.invalid.permission";
-            request.setAttribute("errorMessage", errorMessage);
-            return Path.PAGE_ERROR_PAGE;
-        }
-
         // sort by count_budget, count_total, namelast (Z-A), namefirst (A-Z)
         FacultiesDAO facultiesDAO = new FacultiesDAO();
         List<Faculty> list;
-        String sort = request.getParameter("sort");
+        String sort = null;
+        String page = null;
+
+        if(request.getParameterMap().containsKey("sort")){
+            sort = request.getParameter("sort");
+            page = Path.PAGE_ACTIONS_WITH_ENROLLEES;
+        }else if(request.getParameterMap().containsKey("sortFacultiesForCompetition")){
+            sort = request.getParameter("sortFacultiesForCompetition");
+            page =Path.PAGE_FACULTIES_FOR_APPLICATIONS;
+        }
+
+
         if (sort == null || (!sort.contains("count") && !sort.contains("name"))) {
             list = facultiesDAO.findAllFaculties();    // at the beginning
         } else { // when button *sort* was clicked
@@ -64,6 +61,6 @@ public class SortFacultiesCommand extends Command {
         request.setAttribute("listFaculties", list);
         request.setAttribute("title", "Faculties");
 
-        return Path.PAGE_REDACT_FACULTY;
+        return page;
     }
 }

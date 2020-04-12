@@ -25,7 +25,18 @@ public class SortEnrolleesCommand extends Command {
         // sort by lastName - namelast (Z-A), namefirst (A-Z)
         EnrolleeDAO facultiesDAO = new EnrolleeDAO();
         List<Enrollee> list;
-        String sort = request.getParameter("sort");
+        String sort = null;
+        String page = null;
+
+        if(request.getParameterMap().containsKey("sort")){
+            sort = request.getParameter("sort");
+            page = Path.PAGE_ACTIONS_WITH_ENROLLEES;
+        }else if(request.getParameterMap().containsKey("sortForCompetition")){
+            sort = request.getParameter("sortForCompetition");
+            page =Path.PAGE_COMPETITION;
+        }
+
+
         if (sort == null || (!sort.contains("name"))) {
             list = facultiesDAO.findAllEnrollees();    // at the beginning
         } else { // when button *sort* was clicked
@@ -41,6 +52,6 @@ public class SortEnrolleesCommand extends Command {
 
         request.setAttribute("enrolleesList", list);
         LOG.debug("Command finished");
-        return Path.PAGE_ACTIONS_WITH_ENROLLEES;
+        return page;
     }
 }

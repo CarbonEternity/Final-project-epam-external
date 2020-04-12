@@ -73,7 +73,7 @@ public class CreateFaculty extends Command {
             }else if(key.contains("minMark")){
                 for (int i = 0; i < values.length; i++) {
                     String value = values[i];
-                    disciplineList.get(i).setMinMark(Integer.parseInt(value));
+                    disciplineList.get(i).setMark(Integer.parseInt(value));
                 }
 
             }

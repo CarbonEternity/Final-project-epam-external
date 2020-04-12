@@ -4,15 +4,15 @@ public class Discipline extends Entity {
 
     private static final long serialVersionUID = 5692708766041889376L;
 
-    private int minMark;
+    private int mark;
     private String disciplineName;
 
-    public int getMinMark() {
-        return minMark;
+    public int getMark() {
+        return mark;
     }
 
-    public void setMinMark(int minMark) {
-        this.minMark = minMark;
+    public void setMark(int mark) {
+        this.mark = mark;
     }
 
     public String getDisciplineName() {
