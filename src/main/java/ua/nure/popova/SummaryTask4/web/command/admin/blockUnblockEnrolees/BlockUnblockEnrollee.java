@@ -1,4 +1,4 @@
-package ua.nure.popova.SummaryTask4.web.command.admin;
+package ua.nure.popova.SummaryTask4.web.command.admin.blockUnblockEnrolees;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class ActionsWithEnrollees extends Command {
+public class BlockUnblockEnrollee extends Command {
 
-    private static final Logger LOG = Logger.getLogger(ActionsWithEnrollees.class);
+    private static final Logger LOG = Logger.getLogger(BlockUnblockEnrollee.class);
     private static final long serialVersionUID = 156778258689586513L;
 
     @Override

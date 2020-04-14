@@ -69,10 +69,10 @@
                                         <td>Allowed</td>
                                         <td>
                                             <form action="controller" method="get">
-                                                <input type="hidden" name="command" value="changeData">
+                                                <input type="hidden" name="command" value="deleteApplication">
                                                 <input type="hidden" name="id_faculty" value="${item.id}">
                                                 <input class="btn btn-primary" type="submit"
-                                                       value="change application">
+                                                       value="delete application">
                                             </form>
                                         </td>
                                     </tr>

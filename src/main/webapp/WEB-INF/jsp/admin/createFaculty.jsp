@@ -196,7 +196,7 @@
                                     </c:forEach>
                                 </select>
                             </td>
-                            <td><input type="number" step="10" min="100" name="minMark"  max="200"></td>
+                            <td><input type="number" step="10" min="100" name="mark"  max="200"></td>
                         </tr>
 
                         <tr>
@@ -207,7 +207,7 @@
                                     </c:forEach>
                                 </select>
                             </td>
-                            <td><input type="number" step="10" min="100" name="minMark"  max="200"></td>
+                            <td><input type="number" step="10" min="100" name="mark"  max="200"></td>
                         </tr>
 
                         <tr>
@@ -218,7 +218,7 @@
                                     </c:forEach>
                                 </select>
                             </td>
-                            <td><input type="number" step="10" min="100" name="minMark"  max="200"></td>
+                            <td><input type="number" step="10" min="100" name="mark"  max="200"></td>
                         </tr>
                     </tbody>
                 </table>

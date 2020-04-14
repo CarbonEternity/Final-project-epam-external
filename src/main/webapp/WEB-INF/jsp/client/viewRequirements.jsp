@@ -80,7 +80,7 @@
                                 <c:forEach var="item" items="${disciplineList}">
                                     <tr>
                                         <td>${item.disciplineName}</td>
-                                        <td>${item.minMark}</td>
+                                        <td>${item.mark}</td>
                                         <td><input type="number" min="100" max="200" required name="zno_${item.disciplineName}" class="form-control"></td>
                                     </tr>
                                 </c:forEach>

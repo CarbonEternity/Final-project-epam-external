@@ -202,7 +202,7 @@
                                     </c:forEach>
                                 </select>
                             </td>
-                            <td><input type="number" step="10" min="100" name="minMark"  max="200" value="${item.minMark}"></td>
+                            <td><input type="number" step="10" min="100" name="mark"  max="200" value="${item.mark}"></td>
                         </tr>
                     </c:forEach>
                     </tbody>

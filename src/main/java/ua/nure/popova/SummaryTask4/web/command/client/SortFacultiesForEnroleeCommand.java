@@ -3,7 +3,6 @@ package ua.nure.popova.SummaryTask4.web.command.client;
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.Fields;
-import ua.nure.popova.SummaryTask4.db.Role;
 import ua.nure.popova.SummaryTask4.db.dao.FacultiesDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.db.entity.User;
@@ -18,11 +17,11 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class ListOrdersCommand extends Command {
+public class SortFacultiesForEnroleeCommand extends Command {
 
     private static final long serialVersionUID = 1863978254689586513L;
 
-    private static final Logger LOG = Logger.getLogger(ListOrdersCommand.class);
+    private static final Logger LOG = Logger.getLogger(SortFacultiesForEnroleeCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
@@ -30,17 +29,6 @@ public class ListOrdersCommand extends Command {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        Role role = (Role) session.getAttribute("userRole");
-
-        if (user == null || role == null) {
-            return Path.PAGE_LOGIN;
-        }
-
-        if (role != Role.CLIENT) {
-            String errorMessage = "error.invalid.permission";
-            request.setAttribute("errorMessage", errorMessage);
-            return Path.PAGE_ERROR_PAGE;
-        }
 
         // sort by count_budget, count_total, namelast (Z-A), namefirst (A-Z)
         FacultiesDAO facultiesDAO = new FacultiesDAO();

@@ -1,4 +1,4 @@
-package ua.nure.popova.SummaryTask4.web.command.admin;
+package ua.nure.popova.SummaryTask4.web.command.admin.facultiesActions;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class RedactFaculty extends Command {
+public class RedactFacultyCommand extends Command {
 
 
-    private static final Logger LOG = Logger.getLogger(RedactFaculty.class);
+    private static final Logger LOG = Logger.getLogger(RedactFacultyCommand.class);
     private static final long serialVersionUID = 156778258689586513L;
 
     @Override
@@ -92,7 +92,7 @@ public class RedactFaculty extends Command {
                     d.setDisciplineName(value);
                     disciplineList.add(d);
                 }
-            }else if(key.contains("minMark")){
+            }else if(key.contains("mark")){
                 for (int i = 0; i < values.length; i++) {
                     String value = values[i];
                     disciplineList.get(i).setMark(Integer.parseInt(value));

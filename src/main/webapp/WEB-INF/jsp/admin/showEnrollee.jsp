@@ -23,90 +23,21 @@
     <title>Enrolee info</title>
 </head>
 <style>
-  /*  body {
-        background: url('admin-back.jpg') no-repeat fixed;
-        background-size: cover;
-    }
-
-    .block {
-        padding: 30px;
-        float:left;
-    }
-
-    .info {
-        color:whitesmoke;
-        padding: 30px;
-        text-align: left;
-        background: rgba(60, 63, 65, 0.4);
-    }
-
-    .zno {
-        color:whitesmoke;
-        padding: 30px;
-        text-align: left;
-        background: rgba(60, 63, 65, 0.5);
-    }
-
-    .table-mark{
-        color:whitesmoke;
-        border-collapse:collapse;
-        padding: 30px;
-        background: rgba(60, 63, 65, 0.6);
-    }
-
-    .general {
-        margin-top:40px;
-        margin-left:420px;
-        text-align:center;
-    }
-
-    h3{
-        text-align: center;
-    }
-
-    .table,
-    .table tr,
-    .table td {
-        !*background-color: #e2e2e2 !important;*!
-        font-size: 16px;
-    }
-
-    .bs-example {
-        margin: 0;
-    }
-
-    .navbar {
-        position: relative;
-    }
-
-    #button1{
-        width: 300px;
-        height: 40px;
-    }
-    #button2{
-        width: 300px;
-        height: 40px;
-    }
-    #container{
-        padding-top: 30px;
-        text-align: center;
-    }
-*/
 </style>
 <body>
 
 
 <div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="#" class="navbar-brand">Home</a>
+        <a href="controller?command=adminHome" class="navbar-brand">Home</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
+                <a href="controller?command=statement" class="nav-item nav-link">Faculties with applications</a>
                 <a href="#" class="nav-item nav-link">About</a>
-                <a href="#" class="nav-item nav-link">Maybe)</a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
             </div>
             <form class="form-inline ml-auto">
@@ -119,11 +50,11 @@
 
 <div id="container">
     <form action="controller" method="get">
-        <input type="hidden" name="command" value="admitEnrolee">
+        <input type="hidden" name="command" value="showEnrolee">
         <input type="hidden" name="id_enr" value="${enroleeInfo.id}">
         <input type="hidden" name="id_fac" value="${id_fac}">
-<%--    <button type="submit" class="btn btn-lg btn-outline-warning" id="button1">Back</button>--%>
-    <button type="submit" class="btn btn-lg btn-outline-warning" id="button2">Admit</button>
+    <button type="submit" name= "back" class="btn btn-lg btn-outline-warning" id="button1">&#8592; Back</button>
+    <button type="submit" name="admit" class="btn btn-lg btn-outline-warning" id="button2">Admit</button>
     </form>
 </div>
 

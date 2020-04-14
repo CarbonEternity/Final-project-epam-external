@@ -36,7 +36,7 @@ public class FacultiesDAO {
     private static final String SQL_INSERT_INTO_APPLICATIONS = "INSERT INTO applications (id_faculty ,id_enrollee) VALUES (?,?)";
     private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO competition (id_application, ser_mark) VALUES (?, ?)";
     private static final String SQL_FIND_FACULTY_BY_NAME = "SELECT * FROM faculties WHERE faculties.name = ?";
-    private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id = ";
+    private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id_app = ";
     private static final String SQL_FIND_APPLICATION_ID = "SELECT * FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
     private static final String SQL_DELETE_RESULT = "DELETE FROM competition WHERE id_application = ?";
     private static final String SQL_DELETE_FACULTY_BY_ID = "DELETE FROM faculties WHERE id = ";

@@ -1,4 +1,4 @@
-package ua.nure.popova.SummaryTask4.web.command.admin;
+package ua.nure.popova.SummaryTask4.web.command.admin.facultiesActions;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class AddFaculty extends Command {
+public class AddFacultyCommand extends Command {
 
-    private static final Logger LOG = Logger.getLogger(AddFaculty.class);
+    private static final Logger LOG = Logger.getLogger(AddFacultyCommand.class);
     private static final long serialVersionUID = 156778258689586513L;
 
     @Override

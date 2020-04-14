@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class ListRequirementsCommand extends Command {
+public class ShowRequirementsCommand extends Command {
 
-    private static final Logger LOG = Logger.getLogger(ListRequirementsCommand.class);
+    private static final Logger LOG = Logger.getLogger(ShowRequirementsCommand.class);
     private static final long serialVersionUID = 1L;
 
     @Override

@@ -1,4 +1,4 @@
-package ua.nure.popova.SummaryTask4.web.command.admin;
+package ua.nure.popova.SummaryTask4.web.command.admin.competition;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class ShowFacultiesForStatement extends Command {
+public class ShowFacultiesForCompetition extends Command {
 
-    private static final Logger LOG = Logger.getLogger(ShowFacultiesForStatement.class);
+    private static final Logger LOG = Logger.getLogger(ShowFacultiesForCompetition.class);
     private static final long serialVersionUID = 1L;
 
     @Override

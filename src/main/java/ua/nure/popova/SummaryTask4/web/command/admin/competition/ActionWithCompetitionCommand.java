@@ -1,7 +1,8 @@
-package ua.nure.popova.SummaryTask4.web.command.admin;
+package ua.nure.popova.SummaryTask4.web.command.admin.competition;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
+import ua.nure.popova.SummaryTask4.db.dao.CompetitionDAO;
 import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
@@ -12,9 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class CompetitionsCommand extends Command {
+public class ActionWithCompetitionCommand extends Command {
 
-    private static final Logger LOG = Logger.getLogger(CompetitionsCommand.class);
+    private static final Logger LOG = Logger.getLogger(ActionWithCompetitionCommand.class);
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -22,6 +23,10 @@ public class CompetitionsCommand extends Command {
         LOG.info("Command start");
 
         String forward=null;
+
+        if(request.getParameterMap().containsKey("back")){
+            return Path.COMMAND_SHOW_FACULTY_FOR_COMPETITION;
+        }
 
         String action = request.getParameter("action");
         int enrolleeId = Integer.parseInt(request.getParameter("id_enr"));
@@ -43,12 +48,12 @@ public class CompetitionsCommand extends Command {
         } else if (action.contains("admit")) {
             LOG.info("command admit id enrolee = " + enrolleeId);
 
+            CompetitionDAO competitionDAO = new CompetitionDAO();
+            competitionDAO.addEnrolleeToCompetition(enrolleeId, facultyId);
 
+
+            return Path.COMMAND_SHOW_APPLICATIONS;
         }
-
-
-        //добавить одну колонку к студентам добавлен или нет, если добавлен то селект только показать результаты
-
 
         LOG.info("Command finished");
         return forward;

@@ -24,45 +24,12 @@
 
     <title>Competition</title>
 
-<%--    <style>
-        body {
-            /* Full height */
-            /*height: 100%;*/
-
-            background: url('admin-back.jpg') no-repeat fixed;
-            background-size: cover;
-        }
-
-        .small {
-            margin: 20px auto;
-            width: 70%;
-        }
-
-        h1 {
-            color: white;
-        }
-
-        .table,
-        .table tr,
-        .table td {
-            /*background-color: #e2e2e2 !important;*/
-            font-size: 16px;
-        }
-
-        .bs-example {
-            margin: 0;
-        }
-
-        .navbar {
-            position: relative;
-        }
-    </style>--%>
 </head>
 <body>
 
 <div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="#" class="navbar-brand">Home</a>
+        <a href="controller?command=adminHome" class="navbar-brand">Home</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -94,6 +61,12 @@
     </nav>
 </div>
 
+<div id="container">
+    <form action="controller" method="get">
+        <input type="hidden" name="command" value="competition">
+        <button type="submit" name= "back" class="btn btn-lg btn-outline-warning" id="button1">&#8592; Back</button>
+    </form>
+</div>
 
 <div class="small">
     <div class="col align-self-center">
@@ -123,20 +96,31 @@
                             <td>${item.city}</td>
                             <td>${item.email}</td>
                             <td>
-                                <form action="controller" method="get">
-                                    <input type="hidden" name="command" value="competition">
-                                    <input type="hidden" name="id_enr" value=${item.id}>
-                                    <input type="hidden" name="id_fac" value=${id_fac}>
-                                    <!-- select-->
-                                    <select class="mdb-select md-form colorful-select dropdown-primary" name="action">
-                                        <option selected disabled>select action</option>
-                                          <option value="show">show profile and marks</option>
-                                        <option value="admit">admit to the competition</option>
-                                    </select>
-                                    <!--/ select-->
-                                    <button type="submit" class="btn btn-outline-primary">Action</button>
-                                </form>
-
+                                <c:choose>
+                                    <c:when test="${admittedEnrollees.contains(item)==false}">
+                                        <form action="controller" method="post">
+                                            <input type="hidden" name="command" value="competition">
+                                            <input type="hidden" name="id_enr" value=${item.id}>
+                                            <input type="hidden" name="id_fac" value=${id_fac}>
+                                            <!-- select-->
+                                            <select class="mdb-select md-form colorful-select dropdown-warning"
+                                                    name="action">
+                                                <option selected disabled>select action</option>
+                                                <option value="show">show profile and marks</option>
+                                                <option value="admit">admit to the competition</option>
+                                            </select>
+                                            <!--/ select-->
+                                            <button type="submit" class="btn btn-outline-primary">Action</button>
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <select class="mdb-select md-form colorful-select" name="action">
+                                            <option selected disabled>enrollee admitted</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-outline-success" disabled>No action
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
 

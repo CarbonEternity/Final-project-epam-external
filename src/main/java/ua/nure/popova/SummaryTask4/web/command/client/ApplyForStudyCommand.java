@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CreateOrderCommand extends Command {
+public class ApplyForStudyCommand extends Command {
 
-    private static final Logger LOG = Logger.getLogger(CreateOrderCommand.class);
+    private static final Logger LOG = Logger.getLogger(ApplyForStudyCommand.class);
     private static final long serialVersionUID = 1L;
 
     @Override
