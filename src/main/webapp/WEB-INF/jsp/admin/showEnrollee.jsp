@@ -36,7 +36,7 @@
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
-                <a href="controller?command=statement" class="nav-item nav-link">Faculties with applications</a>
+                <a href="controller?command=showFacultiesForCompetition" class="nav-item nav-link">Faculties with applications</a>
                 <a href="#" class="nav-item nav-link">About</a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
             </div>

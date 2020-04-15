@@ -1,0 +1,39 @@
+body {
+    /* Full height */
+    /*height: 100%;*/
+
+    background: url('admin-back.jpg') no-repeat fixed;
+    background-size: cover;
+}
+
+.small {
+    margin: 20px auto;
+    width: 70%;
+}
+
+h1 {
+    color: white;
+}
+
+.table,
+.table tr,
+.table td {
+    font-size: 16px;
+}
+
+.bs-example {
+    margin: 0;
+}
+
+.navbar {
+    position: relative;
+}
+
+#button1{
+    width: 300px;
+    height: 40px;
+}
+#container{
+    padding-top: 30px;
+    text-align: center;
+}

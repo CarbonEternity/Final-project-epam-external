@@ -26,17 +26,15 @@
 
     <style>
         .centered {
-            position: absolute; /* or absolute */
+            position: absolute;
             top: 30%;
             left: 40%;
-            width: 400px;
+            width: 500px;
             height: 300px;
             background: #f0f0f0;
         }
         body {
-            /* Full height */
             height: 100%;
-
             background: url('admin-back.jpg') no-repeat center;
             background-size: cover;
         }
@@ -76,17 +74,22 @@
     <div class="form-row text-center">
         <form action="controller" method="get">
             <input type="hidden" name="command" value="actionWithFaculties">
-            <button type="submit" class="btn btn-success btn-lg">Faculties</button>
+            <button type="submit" class="btn btn-success btn-lg">Action with faculties</button>
         </form>
 
         <form action="controller" method="get">
             <input type="hidden" name="command" value="actionWithEnrollees">
-            <button type="submit" class="btn btn-primary btn-lg">Enrollees</button>
+            <button type="submit" class="btn btn-primary btn-lg">Action with enrollees</button>
         </form>
 
         <form action="controller" method="get">
-            <input type="hidden" name="command" value="statement">
-            <button type="submit" class="btn btn-warning btn-lg">Statement</button>
+            <input type="hidden" name="command" value="showFacultiesForCompetition">
+            <button type="submit" class="btn btn-warning btn-lg">Show Faculties For Competition</button>
+        </form>
+
+        <form action="controller" method="get">
+            <input type="hidden" name="command" value="showStatement">
+            <button type="submit" class="btn btn-secondary btn-lg">Show statement</button>
         </form>
     </div>
 </div>

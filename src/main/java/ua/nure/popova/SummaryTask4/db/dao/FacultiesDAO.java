@@ -4,14 +4,12 @@ import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.db.DBManager;
 import ua.nure.popova.SummaryTask4.db.Fields;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
+import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.exception.DBException;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -34,11 +32,11 @@ public class FacultiesDAO {
     private static final String SQL_INSERT_CERTIFICATES = "INSERT INTO certificates (id_enrollee, id_subject, mark) VALUES (?,?,?)";
     private static final String SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID = "SELECT * FROM faculties INNER JOIN applications a ON faculties.id = a.id_faculty where id_enrollee = ";
     private static final String SQL_INSERT_INTO_APPLICATIONS = "INSERT INTO applications (id_faculty ,id_enrollee) VALUES (?,?)";
-    private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO competition (id_application, ser_mark) VALUES (?, ?)";
+    private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO statement (id_application, ser_mark) VALUES (?, ?)";
     private static final String SQL_FIND_FACULTY_BY_NAME = "SELECT * FROM faculties WHERE faculties.name = ?";
     private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id_app = ";
     private static final String SQL_FIND_APPLICATION_ID = "SELECT * FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
-    private static final String SQL_DELETE_RESULT = "DELETE FROM competition WHERE id_application = ?";
+    private static final String SQL_DELETE_RESULT = "DELETE FROM statement WHERE id_application = ?";
     private static final String SQL_DELETE_FACULTY_BY_ID = "DELETE FROM faculties WHERE id = ";
 
     public List<Faculty> findAllFaculties() throws DBException {

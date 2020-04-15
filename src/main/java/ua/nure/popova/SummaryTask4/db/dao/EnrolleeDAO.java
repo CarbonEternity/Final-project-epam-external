@@ -23,7 +23,7 @@ public class EnrolleeDAO {
     private static final String SQL_FIND_ENROLEE_BY_ID = "select id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees where id=?";
     private static final String SQL_FIND_CERTIFICATE_BY_ENROLEE_ID = "select id, discipline_name, mark from disciplines inner join certificates c on disciplines.id_d = c.id_subject where id_enrollee=?";
     private static final String SQL_FIND_ZNO_BY_ENROLEE_AND_FACULTY_IDS = "select zno.id, discipline_name, mark from zno inner join disciplines d on zno.id_subject = d.id_d inner join requirements r on d.id_d = r.id_subject where id_enrollee=? and id_faculty=?";
-    private static final String SQL_FIND_ADMITTED_ENROLLEES_FOR_FACULTY = "select enrollees.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees inner join applications a on enrollees.id = a.id_enrollee inner join competition c on a.id_app = c.id_application where id_fac=?";
+    private static final String SQL_FIND_ADMITTED_ENROLLEES_FOR_FACULTY = "select enrollees.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees inner join applications a on enrollees.id = a.id_enrollee inner join statement c on a.id_app = c.id_application where id_fac=?";
 
     public int registerEmployee(Enrollee enrollee) {
         String INSERT_USERS_SQL = "INSERT INTO enrollees" +
@@ -140,9 +140,12 @@ public class EnrolleeDAO {
             pstmt.setInt(1, facultyId);
 
             rs = pstmt.executeQuery();
-            while (rs.next())
-                list.add(extractEnrollee(rs));
 
+            if(rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    list.add(extractEnrollee(rs));
+                }
+            }
                 pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);

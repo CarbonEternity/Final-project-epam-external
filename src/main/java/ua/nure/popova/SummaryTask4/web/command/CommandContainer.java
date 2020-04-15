@@ -3,10 +3,7 @@ package ua.nure.popova.SummaryTask4.web.command;
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.web.command.admin.*;
 import ua.nure.popova.SummaryTask4.web.command.admin.blockUnblockEnrolees.BlockUnblockEnrollee;
-import ua.nure.popova.SummaryTask4.web.command.admin.competition.ActionWithCompetitionCommand;
-import ua.nure.popova.SummaryTask4.web.command.admin.competition.ShowEnroleeCommand;
-import ua.nure.popova.SummaryTask4.web.command.admin.competition.ShowApplicationsCommand;
-import ua.nure.popova.SummaryTask4.web.command.admin.competition.ShowFacultiesForCompetition;
+import ua.nure.popova.SummaryTask4.web.command.admin.competition.*;
 import ua.nure.popova.SummaryTask4.web.command.admin.facultiesActions.*;
 import ua.nure.popova.SummaryTask4.web.command.client.*;
 
@@ -49,10 +46,11 @@ public final class CommandContainer {
 
         commands.put("actionWithEnrollees", new BlockUnblockEnrollee());
 
-        commands.put("statement", new ShowFacultiesForCompetition()); //list faculties with button *show applications*
+        commands.put("showFacultiesForCompetition", new ShowFacultiesForCompetition()); //list faculties with button *show applications*
         commands.put("showApplications", new ShowApplicationsCommand()); //list enrollees with select *show* and *add to competition*
         commands.put("competition", new ActionWithCompetitionCommand()); // actions *show profile* or *admit* enrollee
         commands.put("showEnrolee", new ShowEnroleeCommand()); // show enrollee profile
+        commands.put("showStatement", new ShowStatementCommand()); // statement with button run competition
 
 
 

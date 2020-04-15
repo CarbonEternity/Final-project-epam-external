@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class CompetitionDAO {
 
     private static final Logger LOG = Logger.getLogger(CompetitionDAO.class);
-    private static final String SQL_ADD_ENROLEE_TO_COMPETITION = "insert into competition (id_application, id_fac) values ((select applications.id_app from applications where id_enrollee=? and id_faculty=?), ?)";
+    private static final String SQL_ADD_ENROLEE_TO_COMPETITION = "insert into statement (id_application, id_fac) values ((select applications.id_app from applications where id_enrollee=? and id_faculty=?), ?)";
 
 
     public void addEnrolleeToCompetition(int enrolleeId, int facultyId) throws DBException {
