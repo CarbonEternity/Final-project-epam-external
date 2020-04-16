@@ -5,12 +5,14 @@ import ua.nure.popova.SummaryTask4.db.DBManager;
 import ua.nure.popova.SummaryTask4.db.Fields;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
+import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.DBException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class EnrolleeDAO {
 
@@ -23,7 +25,9 @@ public class EnrolleeDAO {
     private static final String SQL_FIND_ENROLEE_BY_ID = "select id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees where id=?";
     private static final String SQL_FIND_CERTIFICATE_BY_ENROLEE_ID = "select id, discipline_name, mark from disciplines inner join certificates c on disciplines.id_d = c.id_subject where id_enrollee=?";
     private static final String SQL_FIND_ZNO_BY_ENROLEE_AND_FACULTY_IDS = "select zno.id, discipline_name, mark from zno inner join disciplines d on zno.id_subject = d.id_d inner join requirements r on d.id_d = r.id_subject where id_enrollee=? and id_faculty=?";
-    private static final String SQL_FIND_ADMITTED_ENROLLEES_FOR_FACULTY = "select enrollees.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees inner join applications a on enrollees.id = a.id_enrollee inner join statement c on a.id_app = c.id_application where id_fac=?";
+    private static final String SQL_FIND_ENROLLEE_FROM_STATEMENT_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from statement join applications a on statement.id_application = a.id_app  JOIN enrollees e on a.id_enrollee = e.id where a.id_faculty=?";
+    private static final String SQL_FIND_ADMITTED_ENROLLEES_FOR_FACULTY = "select enrollees.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees inner join applications a on enrollees.id = a.id_enrollee inner join statement c on a.id_app = c.id_application  where id_fac=?";
+    private static final String SQL_SET_RESULT = "insert into result (id_faculty, id_enrolee, allowed) VALUES (?,?,?)";
 
     public int registerEmployee(Enrollee enrollee) {
         String INSERT_USERS_SQL = "INSERT INTO enrollees" +
@@ -141,12 +145,12 @@ public class EnrolleeDAO {
 
             rs = pstmt.executeQuery();
 
-            if(rs.isBeforeFirst()) {
+            if (rs.isBeforeFirst()) {
                 while (rs.next()) {
                     list.add(extractEnrollee(rs));
                 }
             }
-                pstmt.close();
+            pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
@@ -193,7 +197,6 @@ public class EnrolleeDAO {
         }
 
     }
-
 
     public void unblockEnrolleeByid(int enrolleeId) throws DBException {
         PreparedStatement pstmt;
@@ -350,5 +353,59 @@ public class EnrolleeDAO {
         discipline.setDisciplineName(rs.getString("discipline_name"));
         discipline.setMark(rs.getInt(Fields.ENTITY_MARK));
         return discipline;
+    }
+
+    public List<Enrollee> findAllEnrolleesFromStatementByFacultyId(Long id) throws DBException {
+        List<Enrollee> list = new ArrayList<>();
+        PreparedStatement pstmt;
+        ResultSet rs;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_FIND_ENROLLEE_FROM_STATEMENT_BY_FACULTY_ID);
+            pstmt.setInt(1, Math.toIntExact(id));
+            rs = pstmt.executeQuery();
+            while (rs.next())
+                list.add(extractEnrollee(rs));
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
+
+    }
+
+    public void setResult(Map<Faculty, List<Enrollee>> mapOfList, boolean allowed) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_SET_RESULT);
+
+            mapOfList.forEach((k, v) -> v.forEach(enrollee -> {
+                try {
+                    pstmt.setInt(1, Math.toIntExact(k.getId()));
+                    pstmt.setInt(2, Math.toIntExact(enrollee.getId()));
+                    pstmt.setBoolean(3, allowed);
+
+                    pstmt.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }));
+
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
     }
 }

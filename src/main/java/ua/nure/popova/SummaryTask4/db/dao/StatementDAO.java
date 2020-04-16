@@ -3,17 +3,19 @@ package ua.nure.popova.SummaryTask4.db.dao;
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.db.DBManager;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
+import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.exception.DBException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class CompetitionDAO {
+public class StatementDAO {
 
-    private static final Logger LOG = Logger.getLogger(CompetitionDAO.class);
+    private static final Logger LOG = Logger.getLogger(StatementDAO.class);
     private static final String SQL_ADD_ENROLEE_TO_COMPETITION = "insert into statement (id_application, id_fac) values ((select applications.id_app from applications where id_enrollee=? and id_faculty=?), ?)";
 
 
@@ -41,5 +43,22 @@ public class CompetitionDAO {
 
     }
 
+    public Map<Faculty, List<Enrollee>> getStatement() throws DBException {
+        FacultiesDAO facultiesDAO = new FacultiesDAO();
+        EnrolleeDAO enrolleeDAO = new EnrolleeDAO();
+
+        Map<Faculty, List<Enrollee>> listMap = new HashMap<>();
+        List<Faculty> faculties = facultiesDAO.findAllFaculties();
+
+        faculties.forEach(x -> {
+            try {
+                List<Enrollee> enrolleesByFaculty = enrolleeDAO.findAdmittedEnrolleesByFacultyId(Math.toIntExact(x.getId()));
+                listMap.put(x,enrolleesByFaculty);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        });
+        return listMap;
+    }
 
 }

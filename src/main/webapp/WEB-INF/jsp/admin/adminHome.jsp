@@ -46,6 +46,90 @@
         .navbar {
             position: relative;
         }
+
+        /*---------------------------*/
+
+
+
+         .block-1 {
+             z-index: 1 ;
+             display: inline;
+             width: 100%;
+             height: 100%;
+             position: absolute;
+             top: -30%;
+             left: 0;
+             overflow: auto;
+         }
+
+        .block-2{
+            z-index: 0 ;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: -10%;
+            left: 0;
+            overflow: auto;
+        }
+        .block-3{
+            z-index: 0 ;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 10%;
+            left: 0;
+            overflow: auto;
+        }
+        .block-4{
+            z-index: 0 ;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 30%;
+            left: 0;
+            overflow: auto;
+        }
+
+        .one , .two ,  .three , .four {
+            width: 450px;
+            height: 120px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+            /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0*/
+            /*rgba(0, 0, 0, 0.24);*/
+            background: rgba(60, 63, 65, 0.6);
+            color: whitesmoke;
+        }
+
+        button {
+            width: 80px;
+            height: 50px;
+            position: absolute;
+            top: 0;
+            right: -70%;
+            bottom: 0;
+            left: 0;
+            margin: auto;
+
+        }
+
+        .text{
+            width: 320px;
+            height: 110px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: -20%;
+            margin: auto;
+            word-wrap: break-word;
+        }
+
+
     </style>
 
 </head>
@@ -70,7 +154,7 @@
     </nav>
 </div>
 
-<div class="centered">
+<%--<div class="centered">
     <div class="form-row text-center">
         <form action="controller" method="get">
             <input type="hidden" name="command" value="actionWithFaculties">
@@ -92,7 +176,70 @@
             <button type="submit" class="btn btn-secondary btn-lg">Show statement</button>
         </form>
     </div>
+</div>--%>
+
+<div class="block-1">
+    <div class="one">
+        <div class="text">
+            <a>Action with faculties</a>
+        </div>
+        <form action="controller" method="get">
+            <input type="hidden" name="command" value="actionWithFaculties">
+            <button type="submit" class="btn btn-success btn-lg">Go!</button>
+        </form>
+    </div>
 </div>
+
+<div class="block-2">
+    <div class="two">
+        <div class="text">
+            <a>Action with enrollees</a>
+        </div>
+        <form action="controller" method="get">
+            <input type="hidden" name="command" value="actionWithEnrollees">
+            <button type="submit" class="btn btn-primary btn-lg">Go!</button>
+        </form>
+    </div>
+</div>
+
+<div class="block-3">
+    <div class="three">
+        <div class="text">
+            <a>Show Faculties For Competition</a>
+        </div>
+        <form action="controller" method="get">
+            <input type="hidden" name="command" value="showFacultiesForCompetition">
+            <button type="submit" class="btn btn-warning btn-lg">Go!</button>
+        </form>
+
+    </div>
+</div>
+
+<div class="block-4">
+    <div class="four">
+        <div class="text">
+            <a>Show statement</a>
+        </div>
+        <form action="controller" method="get">
+            <input type="hidden" name="command" value="showStatement">
+            <button type="submit" class="btn btn-secondary btn-lg">Go!</button>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

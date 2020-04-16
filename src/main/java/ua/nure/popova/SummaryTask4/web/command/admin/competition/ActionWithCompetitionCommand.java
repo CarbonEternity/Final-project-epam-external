@@ -2,7 +2,7 @@ package ua.nure.popova.SummaryTask4.web.command.admin.competition;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
-import ua.nure.popova.SummaryTask4.db.dao.CompetitionDAO;
+import ua.nure.popova.SummaryTask4.db.dao.StatementDAO;
 import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
@@ -48,8 +48,8 @@ public class ActionWithCompetitionCommand extends Command {
         } else if (action.contains("admit")) {
             LOG.info("command admit id enrolee = " + enrolleeId);
 
-            CompetitionDAO competitionDAO = new CompetitionDAO();
-            competitionDAO.addEnrolleeToCompetition(enrolleeId, facultyId);
+            StatementDAO statementDAO = new StatementDAO();
+            statementDAO.addEnrolleeToCompetition(enrolleeId, facultyId);
 
 
             return Path.COMMAND_SHOW_APPLICATIONS;

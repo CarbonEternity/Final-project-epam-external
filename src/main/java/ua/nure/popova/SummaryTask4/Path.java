@@ -17,6 +17,7 @@ public final class Path {
     public static final String COMMAND_ENROLLEES_LIST = "/controller?command=actionWithEnrollees";
     public static final String COMMAND_SHOW_APPLICATIONS = "/controller?command=showApplications";
     public static final String COMMAND_SHOW_FACULTY_FOR_COMPETITION = "/controller?command=showFacultiesForCompetition";
+    public static final String COMMAND_SHOW_RESULT= "/controller?command=showResult";
 
 
 
@@ -37,4 +38,5 @@ public final class Path {
     public static final String PAGE_FACULTIES_FOR_APPLICATIONS = "/WEB-INF/jsp/admin/facultiesForCompetition.jsp";
     public static final String PAGE_SHOW_ENROLLEE_INFO = "/WEB-INF/jsp/admin/showEnrollee.jsp";
     public static final String PAGE_SHOW_STATEMENT = "/WEB-INF/jsp/admin/statement.jsp";
+    public static final String PAGE_SHOW_RESULT = "/WEB-INF/jsp/admin/result.jsp";
 }

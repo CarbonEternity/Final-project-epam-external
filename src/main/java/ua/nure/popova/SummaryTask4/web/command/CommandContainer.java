@@ -51,6 +51,8 @@ public final class CommandContainer {
         commands.put("competition", new ActionWithCompetitionCommand()); // actions *show profile* or *admit* enrollee
         commands.put("showEnrolee", new ShowEnroleeCommand()); // show enrollee profile
         commands.put("showStatement", new ShowStatementCommand()); // statement with button run competition
+        commands.put("runCompetition", new CalculateEnrolleedStudentsCommand());
+        commands.put("showResult", new ShowResultCommand());
 
 
 
