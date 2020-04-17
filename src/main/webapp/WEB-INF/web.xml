@@ -62,7 +62,7 @@
             <param-name>admin</param-name>
             <param-value>adminHome actionWithFaculties actionWithEnrollees showFacultiesForCompetition sortFaculties
                 changeFaculty redactFaculty addFaculty createFaculty sortEnrolleeList showApplications competition
-                showEnrolee showStatement runCompetition
+                showEnrolee showStatement runCompetition showResult
             </param-value>
         </init-param>
         <init-param>

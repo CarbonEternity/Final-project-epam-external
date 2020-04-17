@@ -4,8 +4,11 @@ import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.DBManager;
 import ua.nure.popova.SummaryTask4.db.Role;
+import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.AppException;
+import ua.nure.popova.SummaryTask4.exception.DBException;
+import ua.nure.popova.SummaryTask4.exception.Messages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,28 +46,44 @@ public class LoginCommand extends Command {
             throw new AppException("Cannot find user with such email/password");
         }
 
-        Role userRole = Role.getRole(user);
-        LOG.info("userRole --> " + userRole);
+        String forward = Path.PAGE_ERROR_PAGE;
 
-        String forward = Path.PAGE_ERROR_PAGE; // ты кто такой?
-
-        if (userRole == Role.ADMIN) {
-            forward = Path.PAGE_ADMIN_HOME; //на админку
+        if(enrolleeEntered(user)) {
+            throw new AppException(Messages.ERR_ENROLLEE_ARE_ENTERED_THE_UNIVERSITY);
         }
 
-        if (userRole == Role.CLIENT) {
-            forward = Path.COMMAND_LIST_FACULTIES; //на личный кабинет
-        }
+            Role userRole = Role.getRole(user);
+            LOG.info("userRole --> " + userRole);
 
-        session.setAttribute("user", user);
-        LOG.trace("Set the session attribute: user --> " + user);
+            if (userRole == Role.ADMIN) {
+                forward = Path.PAGE_ADMIN_HOME;
+            }
 
-        session.setAttribute("userRole", userRole);
-        LOG.trace("Set the session attribute: userRole --> " + userRole);
+            if (userRole == Role.CLIENT) {
+                forward = Path.COMMAND_LIST_FACULTIES;
+            }
 
-        LOG.info("User " + user + " logged as " + userRole.toString().toLowerCase());
+            session.setAttribute("user", user);
+            LOG.trace("Set the session attribute: user --> " + user);
 
-        LOG.debug("Command login finished");
+            session.setAttribute("userRole", userRole);
+            LOG.trace("Set the session attribute: userRole --> " + userRole);
+
+            LOG.info("User " + user + " logged as " + userRole.toString().toLowerCase());
+
+            LOG.debug("Command login finished");
+
+
         return forward;
+    }
+
+    private boolean enrolleeEntered(User user) {
+          boolean accessEnrolleeAllowed = false;
+        try {
+            accessEnrolleeAllowed = new EnrolleeDAO().checkEnrolleeEntered(user);
+        } catch (DBException e) {
+            e.printStackTrace();
+        }
+        return accessEnrolleeAllowed;
     }
 }

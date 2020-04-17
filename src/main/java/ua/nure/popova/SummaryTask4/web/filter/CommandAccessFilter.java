@@ -6,6 +6,7 @@ import ua.nure.popova.SummaryTask4.db.Role;
 import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.DBException;
+import ua.nure.popova.SummaryTask4.exception.Messages;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -33,17 +34,23 @@ public class CommandAccessFilter implements Filter {
         LOG.debug("Filter starts");
 
         if (accessAllowed(request)) {
+            if(!checkEnrolleeAccess(request)){
+                setForward(request, response, Messages.ENROLLEE_BLOCKED);
+            }
             LOG.debug("Filter finished");
             chain.doFilter(request, response);
         } else {
             String errorMessasge = "You do not have permission to access the requested resource";
-
-            request.setAttribute("errorMessage", errorMessasge);
-            LOG.trace("Set the request attribute: errorMessage --> " + errorMessasge);
-
-            request.getRequestDispatcher(Path.PAGE_ERROR_PAGE)
-                    .forward(request, response);
+            setForward(request, response, errorMessasge);
         }
+    }
+
+    private void setForward(ServletRequest request, ServletResponse response, String errorMessasge) throws ServletException, IOException {
+        request.setAttribute("errorMessage", errorMessasge);
+        LOG.trace("Set the request attribute: errorMessage --> " + errorMessasge);
+
+        request.getRequestDispatcher(Path.PAGE_ERROR_PAGE)
+                .forward(request, response);
     }
 
     private boolean accessAllowed(ServletRequest request) {
@@ -68,20 +75,25 @@ public class CommandAccessFilter implements Filter {
             return false;
         }
 
-        User user = (User) session.getAttribute("user");  //TODO
-        boolean accessEnrolleeAllowed = false;
-        try {
-             accessEnrolleeAllowed = new EnrolleeDAO().checkEnrolleeAccess(user);
-        } catch (DBException e) {
-            e.printStackTrace();
-        }
-        if(!accessEnrolleeAllowed){
-            return false;
-        }
-
         return accessMap.get(userRole).contains(commandName)
                 || commons.contains(commandName);
     }
+
+    private boolean checkEnrolleeAccess(ServletRequest request) {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpSession session = httpRequest.getSession(false);
+        User user = (User) session.getAttribute("user");
+        boolean accessEnrolleeAllowed = true;
+        if(user!=null) {
+            try {
+                accessEnrolleeAllowed = new EnrolleeDAO().checkEnrolleeAccess(user);
+            } catch (DBException e) {
+                e.printStackTrace();
+            }
+        }
+        return accessEnrolleeAllowed;
+    }
+
 
     @Override
     public void init(FilterConfig fConfig) throws ServletException {

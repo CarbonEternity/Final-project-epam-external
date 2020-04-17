@@ -234,7 +234,6 @@ public class FacultiesDAO {
         PreparedStatement pstmt;
         Connection con = null;
         boolean flag = false;
-//        long idApplication;
 
         try {
             con = DBManager.getInstance().getConnection();
@@ -244,8 +243,6 @@ public class FacultiesDAO {
             pstmt.executeUpdate();
             pstmt.close();
 
-//            idApplication = getApplicationId(facultyId, enrolleeId);
-//            flag = insertIntoResults(idApplication, false);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
@@ -256,33 +253,6 @@ public class FacultiesDAO {
         }
         LOG.info("application inserted successful");
 
-        return flag;
-    }
-
-    private boolean insertIntoResults(long idApplication, boolean result) throws DBException {
-        LOG.info("start insert result");
-        PreparedStatement pstmt = null;
-        Connection con = null;
-        boolean flag;
-
-        try {
-            con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_INSERT_INTO_RESULTS);
-            pstmt.setLong(1, idApplication);
-            pstmt.setBoolean(2, result);
-            pstmt.executeUpdate();
-            pstmt.close();
-
-            flag = true;
-        } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-            flag = false;
-        } finally {
-            assert con != null;
-            DBManager.getInstance().commitAndClose(con);
-        }
-        LOG.info("result inserted successful");
         return flag;
     }
 

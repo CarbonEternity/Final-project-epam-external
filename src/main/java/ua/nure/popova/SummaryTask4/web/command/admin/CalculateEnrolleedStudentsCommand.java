@@ -33,19 +33,19 @@ public class CalculateEnrolleedStudentsCommand extends Command {
 
         mapOfList.forEach((k,v)->{
             if (!mapOfList.get(k).isEmpty()){
-                List<Integer> allMarks = null;
+                List<Integer> allMarks = new ArrayList<>();
                 try {
                     List<Enrollee> fromStetementByFaculty = enrolleeDAO.findAllEnrolleesFromStatementByFacultyId(k.getId());
-                    allMarks = findEnroleesMarks(fromStetementByFaculty, k.getId());
+                    allMarks.addAll(findEnroleesMarks(fromStetementByFaculty, k.getId()));
 
                 } catch (DBException e) {
                     e.printStackTrace();
                 }
 
-
-                assert allMarks != null;
-                double avg = calculateAverage(allMarks);
-                facultyAverage.put(k, avg);
+                if(!allMarks.isEmpty()) {
+                    double avg = calculateAverage(allMarks);
+                    facultyAverage.put(k, avg);
+                }
             }
         });
 
@@ -66,17 +66,16 @@ public class CalculateEnrolleedStudentsCommand extends Command {
 
 //not enrolled = just delete enrolled
         mapOfList.forEach((k,v)->{
-            List<Enrollee> enrolled = mapEnrolled.get(k);
-            if(!enrolled.isEmpty()) {
-                v.removeAll(enrolled);
+            if(mapEnrolled.get(k)!=null) {
+                v.removeAll(mapEnrolled.get(k));
             }
         });
 
         setResultOfCompetetion(mapOfList, false);
         setResultOfCompetetion(mapEnrolled, true);
 
-
-        LOG.info("Command finished");
+        new StatementDAO().removeStetement();
+        LOG.info("Command finished. Statement removed");
         return Path.COMMAND_SHOW_RESULT;
     }
 

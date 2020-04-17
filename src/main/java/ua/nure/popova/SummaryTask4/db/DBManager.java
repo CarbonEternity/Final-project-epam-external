@@ -49,33 +49,13 @@ public class DBManager {
     // SQL queries
     // //////////////////////////////////////////////////////////
 
-//    private static final String SQL_FIND_ENROLLEES_WHERE_EMAIL_AND_PASSWORD = "SELECT * FROM enrollees WHERE email = ? and password = ?";
-
-//    private static final String SQL_FIND_SOMEBODY_BY_EMAIL = "SELECT * FROM login WHERE email=?";
-
     private static final String SQL_FIND_ADMIN_BY_EMAIL = "SELECT * FROM admins WHERE email=? ";
     private static final String SQL_FIND_ENROLLEE_BY_EMAIL = "SELECT * FROM enrollees WHERE email=?";
 
-    private static final String SQL_FIND_ALL_ORDERS = "SELECT * FROM faculties";
-
     private static final String SQL_FIND_ENROLLEES_BY_ID = "SELECT * FROM enrollees WHERE id=?";
-
-    private static final String SQL_FIND_ALL_MENU_ITEMS = "SELECT * FROM menu";
-
-    private static final String SQL_FIND_ORDERS_BY_STATUS_AND_USER = "SELECT * FROM orders WHERE status_id=? AND user_id=?";
-
-    private static final String SQL_FIND_MENU_ITEMS_BY_ORDER = "select * from menu where id in (select menu_id from orders_menu where order_id=?)";
-
-    private static final String SQL_FIND_ORDERS_BY_STATUS = "SELECT * FROM orders WHERE status_id=?";
-
-    private static final String SQL_FIND_ALL_CATEGORIES = "SELECT * FROM categories";
 
     private static final String SQL_UPDATE_ENROLLEE = "UPDATE enrollees SET password=?, first_name=?, last_name=?"
             + "	WHERE id=?";
-
-    private static final String SQL_GET_USER_ORDER_BEANS = "SELECT o.id, u.first_name, u.last_name, o.bill, s.name"
-            + "	FROM users u, orders o, statuses s"
-            + "	WHERE o.user_id=u.id AND o.status_id=s.id";
 
     /**
      * Returns a DB connection from the Pool Connections. Before using this

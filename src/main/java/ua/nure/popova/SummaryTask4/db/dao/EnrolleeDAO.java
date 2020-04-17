@@ -27,7 +27,11 @@ public class EnrolleeDAO {
     private static final String SQL_FIND_ZNO_BY_ENROLEE_AND_FACULTY_IDS = "select zno.id, discipline_name, mark from zno inner join disciplines d on zno.id_subject = d.id_d inner join requirements r on d.id_d = r.id_subject where id_enrollee=? and id_faculty=?";
     private static final String SQL_FIND_ENROLLEE_FROM_STATEMENT_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from statement join applications a on statement.id_application = a.id_app  JOIN enrollees e on a.id_enrollee = e.id where a.id_faculty=?";
     private static final String SQL_FIND_ADMITTED_ENROLLEES_FOR_FACULTY = "select enrollees.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees inner join applications a on enrollees.id = a.id_enrollee inner join statement c on a.id_app = c.id_application  where id_fac=?";
-    private static final String SQL_SET_RESULT = "insert into result (id_faculty, id_enrolee, allowed) VALUES (?,?,?)";
+    private static final String SQL_SET_RESULT = "insert into result (id_faculty, id_enrolee, allowed) VALUES (?,?,?) ";
+
+    private static final String SQL_FIND_ENROLLED_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from result join enrollees e on result.id_enrolee = e.id where id_faculty=? and allowed=?";
+    private static final String SQL_CHECK_ENTERED = "SELECT entered from enrollees where id=?";
+    private static final String SQL_SET_ENTERED = "update enrollees set entered=? where enrollees.id=?";
 
     public int registerEmployee(Enrollee enrollee) {
         String INSERT_USERS_SQL = "INSERT INTO enrollees" +
@@ -97,6 +101,34 @@ public class EnrolleeDAO {
 
             while (rs.next()) {
                 accessAllowed = rs.getBoolean("accessAllowed");
+            }
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return accessAllowed;
+    }
+
+
+    public boolean checkEnrolleeEntered(User user) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        boolean accessAllowed = false;
+        ResultSet rs;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_CHECK_ENTERED);
+
+            pstmt.setInt(1, Math.toIntExact(user.getId()));
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                accessAllowed = rs.getBoolean("entered");
             }
             pstmt.close();
         } catch (SQLException ex) {
@@ -394,7 +426,14 @@ public class EnrolleeDAO {
                     pstmt.setBoolean(3, allowed);
 
                     pstmt.executeUpdate();
+                    
                 } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    setEntered(enrollee.getId(), allowed);
+                } catch (DBException e) {
                     e.printStackTrace();
                 }
             }));
@@ -407,5 +446,56 @@ public class EnrolleeDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
+    }
+
+    private void setEntered(Long enrolleeId, boolean allowed) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_SET_ENTERED);
+            pstmt.setBoolean(1, allowed);
+            pstmt.setInt(2, Math.toIntExact(enrolleeId));
+
+            pstmt.executeQuery();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+    }
+
+    public List<Enrollee> findEnrolledByFacultyId(int facultyId , boolean allowed) throws DBException {
+        PreparedStatement pstmt;
+        Connection con = null;
+        ResultSet rs;
+        List<Enrollee> list = new ArrayList<>();
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_FIND_ENROLLED_BY_FACULTY_ID);
+
+            pstmt.setInt(1, facultyId);
+            pstmt.setBoolean(2, allowed);
+
+            rs = pstmt.executeQuery();
+
+            if (rs.isBeforeFirst()) {
+                while (rs.next()) {
+                    list.add(extractEnrollee(rs));
+                }
+            }
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            assert con != null;
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return list;
     }
 }

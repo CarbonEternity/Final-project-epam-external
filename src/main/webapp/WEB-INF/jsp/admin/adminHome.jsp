@@ -51,43 +51,35 @@
 
 
 
-         .block-1 {
-             z-index: 1 ;
-             display: inline;
-             width: 100%;
-             height: 100%;
-             position: absolute;
-             top: -30%;
-             left: 0;
-             overflow: auto;
-         }
+
+        .block-1 {
+            width: 450px
+            height: 120px;
+            position: absolute;
+            top: 20%;
+            left: 37%;
+        }
 
         .block-2{
-            z-index: 0 ;
-            width: 100%;
-            height: 100%;
+            width: 450px;
+            height: 120px;
             position: absolute;
-            top: -10%;
-            left: 0;
-            overflow: auto;
+            top: 31%;
+            left: 37%;
         }
         .block-3{
-            z-index: 0 ;
-            width: 100%;
-            height: 100%;
+            width: 450px;
+            height: 120px;
             position: absolute;
-            top: 10%;
-            left: 0;
-            overflow: auto;
+            top: 51%;
+            left: 37%;
         }
         .block-4{
-            z-index: 0 ;
-            width: 100%;
-            height: 100%;
+            width: 450px;
+            height: 120px;
             position: absolute;
-            top: 30%;
-            left: 0;
-            overflow: auto;
+            top: 71%;
+            left: 37%;
         }
 
         .one , .two ,  .three , .four {
@@ -99,10 +91,9 @@
             bottom: 0;
             left: 0;
             margin: auto;
-            /*box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0*/
-            /*rgba(0, 0, 0, 0.24);*/
-            background: rgba(60, 63, 65, 0.6);
-            color: whitesmoke;
+            box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0
+            rgba(0, 0, 0, 0.24);
+            background: #FFFFFF;
         }
 
         button {
@@ -154,7 +145,8 @@
     </nav>
 </div>
 
-<%--<div class="centered">
+<%--
+<div class="centered">
     <div class="form-row text-center">
         <form action="controller" method="get">
             <input type="hidden" name="command" value="actionWithFaculties">
@@ -176,7 +168,8 @@
             <button type="submit" class="btn btn-secondary btn-lg">Show statement</button>
         </form>
     </div>
-</div>--%>
+</div>
+--%>
 
 <div class="block-1">
     <div class="one">
@@ -211,7 +204,6 @@
             <input type="hidden" name="command" value="showFacultiesForCompetition">
             <button type="submit" class="btn btn-warning btn-lg">Go!</button>
         </form>
-
     </div>
 </div>
 
@@ -226,17 +218,6 @@
         </form>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
