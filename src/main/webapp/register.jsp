@@ -6,11 +6,14 @@ Time: 12:35
 To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="ISO-8859-1">
-    <link rel="stylesheet" href="style/css/register.css">
+<%--    <link rel="stylesheet" href="style/css/register.css">--%>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="style/css/register.css">
+
     <title>Register form</title>
 
 </head>

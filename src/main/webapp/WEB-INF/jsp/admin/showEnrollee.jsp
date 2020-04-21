@@ -8,12 +8,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/showEnrolleeStyles.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -121,9 +123,11 @@
                         </tr>
                         </thead>
                         <tbody>
+                        <c:set var="k" value="0"/>
                         <c:forEach var="certificate" items="${enroleeCertificate}">
+                            <c:set var="k" value="${k+1}"/>
                             <tr>
-                                <td>${certificate.id}</td>
+                                <td>${k}</td>
                                 <td>${certificate.disciplineName}</td>
                                 <td>${certificate.mark}</td>
                             </tr>

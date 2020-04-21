@@ -3,7 +3,7 @@ package ua.nure.popova.SummaryTask4.web.filter;
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.Role;
-import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
+import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.DBException;
 import ua.nure.popova.SummaryTask4.exception.Messages;
@@ -35,19 +35,19 @@ public class CommandAccessFilter implements Filter {
 
         if (accessAllowed(request)) {
             if(!checkEnrolleeAccess(request)){
-                setForward(request, response, Messages.ENROLLEE_BLOCKED);
+                setForward(request, response,  Messages.ENROLLEE_BLOCKED);
             }
             LOG.debug("Filter finished");
             chain.doFilter(request, response);
         } else {
-            String errorMessasge = "You do not have permission to access the requested resource";
+            String errorMessasge = Messages.ERR_DONT_HAVE_PERMISSION;
             setForward(request, response, errorMessasge);
         }
     }
 
-    private void setForward(ServletRequest request, ServletResponse response, String errorMessasge) throws ServletException, IOException {
-        request.setAttribute("errorMessage", errorMessasge);
-        LOG.trace("Set the request attribute: errorMessage --> " + errorMessasge);
+    private void setForward(ServletRequest request, ServletResponse response, String errorMessage) throws ServletException, IOException {
+        request.setAttribute("errorMessage", errorMessage);
+        LOG.trace("Set the request attribute: errorMessage --> " + errorMessage);
 
         request.getRequestDispatcher(Path.PAGE_ERROR_PAGE)
                 .forward(request, response);
@@ -85,18 +85,14 @@ public class CommandAccessFilter implements Filter {
         User user = (User) session.getAttribute("user");
         boolean accessEnrolleeAllowed = true;
         if(user!=null) {
-            try {
-                accessEnrolleeAllowed = new EnrolleeDAO().checkEnrolleeAccess(user);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
+            accessEnrolleeAllowed = new UserDAO().checkEnrolleeAccess(user);
         }
         return accessEnrolleeAllowed;
     }
 
 
     @Override
-    public void init(FilterConfig fConfig) throws ServletException {
+    public void init(FilterConfig fConfig) {
         LOG.debug("Filter initialization starts");
 
         // roles

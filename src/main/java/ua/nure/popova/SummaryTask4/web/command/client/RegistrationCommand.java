@@ -2,7 +2,7 @@ package ua.nure.popova.SummaryTask4.web.command.client;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
-import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
+import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.web.command.Command;
 import ua.nure.popova.SummaryTask4.web.util.SendMail;
@@ -14,7 +14,7 @@ public class RegistrationCommand extends Command {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(RegistrationCommand.class);
-    private EnrolleeDAO enrolleeDao = new EnrolleeDAO();
+    private UserDAO userDao = new UserDAO();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -38,7 +38,7 @@ public class RegistrationCommand extends Command {
         enrollee.setPassword(password);
 
         try {
-            enrolleeDao.registerEmployee(enrollee);
+            userDao.registerEmployee(enrollee);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -4,12 +4,14 @@ import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.db.DBManager;
 import ua.nure.popova.SummaryTask4.db.Fields;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
-import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.exception.DBException;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,19 +29,25 @@ public class FacultiesDAO {
     private static final String SQL_CHECK_ZNO = "SELECT 1 from zno where id_enrollee=? and id_subject=? and mark=?";
     private static final String SQL_CHECK_CERTIFICATE = "SELECT 1 from certificates where id_enrollee=? and id_subject=? and mark=?";
 
-
-
     private static final String SQL_INSERT_CERTIFICATES = "INSERT INTO certificates (id_enrollee, id_subject, mark) VALUES (?,?,?)";
     private static final String SQL_FIND_ALL_FACULTIES_BY_ENROLLEE_ID = "SELECT * FROM faculties INNER JOIN applications a ON faculties.id = a.id_faculty where id_enrollee = ";
     private static final String SQL_INSERT_INTO_APPLICATIONS = "INSERT INTO applications (id_faculty ,id_enrollee) VALUES (?,?)";
-    private static final String SQL_INSERT_INTO_RESULTS = "INSERT INTO statement (id_application, ser_mark) VALUES (?, ?)";
     private static final String SQL_FIND_FACULTY_BY_NAME = "SELECT * FROM faculties WHERE faculties.name = ?";
     private static final String SQL_DELETE_APPLICATION = "DELETE FROM applications WHERE id_app = ";
     private static final String SQL_FIND_APPLICATION_ID = "SELECT * FROM applications WHERE id_faculty = ? AND id_enrollee = ?";
     private static final String SQL_DELETE_RESULT = "DELETE FROM statement WHERE id_application = ?";
-    private static final String SQL_DELETE_FACULTY_BY_ID = "DELETE FROM faculties WHERE id = ";
 
-    public List<Faculty> findAllFaculties() throws DBException {
+    //admin's
+    private static final String SQL_DELETE_FACULTY_BY_ID = "DELETE FROM faculties WHERE id = ";
+    private static final String SQL_UPDATE_REQUIREMENTS_BY_FACULTY_ID = "UPDATE requirements SET id_subject=?, min_mark=? where id=?";
+    private static final String SQL_INSERT_FACULTY = "INSERT into faculties (name, count_budget, count_total) VALUES (?,?,?)";
+    private static final String SQL_UPDATE_FACULTY = "UPDATE faculties SET count_budget=?, count_total=? WHERE id=?";
+    private static final String SQL_SELECT_ALL_DISCIPLINES = "SELECT discipline_name from disciplines order by id_d";
+    private static final String SELECT_ID_FROM_REQUIREMENTS_BY_ID_FACULTY = "select id from requirements where id_faculty = ";
+    private static final String SQL_INSERT_REQUIREMENTS = "INSERT INTO requirements (id_faculty, id_subject, min_mark) VALUES (?,?,?)";
+
+
+    public List<Faculty> findAllFaculties() {
         List<Faculty> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -52,7 +60,7 @@ public class FacultiesDAO {
                 list.add(extractFaculty(rs));
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -62,7 +70,7 @@ public class FacultiesDAO {
         return list;
     }
 
-    public Discipline findDisciplineByName(String name) throws DBException {
+    public Discipline findDisciplineByName(String name) {
         Discipline discipline = new Discipline();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -78,7 +86,7 @@ public class FacultiesDAO {
 
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -88,7 +96,7 @@ public class FacultiesDAO {
         return discipline;
     }
 
-    public List<Faculty> sortFaculties(String query) throws DBException {
+    public List<Faculty> sortFaculties(String query)  {
         List<Faculty> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -101,7 +109,7 @@ public class FacultiesDAO {
                 list.add(extractFaculty(rs));
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -111,7 +119,7 @@ public class FacultiesDAO {
         return list;
     }
 
-    public Faculty findFacultyByName(String name) throws DBException {
+    public Faculty findFacultyByName(String name)  {
         Faculty faculty = new Faculty();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -126,7 +134,7 @@ public class FacultiesDAO {
                 faculty = extractFaculty(rs);
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -136,7 +144,7 @@ public class FacultiesDAO {
         return faculty;
     }
 
-    public Faculty findFacultyById(Integer id) throws DBException {
+    public Faculty findFacultyById(Integer id) {
         Faculty faculty = new Faculty();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -149,7 +157,7 @@ public class FacultiesDAO {
                 faculty = extractFaculty(rs);
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -159,7 +167,7 @@ public class FacultiesDAO {
         return faculty;
     }
 
-    public List<Discipline> findDisciplineList() throws DBException {
+    public List<Discipline> findDisciplineList()  {
         List<Discipline> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -172,7 +180,7 @@ public class FacultiesDAO {
                 list.add(extractDiscipline(rs));
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -182,7 +190,7 @@ public class FacultiesDAO {
         return list;
     }
 
-    public List<Faculty> findOrderedFaculties(Long userId) throws DBException {
+    public List<Faculty> findOrderedFaculties(Long userId)  {
         List<Faculty> list = new ArrayList<>();
 
         PreparedStatement pstmt;
@@ -196,7 +204,7 @@ public class FacultiesDAO {
                 list.add(extractFaculty(rs));
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -206,7 +214,7 @@ public class FacultiesDAO {
         return list;
     }
 
-    public List<Discipline> findDisciplinesByFacultyId(Integer id) throws DBException {
+    public List<Discipline> findDisciplinesByFacultyId(Integer id)  {
         List<Discipline> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -219,7 +227,7 @@ public class FacultiesDAO {
                 list.add(extractDiscipline(rs));
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -229,7 +237,7 @@ public class FacultiesDAO {
         return list;
     }
 
-    public boolean insertIntoApplications(Long facultyId, Long enrolleeId) throws DBException {
+    public boolean insertIntoApplications(Long facultyId, Long enrolleeId)  {
         LOG.info("start insert application");
         PreparedStatement pstmt;
         Connection con = null;
@@ -243,7 +251,7 @@ public class FacultiesDAO {
             pstmt.executeUpdate();
             pstmt.close();
 
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
 
@@ -256,7 +264,7 @@ public class FacultiesDAO {
         return flag;
     }
 
-    public int getApplicationId(Long facultyId, Long enrolleeId) throws DBException {
+    public int getApplicationId(Long facultyId, Long enrolleeId)  {
         LOG.info("get application's id");
         PreparedStatement pstmt;
         Connection con = null;
@@ -274,7 +282,7 @@ public class FacultiesDAO {
             }
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
 
@@ -289,8 +297,8 @@ public class FacultiesDAO {
         Faculty faculty = new Faculty();
         faculty.setId(rs.getLong(Fields.ENTITY_ID));
         faculty.setName(rs.getString(Fields.ENTITY_NAME));
-        faculty.setCountBudget(rs.getInt(Fields.ENTITY_FACULTY_COUNT_BUDGET));
-        faculty.setCountTotal(rs.getInt(Fields.ENTITY_FACULTY_COUNT_TOTAL));
+        faculty.setCountBudget(rs.getInt(Fields.FACULTY_COUNT_BUDGET));
+        faculty.setCountTotal(rs.getInt(Fields.FACULTY_COUNT_TOTAL));
 
         return faculty;
     }
@@ -300,17 +308,17 @@ public class FacultiesDAO {
         ResultSetMetaData rsmd = rs.getMetaData();
         int columns = rsmd.getColumnCount();
         for (int x = 1; x <= columns; x++) {
-            if (Fields.ENTITY_MIN_MARK.equals(rsmd.getColumnName(x))) {
-                discipline.setMark(rs.getInt(Fields.ENTITY_MIN_MARK));
+            if (Fields.DISCIPLINE_MIN_MARK.equals(rsmd.getColumnName(x))) {
+                discipline.setMark(rs.getInt(Fields.DISCIPLINE_MIN_MARK));
             }
         }
-        discipline.setId(rs.getLong("id_d"));
-        discipline.setDisciplineName(rs.getString("discipline_name"));
+        discipline.setId(rs.getLong(Fields.DISCIPLINE_ID));
+        discipline.setDisciplineName(rs.getString(Fields.DISCIPLINE_NAME));
         return discipline;
     }
 
     // на сколько сдал зно
-    public boolean insertZNO(Long enrolleeId, String key, String[] values) throws DBException {
+    public boolean insertZNO(Long enrolleeId, String key, String[] values)  {
         PreparedStatement pstmt;
         Connection con = null;
         Discipline discipline = findDisciplineByName(key);
@@ -332,7 +340,7 @@ public class FacultiesDAO {
 
                 pstmt.close();
                 flag = true;
-            } catch (SQLException ex) {
+            } catch (SQLException | DBException ex) {
                 DBManager.getInstance().rollbackAndClose(con);
                 ex.printStackTrace();
 
@@ -344,8 +352,7 @@ public class FacultiesDAO {
         return flag;
     }
 
-
-    private boolean checkIfZnoNotExists(Long enrolleeId, Long id, String value) throws DBException {
+    private boolean checkIfZnoNotExists(Long enrolleeId, Long id, String value)  {
         PreparedStatement pstmt;
         Connection con = null;
         boolean flag = true; //true если нет совпадений
@@ -365,7 +372,7 @@ public class FacultiesDAO {
           }
             pstmt.close();
             LOG.warn("checkIfZnoNotExists success, column was added - " + flag);
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
 
@@ -376,7 +383,7 @@ public class FacultiesDAO {
         return flag;
     }
 
-    private boolean checkIfCertificateNotExists(Long enrolleeId, Long id, String value) throws DBException {
+    private boolean checkIfCertificateNotExists(Long enrolleeId, Long id, String value)  {
         PreparedStatement pstmt;
         Connection con = null;
         boolean flag = true; //true если нет совпадений
@@ -396,7 +403,7 @@ public class FacultiesDAO {
             }
             pstmt.close();
             LOG.warn("checkIfCertificateNotExists success, columns added - " + flag);
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
 
@@ -408,7 +415,7 @@ public class FacultiesDAO {
     }
 
     //занесении результата атестата
-    public boolean insertCertificate(Long enrolleeId, String key, String[] values) throws DBException {
+    public boolean insertCertificate(Long enrolleeId, String key, String[] values)  {
         PreparedStatement pstmt;
         Connection con = null;
         Discipline discipline = findDisciplineByName(key);
@@ -430,7 +437,7 @@ public class FacultiesDAO {
             LOG.info("certificate inserted success");
             pstmt.close();
             flag = true;
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
 
@@ -441,18 +448,19 @@ public class FacultiesDAO {
         return flag;
     }
 
-    public void deleteApplicationByFacultyAndEnroleeId(long idFaculty, Long userId) throws DBException {
+    public int deleteApplicationByFacultyAndEnroleeId(long idFaculty, Long userId)  {
         PreparedStatement pstmt;
         Connection con = null;
         int applicationId = getApplicationId(idFaculty, userId);
+        int result=0;
         LOG.info("delete application");
         try {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(SQL_DELETE_APPLICATION + applicationId);
-            pstmt.executeUpdate();
+            result=pstmt.executeUpdate();
             pstmt.close();
-            deleteResultByApplicationId(applicationId);
-        } catch (SQLException ex) {
+            result=deleteResultByApplicationId(applicationId);
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -460,19 +468,21 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         LOG.info("application deleted");
+        return result;
     }
 
-    public void deleteResultByApplicationId(int applicationId) throws DBException {
+    public int deleteResultByApplicationId(int applicationId)  {
         PreparedStatement pstmt;
         Connection con = null;
         LOG.info("delete result");
+        int result=0;
         try {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(SQL_DELETE_RESULT);
             pstmt.setInt(1, applicationId);
-            pstmt.executeUpdate();
+            result=pstmt.executeUpdate();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -480,18 +490,20 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         LOG.info("result deleted");
+        return result;
     }
 
-    public void deleteFacultyById(int facultyId) throws DBException {
+    public int deleteFacultyById(int facultyId)  {
         PreparedStatement pstmt;
         Connection con = null;
+        int result=0;
         LOG.info("delete faculty");
         try {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(SQL_DELETE_FACULTY_BY_ID + facultyId);
-            pstmt.executeUpdate();
+            result=pstmt.executeUpdate();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -499,13 +511,13 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         LOG.info("faculty deleted");
+        return result;
     }
 
-    private static final String SQL_UPDATE_REQUIREMENTS_BY_FACULTY_ID = "UPDATE requirements SET id_subject=?, min_mark=? where id=?";
-
-    public void updateDisciplinesByFacultyId(List<Discipline> disciplines, Long facultyId) throws DBException {
-        PreparedStatement pstmt = null;
+    public boolean updateDisciplinesByFacultyId(List<Discipline> disciplines, Long facultyId)  {
+        PreparedStatement pstmt;
         Connection con = null;
+        boolean result=false;
         LOG.info("update disciplines");
         List<Integer> ids = getRequirementsIdByFacultyId(facultyId);
 
@@ -533,7 +545,8 @@ public class FacultiesDAO {
 
             assert pstmt != null;
             pstmt.close();
-        } catch (SQLException ex) {
+            result=true;
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
 
@@ -542,22 +555,23 @@ public class FacultiesDAO {
             DBManager.getInstance().commitAndClose(con);
         }
         LOG.info("disciplines updated");
+        return result;
     }
 
-    private List<Integer> getRequirementsIdByFacultyId(Long facultyId) throws DBException {
+    private List<Integer> getRequirementsIdByFacultyId(Long facultyId)  {
         List<Integer> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            pstmt = con.prepareStatement("select id from requirements where id_faculty = " + facultyId);
+            pstmt = con.prepareStatement(SELECT_ID_FROM_REQUIREMENTS_BY_ID_FACULTY  + facultyId);
             rs = pstmt.executeQuery();
             while (rs.next())
-                list.add(rs.getInt("id"));
+                list.add(rs.getInt(Fields.ENTITY_ID));
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -567,15 +581,13 @@ public class FacultiesDAO {
         return list;
     }
 
-    private Long findDisciplineIdByName(String disciplineName) throws DBException {
+    private Long findDisciplineIdByName(String disciplineName)  {
         Discipline d = findDisciplineByName(disciplineName);
         return d.getId();
     }
 
 
-    private static final String SQL_UPDATE_FACULTY = "UPDATE faculties SET count_budget=?, count_total=? WHERE id=?";
-
-    public void updateFaculty(Faculty newFaculty) throws DBException {
+    public void updateFaculty(Faculty newFaculty)  {
         PreparedStatement pstmt;
         Connection con = null;
         LOG.info("update faculty");
@@ -587,7 +599,7 @@ public class FacultiesDAO {
             pstmt.setLong(3, newFaculty.getId());
             pstmt.executeUpdate();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -597,9 +609,7 @@ public class FacultiesDAO {
         LOG.info("faculty updated");
     }
 
-    private static final String SQL_SELECT_ALL_DISCIPLINES = "SELECT discipline_name from disciplines order by id_d";
-
-    public List<String> findAllDisciplinesNames() throws DBException {
+    public List<String> findAllDisciplinesNames()  {
         List<String> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -609,10 +619,10 @@ public class FacultiesDAO {
             pstmt = con.prepareStatement(SQL_SELECT_ALL_DISCIPLINES);
             rs = pstmt.executeQuery();
             while (rs.next())
-                list.add(rs.getString("discipline_name"));
+                list.add(rs.getString(Fields.DISCIPLINE_NAME));
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
@@ -622,9 +632,7 @@ public class FacultiesDAO {
         return list;
     }
 
-    private static final String SQL_INSERT_FACULTY = "INSERT into faculties (name, count_budget, count_total) VALUES (?,?,?)";
-
-    public Faculty addFaculty(Faculty newFaculty) throws DBException {
+    public Faculty addFaculty(Faculty newFaculty)  {
         PreparedStatement pstmt;
         Connection con = null;
         try {
@@ -635,7 +643,7 @@ public class FacultiesDAO {
             pstmt.setInt(3, newFaculty.getCountTotal());
             pstmt.executeUpdate();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
 
@@ -646,16 +654,10 @@ public class FacultiesDAO {
         return findFacultyByName(newFaculty.getName());
     }
 
-
-    //TODO
-    private static final String SQL_INSERT_REQUIREMENTS = "INSERT INTO requirements (id_faculty, id_subject, min_mark) VALUES (?,?,?)";
-
-    public void addRequirements(Long idFaculty, List<Discipline> disciplines) throws DBException {
+    public int addRequirements(Long idFaculty, List<Discipline> disciplines)  {
         PreparedStatement pstmt;
         Connection con = null;
-
-        //сделать так чтобы на фронт уходил список дисциплин с айдишниками, отображалось только имя
-        // чтобы не вычислять айди по имени
+        int result=0;
 
         try {
             con = DBManager.getInstance().getConnection();
@@ -663,14 +665,14 @@ public class FacultiesDAO {
 
             for (Discipline discipline : disciplines) {
                 pstmt.setInt(1, Math.toIntExact(idFaculty));
-                pstmt.setInt(2, Math.toIntExact(findDisciplineIdByName(discipline.getDisciplineName())));
+                pstmt.setInt(2, Math.toIntExact(discipline.getId()));
                 pstmt.setInt(3, discipline.getMark());
 
-                pstmt.executeUpdate();
+                result = pstmt.executeUpdate();
             }
 
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
 
@@ -678,5 +680,6 @@ public class FacultiesDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
+        return result;
     }
 }

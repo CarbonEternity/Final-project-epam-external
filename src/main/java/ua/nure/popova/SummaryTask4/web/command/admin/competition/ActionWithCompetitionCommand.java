@@ -3,7 +3,7 @@ package ua.nure.popova.SummaryTask4.web.command.admin.competition;
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.dao.StatementDAO;
-import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
+import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.exception.AppException;
@@ -35,9 +35,9 @@ public class ActionWithCompetitionCommand extends Command {
 
         if (action.contains("show")) {
             LOG.info("command show id enrolee = " + enrolleeId);
-            Enrollee enrollee = new EnrolleeDAO().findEnroleeById(enrolleeId);
-            List<Discipline> enroleeZno = new EnrolleeDAO().findZnoByEnroleeId(enrolleeId, facultyId);
-            List<Discipline> enroleeCertificate = new EnrolleeDAO().findCertificateByEnroleeId(enrolleeId);
+            Enrollee enrollee = new UserDAO().findEnroleeById(enrolleeId);
+            List<Discipline> enroleeZno = new UserDAO().findZnoByEnroleeId(enrolleeId, facultyId);
+            List<Discipline> enroleeCertificate = new UserDAO().findCertificateByEnroleeId(enrolleeId);
 
 
             request.setAttribute("enroleeInfo", enrollee);

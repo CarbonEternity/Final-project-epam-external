@@ -8,12 +8,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="style/css/showEnrolleeStyles.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="style/css/resultStyles.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -22,64 +24,6 @@
 
     <title>Result</title>
 </head>
-<style>
-    body {
-        background-color: orange;
-        background-size: cover;
-    }
-
-    .block {
-        padding: 30px;
-        float:left;
-    }
-
-
-    .table-mark{
-
-        color:whitesmoke;
-        border-collapse:collapse;
-        padding: 30px;
-        background: rgba(60, 63, 65, 0.6);
-    }
-
-    .general {
-        position: absolute;
-        margin-left: 150px;
-        text-align:center;
-    }
-
-    h3{
-        text-align: center;
-    }
-
-    .table,
-    .table tr,
-    .table td {
-        font-size: 16px;
-    }
-
-    .bs-example {
-        margin: 0;
-    }
-
-    .navbar {
-        position: relative;
-    }
-
-    #button1{
-        width: 300px;
-        height: 40px;
-    }
-    #button2{
-        width: 300px;
-        height: 40px;
-    }
-    #container{
-        padding-top: 30px;
-        text-align: center;
-    }
-
-</style>
 <body>
 
 

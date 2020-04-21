@@ -20,10 +20,10 @@ public class StatementDAO {
     private static final String SQL_REMOVE_COMPETITION = "DELETE FROM statement";
 
 
-    public void addEnrolleeToCompetition(int enrolleeId, int facultyId) throws DBException {
+    public int addEnrolleeToCompetition(int enrolleeId, int facultyId) throws DBException {
         PreparedStatement pstmt;
         Connection con = null;
-
+        int result = 0;
         try {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(SQL_ADD_ENROLEE_TO_COMPETITION);
@@ -32,8 +32,9 @@ public class StatementDAO {
             pstmt.setInt(2, facultyId);
             pstmt.setInt(3, facultyId);
 
-            pstmt.executeUpdate();
+            result = pstmt.executeUpdate();
             pstmt.close();
+            LOG.info("enrollee was added to competition, id enrollee  -> "+enrolleeId);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
@@ -41,56 +42,50 @@ public class StatementDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
-
+        return result;
     }
 
     public Map<Faculty, List<Enrollee>> getStatement() throws DBException {
         FacultiesDAO facultiesDAO = new FacultiesDAO();
-        EnrolleeDAO enrolleeDAO = new EnrolleeDAO();
+        UserDAO userDAO = new UserDAO();
 
         Map<Faculty, List<Enrollee>> listMap = new HashMap<>();
         List<Faculty> faculties = facultiesDAO.findAllFaculties();
 
         faculties.forEach(x -> {
-            try {
-                List<Enrollee> enrolleesByFaculty = enrolleeDAO.findAdmittedEnrolleesByFacultyId(Math.toIntExact(x.getId()));
-                listMap.put(x,enrolleesByFaculty);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
+            List<Enrollee> enrolleesByFaculty = userDAO.findAdmittedEnrolleesByFacultyId(Math.toIntExact(x.getId()));
+            listMap.put(x, enrolleesByFaculty);
         });
         return listMap;
     }
 
     public Map<Faculty, List<Enrollee>> getResult(boolean allowed) throws DBException {
         FacultiesDAO facultiesDAO = new FacultiesDAO();
-        EnrolleeDAO enrolleeDAO = new EnrolleeDAO();
+        UserDAO userDAO = new UserDAO();
 
         Map<Faculty, List<Enrollee>> listMap = new HashMap<>();
         List<Faculty> faculties = facultiesDAO.findAllFaculties();
 
         faculties.forEach(x -> {
-            try {
-                List<Enrollee> enrolleesByFaculty = enrolleeDAO.findEnrolledByFacultyId(Math.toIntExact(x.getId()), allowed);
-                listMap.put(x,enrolleesByFaculty);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
+            List<Enrollee> enrolleesByFaculty = userDAO.findEnrolledByFacultyId(Math.toIntExact(x.getId()), allowed);
+            listMap.put(x, enrolleesByFaculty);
         });
         return listMap;
     }
 
 
-    public void removeStetement() throws DBException {
+    public int removeStetement() throws DBException {
         PreparedStatement pstmt;
         Connection con = null;
+        int result = 0;
 
         try {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(SQL_REMOVE_COMPETITION);
 
-            pstmt.executeUpdate();
+            result=pstmt.executeUpdate();
             pstmt.close();
+            LOG.info("all statements were removed success");
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
@@ -98,6 +93,6 @@ public class StatementDAO {
             assert con != null;
             DBManager.getInstance().commitAndClose(con);
         }
-
+        return result;
     }
 }

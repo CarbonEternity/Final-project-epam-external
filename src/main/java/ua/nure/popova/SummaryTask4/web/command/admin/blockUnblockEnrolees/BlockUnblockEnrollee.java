@@ -2,7 +2,7 @@ package ua.nure.popova.SummaryTask4.web.command.admin.blockUnblockEnrolees;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
-import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
+import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.exception.AppException;
 import ua.nure.popova.SummaryTask4.web.command.Command;
@@ -22,7 +22,7 @@ public class BlockUnblockEnrollee extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         LOG.info("Command start");
 
-        EnrolleeDAO dao = new EnrolleeDAO();
+        UserDAO dao = new UserDAO();
         int enrolleeId;
 
         if (request.getParameterMap().containsKey("block")) {
@@ -35,7 +35,7 @@ public class BlockUnblockEnrollee extends Command {
             dao.unblockEnrolleeByid(enrolleeId);
         }
 
-        List<Enrollee> enrollees = new EnrolleeDAO().findAllEnrollees();
+        List<Enrollee> enrollees = new UserDAO().findAllEnrollees();
         request.setAttribute("enrolleesList", enrollees);
 
         LOG.info("Command finished");

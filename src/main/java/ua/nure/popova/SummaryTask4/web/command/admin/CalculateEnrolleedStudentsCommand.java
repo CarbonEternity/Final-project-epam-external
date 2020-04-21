@@ -2,7 +2,7 @@ package ua.nure.popova.SummaryTask4.web.command.admin;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
-import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
+import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.dao.StatementDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
@@ -25,7 +25,7 @@ public class CalculateEnrolleedStudentsCommand extends Command {
        LOG.info("Command started");
 
         Map<Faculty, List<Enrollee>> mapOfList = new StatementDAO().getStatement();
-        EnrolleeDAO enrolleeDAO = new EnrolleeDAO();
+        UserDAO userDAO = new UserDAO();
 
         Map<Faculty, Double> facultyAverage = new HashMap<>();
         Map<Faculty, List<Enrollee>> mapEnrolled = new HashMap<>();
@@ -34,13 +34,8 @@ public class CalculateEnrolleedStudentsCommand extends Command {
         mapOfList.forEach((k,v)->{
             if (!mapOfList.get(k).isEmpty()){
                 List<Integer> allMarks = new ArrayList<>();
-                try {
-                    List<Enrollee> fromStetementByFaculty = enrolleeDAO.findAllEnrolleesFromStatementByFacultyId(k.getId());
-                    allMarks.addAll(findEnroleesMarks(fromStetementByFaculty, k.getId()));
-
-                } catch (DBException e) {
-                    e.printStackTrace();
-                }
+                List<Enrollee> fromStetementByFaculty = userDAO.findAllEnrolleesFromStatementByFacultyId(k.getId());
+                allMarks.addAll(findEnroleesMarks(fromStetementByFaculty, k.getId()));
 
                 if(!allMarks.isEmpty()) {
                     double avg = calculateAverage(allMarks);
@@ -81,24 +76,16 @@ public class CalculateEnrolleedStudentsCommand extends Command {
 
     private void setResultOfCompetetion(Map<Faculty, List<Enrollee>> resultOfCompetetion, boolean res){
         if (!resultOfCompetetion.isEmpty()) {
-            try {
-                new EnrolleeDAO().setResult(resultOfCompetetion, res);
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
+            new UserDAO().setResult(resultOfCompetetion, res);
         }
     }
 
     private List<Integer> findEnroleesMarks(List<Enrollee> fromStetementByFaculty, Long fac) {
-        EnrolleeDAO enrolleeDAO = new EnrolleeDAO();
+        UserDAO userDAO = new UserDAO();
         List<Discipline> disciplines = new ArrayList<>();
 
         fromStetementByFaculty.forEach(x->{
-            try {
-                disciplines.addAll(enrolleeDAO.findZnoByEnroleeId(Math.toIntExact(x.getId()), Math.toIntExact(fac)));
-            } catch (DBException e) {
-                e.printStackTrace();
-            }
+            disciplines.addAll(userDAO.findZnoByEnroleeId(Math.toIntExact(x.getId()), Math.toIntExact(fac)));
         });
 
         List<Integer> marks = new ArrayList<>();

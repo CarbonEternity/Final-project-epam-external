@@ -3,7 +3,7 @@ package ua.nure.popova.SummaryTask4.web.command.admin;
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.Fields;
-import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
+import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.exception.AppException;
 import ua.nure.popova.SummaryTask4.web.command.Command;
@@ -23,7 +23,7 @@ public class SortEnrolleesCommand extends Command {
         LOG.debug("Command starts");
 
         // sort by lastName - namelast (Z-A), namefirst (A-Z)
-        EnrolleeDAO facultiesDAO = new EnrolleeDAO();
+        UserDAO facultiesDAO = new UserDAO();
         List<Enrollee> list;
         String sort = null;
         String page = null;

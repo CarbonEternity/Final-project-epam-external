@@ -2,6 +2,7 @@ package ua.nure.popova.SummaryTask4.web.command.admin.facultiesActions;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
+import ua.nure.popova.SummaryTask4.db.Fields;
 import ua.nure.popova.SummaryTask4.db.dao.FacultiesDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Discipline;
 import ua.nure.popova.SummaryTask4.db.entity.Faculty;
@@ -38,9 +39,9 @@ public class UpdateFacultyAndDisciplines extends Command {
 
     private Faculty updatedFaculty(HttpServletRequest request) {
         Faculty newFaculty = new Faculty();
-        String facultyName = request.getParameter("faculty_name");
-        String budget = request.getParameter("count_budget");
-        String countTotal = request.getParameter("count_total");
+        String facultyName = request.getParameter(Fields.FACULTY_NAME);
+        String budget = request.getParameter(Fields.FACULTY_COUNT_BUDGET);
+        String countTotal = request.getParameter(Fields.FACULTY_COUNT_TOTAL);
         newFaculty.setName(facultyName);
         newFaculty.setCountBudget(Integer.parseInt(budget));
         newFaculty.setCountTotal(Integer.parseInt(countTotal));
@@ -52,6 +53,7 @@ public class UpdateFacultyAndDisciplines extends Command {
         Map<String, String[]> m = request.getParameterMap();
         Set s = m.entrySet();
         List<Discipline> disciplineList = new ArrayList<>();
+        FacultiesDAO facultiesDAO = new FacultiesDAO();
 
         for (Object o : s) {
 
@@ -62,8 +64,7 @@ public class UpdateFacultyAndDisciplines extends Command {
 
             if (key.contains("disciplineName")) {
                 for (String value : values) {
-                    Discipline d = new Discipline();
-                    d.setDisciplineName(value);
+                    Discipline d = facultiesDAO.findDisciplineByName(value);
                     disciplineList.add(d);
                 }
             } else if (key.contains("mark")) {

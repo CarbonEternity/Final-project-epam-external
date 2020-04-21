@@ -2,7 +2,7 @@ package ua.nure.popova.SummaryTask4.web.command.admin.competition;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
-import ua.nure.popova.SummaryTask4.db.dao.EnrolleeDAO;
+import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.exception.AppException;
 import ua.nure.popova.SummaryTask4.web.command.Command;
@@ -22,8 +22,8 @@ public class ShowApplicationsCommand extends Command {
 
         int facultyId = Integer.parseInt(request.getParameter("id_fac"));
 
-        List<Enrollee> enrollees = new EnrolleeDAO().findEnroleesFromApplicationsByFacultyId(facultyId);
-        List<Enrollee> admittedEnrollees = new EnrolleeDAO().findAdmittedEnrolleesByFacultyId(facultyId);
+        List<Enrollee> enrollees = new UserDAO().findEnroleesFromApplicationsByFacultyId(facultyId);
+        List<Enrollee> admittedEnrollees = new UserDAO().findAdmittedEnrolleesByFacultyId(facultyId);
 
         request.setAttribute("enrolleesList", enrollees);
         request.setAttribute("admittedEnrollees", admittedEnrollees);

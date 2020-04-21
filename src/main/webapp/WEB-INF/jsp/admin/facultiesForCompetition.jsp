@@ -9,13 +9,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <%--    <link rel="stylesheet" href="style/css/allFacultiesStyles.css">--%>
-    <%--    <link rel="stylesheet" href="allFacultiesStyles.css">--%>
+    <link rel="stylesheet" type="text/css" media="screen" href="style/css/facultiesForCompetitionStyles.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -23,36 +24,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <title>${title}</title>
 
-
-    <style>
-        body {
-            /* Full height */
-            height: 100%;
-
-            background: url('admin-back.jpg') no-repeat center;
-            background-size: cover;
-        }
-
-        .small {
-            margin: 20px auto;
-            width: 40%;
-        }
-
-        .table,
-        .table tr,
-        .table td {
-            /*background-color: #e2e2e2 !important;*/
-            font-size: 16px;
-        }
-
-        .bs-example {
-            margin: 0;
-        }
-
-        .navbar {
-            position: relative;
-        }
-    </style>
 </head>
 <body>
 <div class="bs-example">

@@ -1,0 +1,20 @@
+body {
+    background: rgb(63, 94, 251);
+    background: radial-gradient(circle, rgba(63, 94, 251, 1) 10%, rgba(255, 218, 151, 1) 100%);
+}
+
+.error-template {
+    margin-top: 200px;
+    padding: 40px 15px;
+    text-align: center;
+    background: white;
+}
+
+.error-actions {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.error-actions .btn {
+    margin-right: 10px;
+}

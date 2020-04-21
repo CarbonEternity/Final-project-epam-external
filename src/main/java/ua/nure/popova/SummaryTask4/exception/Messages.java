@@ -26,4 +26,6 @@ public final class Messages {
 
     public static final String ENROLLEE_BLOCKED = "You're blocked by admin";
 
+    public static final String ERR_DONT_HAVE_PERMISSION = "You do not have permission to access the requested resource";
+
 }
