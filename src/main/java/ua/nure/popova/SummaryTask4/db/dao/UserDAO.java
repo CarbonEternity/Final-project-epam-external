@@ -10,11 +10,13 @@ import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.DBException;
 import ua.nure.popova.SummaryTask4.exception.Messages;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.servlet.http.Part;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -42,11 +44,53 @@ public class UserDAO {
     private static final String SQL_FIND_ENROLLED_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from result join enrollees e on result.id_enrolee = e.id where id_faculty=? and allowed=?";
     private static final String SQL_CHECK_ENTERED = "SELECT entered from enrollees where id=?";
     private static final String SQL_SET_ENTERED = "update enrollees set entered=? where enrollees.id=?";
-    private static final String SQL_REGISTER_ENROLLEE = "INSERT INTO enrollees (first_name, sec_name, last_name, email, city, region, school) VALUES (?, ?, ?, ?, ?,?,?)";
+    private static final String SQL_REGISTER_ENROLLEE = "INSERT INTO enrollees (first_name, sec_name, last_name, email, password, city, region, school, certificate_img) VALUES (?, ?, ?, ?, ?,?,?,?,?)";
 
-    public int registerEmployee(Enrollee enrollee) {
+    private static final String SQL_SELECT_IMAGE_ENROLLEE_BY_ID = "SELECT certificate_img from enrollees where id=?";
+
+    public String getImageByEnrolleeId(int id) {
         PreparedStatement pstmt;
-        Connection con;
+        Connection con = null;
+        ResultSet result;
+        String base64Image = "";
+        try {
+            con = DBManager.getInstance().getConnection();
+            pstmt = con.prepareStatement(SQL_SELECT_IMAGE_ENROLLEE_BY_ID);
+
+            pstmt.setInt(1, id);
+            result = pstmt.executeQuery();
+
+            if (result.next()) {
+                Blob blob = result.getBlob("certificate_img");
+                InputStream inputStream = blob.getBinaryStream();
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                byte[] buffer = result.getBytes("certificate_img");
+                int bytesRead = -1;
+
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+
+                byte[] imageBytes = outputStream.toByteArray();
+                base64Image = Base64.getEncoder().encodeToString(imageBytes);
+
+
+                inputStream.close();
+                outputStream.close();
+            }
+
+            con.commit();
+        } catch (SQLException | DBException | IOException e) {
+            DBManager.getInstance().rollbackAndClose(con);
+            e.printStackTrace();
+        }
+
+        return base64Image;
+    }
+
+    public int registerEmployee(Enrollee enrollee, Part part) {
+        PreparedStatement pstmt;
+        Connection con = null;
         int result = 0;
 
         try {
@@ -57,15 +101,24 @@ public class UserDAO {
             pstmt.setString(2, enrollee.getSecName());
             pstmt.setString(3, enrollee.getLastName());
             pstmt.setString(4, enrollee.getEmail());
-            pstmt.setString(5, enrollee.getCity());
-            pstmt.setString(6, enrollee.getRegion());
-            pstmt.setString(7, enrollee.getSchool());
+            pstmt.setString(5, enrollee.getPassword());
+            pstmt.setString(6, enrollee.getCity());
+            pstmt.setString(7, enrollee.getRegion());
+            pstmt.setString(8, enrollee.getSchool());
+
+            InputStream is = part.getInputStream();
+            pstmt.setBlob(9, is);
+
             result = pstmt.executeUpdate();
-        } catch (SQLException | DBException e) {
+
+            con.commit();
+        } catch (SQLException | DBException | IOException e) {
+            DBManager.getInstance().rollbackAndClose(con);
             e.printStackTrace();
         }
         return result;
     }
+
 
     /**
      * Returns a user with the given login.

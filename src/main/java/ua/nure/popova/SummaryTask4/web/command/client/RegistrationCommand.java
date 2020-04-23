@@ -5,19 +5,54 @@ import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.web.command.Command;
-import ua.nure.popova.SummaryTask4.web.util.SendMail;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.util.Collection;
 
+@MultipartConfig(maxFileSize = 5000000)
 public class RegistrationCommand extends Command {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(RegistrationCommand.class);
-    private UserDAO userDao = new UserDAO();
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+        UserDAO userDao = new UserDAO();
+
+        Enrollee enrollee = extractEnrollee(request);
+        Part image = getPart(request);
+
+        userDao.registerEmployee(enrollee, image);
+
+       /* SendMail sendMail = new SendMail();
+        sendMail.send("University entrance", "You have successfully registered for university!", enrollee.getEmail());
+       */
+
+       LOG.info("Mail was send");
+
+        return Path.PAGE_LOGIN;
+    }
+
+    private Part getPart(HttpServletRequest req) {
+
+        Part commandMultipart = null;
+        try {
+            commandMultipart = req.getPart("img");
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+        }
+
+        return commandMultipart;
+    }
+
+    private Enrollee extractEnrollee(HttpServletRequest request) {
+        Enrollee enrollee = new Enrollee();
+
         String firstName = request.getParameter("firstName");
         String secName = request.getParameter("secName");
         String lastName = request.getParameter("lastName");
@@ -27,7 +62,6 @@ public class RegistrationCommand extends Command {
         String school = request.getParameter("school");
         String password = request.getParameter("password");
 
-        Enrollee enrollee = new Enrollee();
         enrollee.setFirstName(firstName);
         enrollee.setSecName(secName);
         enrollee.setLastName(lastName);
@@ -37,16 +71,6 @@ public class RegistrationCommand extends Command {
         enrollee.setSchool(school);
         enrollee.setPassword(password);
 
-        try {
-            userDao.registerEmployee(enrollee);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        SendMail sendMail = new SendMail();
-        sendMail.send("University entrance", "You have successfully registered for university!", email);
-        LOG.info("Mail was send");
-
-        return Path.PAGE_LOGIN;
+        return enrollee;
     }
 }

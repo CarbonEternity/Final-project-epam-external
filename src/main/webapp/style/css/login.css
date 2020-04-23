@@ -1,9 +1,22 @@
 body {
     background: url('../img/karazina-kharkov-2.jpg') ;
-    /*background-position: center;*/
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.register{
+    color: rgba(255, 227, 66, 0.932);
+    margin-left: 20%;
+}
+
+.link{
+    color: rgba(255, 227, 66, 0.932);
+}
+
+.link:hover{
+    color: rgba(0, 255, 0, 0.93);
+}
+
 
 #login_form {
     position: relative;

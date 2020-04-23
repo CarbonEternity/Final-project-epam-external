@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Acme&family=Caveat:wght@700&display=swap');
+
+body {
+    background: url('../img/back.png') no-repeat fixed;
+    background-size: cover;
+}
+
+h1{
+    color: white;
+}
+.table,
+.table tr,
+.table td {
+    font-size: 16px;
+}
+.bs-example{
+    margin: 0;
+}
+.navbar{
+    position: relative;
+}
+
+/*-------------------------*/
+p{
+    margin-top:10px;
+    text-align:center;
+    color:#65ff4e;
+    font-size: 40px;
+    font-family: 'Caveat', sans-serif;
+}
+
+ul{
+    list-style: square;
+    text-align: center;
+}
+
+.info-block{
+    position:absolute;
+    top: 10%;
+    left: 40%;
+    height: 250px;
+    width: 350px;
+}
+
+.faculty_info{
+    background: rgba(60, 63, 65, 0.4);
+    color:whitesmoke;
+    font-size: 30px;
+    font-family: 'Caveat', sans-serif;
+    margin-bottom: 20px;
+}
+
+.faculty_info ul li{
+    margin: 10px 0; /*расстояние между пунктами по высоте*/
+}
+
+.block {
+    position: absolute;
+    top:35%;
+    left: 24%;
+}
+
+.small{
+    width: 30%;
+    /* сверху | справа | снизу | слева */
+    margin: 6% auto 20px;
+}
+.one{
+    width: 30%;
+    /* сверху | справа | снизу | слева */
+    margin: 6% auto 20px;
+}
+
+#want{
+    position: absolute;
+    left: 30%;
+}

@@ -1,0 +1,28 @@
+body {
+    background: url('../img/karazina-kharkov-2.jpg') no-repeat fixed;
+    background-size: cover;
+}
+
+.bs-example {
+    margin: 0;
+}
+
+.navbar {
+    position: relative;
+}
+
+
+.center {
+    position: absolute;
+    background: #FFFFFF;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.passe-partout {
+    padding: 30px; /* Ширина паспарту */
+    background: #f0f0f0; /* Цвет фона  паспарту */
+    border: 2px solid #666; /* Параметры рамки */
+}

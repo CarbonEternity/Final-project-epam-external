@@ -35,4 +35,5 @@ public final class Path {
     public static final String PAGE_SHOW_ENROLLEE_INFO = "/WEB-INF/jsp/admin/showEnrollee.jsp";
     public static final String PAGE_SHOW_STATEMENT = "/WEB-INF/jsp/admin/statement.jsp";
     public static final String PAGE_SHOW_RESULT = "/WEB-INF/jsp/admin/result.jsp";
+    public static final String PAGE_SHOW_IMAGE = "/WEB-INF/jsp/admin/showEnrolleeImage.jsp";
 }

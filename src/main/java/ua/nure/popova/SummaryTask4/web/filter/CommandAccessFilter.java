@@ -9,11 +9,14 @@ import ua.nure.popova.SummaryTask4.exception.DBException;
 import ua.nure.popova.SummaryTask4.exception.Messages;
 
 import javax.servlet.*;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.*;
 
+@MultipartConfig
 public class CommandAccessFilter implements Filter {
 
     private static final Logger LOG = Logger.getLogger(CommandAccessFilter.class);
@@ -84,8 +87,12 @@ public class CommandAccessFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
         User user = (User) session.getAttribute("user");
         boolean accessEnrolleeAllowed = true;
+
         if(user!=null) {
-            accessEnrolleeAllowed = new UserDAO().checkEnrolleeAccess(user);
+            Role userRole = (Role)session.getAttribute("userRole");
+            if(userRole==Role.CLIENT) {
+                accessEnrolleeAllowed = new UserDAO().checkEnrolleeAccess(user);
+            }
         }
         return accessEnrolleeAllowed;
     }

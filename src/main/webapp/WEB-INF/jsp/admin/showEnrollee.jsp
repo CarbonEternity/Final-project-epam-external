@@ -104,6 +104,16 @@
             </c:choose>
 
         </div>
+
+
+        <form action="controller" method="post">
+            <input type="hidden" name="command" value="showEnrolleeCertificate">
+            <input type="hidden" name="id_enr" value="${enroleeInfo.id}">
+            <input type="hidden" name="id_fac" value="${id_fac}">
+
+            <button class="knopka btn btn-lg btn-outline-warning">BOGDAN JOPA</button>
+        </form>
+
     </div>
 
 
@@ -139,6 +149,7 @@
             </c:choose>
 
         </div>
+
     </div>
 
 </div>

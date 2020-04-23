@@ -15,16 +15,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="style/css/requirements.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="style/css/viewRequirementsStyles.css">
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
     <title>${title}</title>
-</head>
 
+</head>
+<body>
 
 <div class="bs-example">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
@@ -47,23 +46,27 @@
     </nav>
 </div>
 
+<form action="controller" method="post">
+    <input type="hidden" name="command" value="createOrder">
+    <input type="hidden" name="title" value=${facultyInfo.name}>
 
-<p>${facultyInfo.name}</p>
+    <div class="info-block">
+        <p>${facultyInfo.name}</p>
+        <div class="faculty_info">
+            <ul>
+                <li>Count budget ->  ${facultyInfo.countBudget}</li>
+                <li>Count total ->  ${facultyInfo.countTotal}</li>
+            </ul>
+        </div>
+        <input id="want" class="btn btn-success" type="submit" value="I want study here!">
+    </div>
 
-<div class="faculty_info">
-        <ul>
-            <li>Count budget ->  ${facultyInfo.countBudget}</li>
-            <li>Count total ->  ${facultyInfo.countTotal}</li>
-        </ul>
-</div>
 
+    <div class="block">
 
-    <form action="controller" method="post">
-        <input type="hidden" name="command" value="createOrder">
-        <input type="hidden" name="title" value=${facultyInfo.name}>
         <div class="row">
 
-            <div class="small">
+            <div class="one">
                 <div class="col align-self-center">
                     <c:choose>
                         <c:when test="${not empty disciplineList}">
@@ -81,7 +84,8 @@
                                     <tr>
                                         <td>${item.disciplineName}</td>
                                         <td>${item.mark}</td>
-                                        <td><input type="number" min="100" max="200" required name="zno_${item.disciplineName}" class="form-control"></td>
+                                        <td><input type="number" min="100" max="200" required
+                                                   name="zno_${item.disciplineName}" class="form-control"></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -112,7 +116,8 @@
                                     <tr>
                                         <td>${item2.id}</td>
                                         <td>${item2.disciplineName}</td>
-                                        <td><input type="number" required min="1" max="12" name="cert_${item2.disciplineName}" class="form-control"></td>
+                                        <td><input type="number" required min="1" max="12"
+                                                   name="cert_${item2.disciplineName}" class="form-control"></td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -122,11 +127,12 @@
                         </c:otherwise>
                     </c:choose>
 
-                    <input class="btn btn-success" type="submit" value="I want study here!">
+
                 </div>
             </div>
         </div>
-    </form>
+    </div>
+</form>
 
 
 </body>

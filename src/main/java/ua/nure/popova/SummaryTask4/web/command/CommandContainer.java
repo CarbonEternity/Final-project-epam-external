@@ -53,6 +53,7 @@ public final class CommandContainer {
         commands.put("showStatement", new ShowStatementCommand()); // statement with button run competition
         commands.put("runCompetition", new CalculateEnrolleedStudentsCommand());
         commands.put("showResult", new ShowResultCommand());
+        commands.put("showEnrolleeCertificate", new ShowEnrolleeCertificateCommand());
 
 
 
