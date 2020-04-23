@@ -6,6 +6,7 @@ public class Enrollee extends User implements Comparable<Enrollee> {
 
     private static final long serialVersionUID = 5692708766041889396L;
 
+    private int entranceStatus;
     private String firstName;
     private String secName;
     private String lastName;
@@ -16,6 +17,14 @@ public class Enrollee extends User implements Comparable<Enrollee> {
     private String password;
     private int roleId;
     private boolean accessAllowed;
+
+    public int getEntranceStatus() {
+        return entranceStatus;
+    }
+
+    public void setEntranceStatus(int entranceStatus) {
+        this.entranceStatus = entranceStatus;
+    }
 
     public int getRoleId() {
         return roleId;

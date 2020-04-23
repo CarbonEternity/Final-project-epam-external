@@ -32,16 +32,16 @@ public class UserDAO {
     private static final String SQL_BLOCK_ENROLLEE_WHERE_ID = "UPDATE enrollees SET accessAllowed=false where id =?";
     private static final String SQL_UNBLOCK_ENROLLEE_WHERE_ID = "UPDATE enrollees SET accessAllowed=true where id =?";
 
-    private static final String SQL_FIND_ENROLEES_IN_APPLICATIONS = "select id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from applications inner join enrollees e on applications.id_enrollee = e.id where id_faculty=?";
-    private static final String SQL_FIND_ENROLEE_BY_ID = "select id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees where id=?";
+    private static final String SQL_FIND_ENROLEES_IN_APPLICATIONS = "select id, first_name, sec_name, last_name,city,email, school, region, accessAllowed, entered from applications inner join enrollees e on applications.id_enrollee = e.id where id_faculty=?";
+    private static final String SQL_FIND_ENROLEE_BY_ID = "select id, first_name, sec_name, last_name,city,email, school, region, accessAllowed, entered from enrollees where id=?";
 
     private static final String SQL_FIND_CERTIFICATE_BY_ENROLEE_ID = "select id, discipline_name, mark from disciplines inner join certificates c on disciplines.id_d = c.id_subject where id_enrollee=?";
     private static final String SQL_FIND_ZNO_BY_ENROLEE_AND_FACULTY_IDS = "select zno.id, discipline_name, mark from zno inner join disciplines d on zno.id_subject = d.id_d inner join requirements r on d.id_d = r.id_subject where id_enrollee=? and id_faculty=?";
-    private static final String SQL_FIND_ENROLLEE_FROM_STATEMENT_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from statement join applications a on statement.id_application = a.id_app  JOIN enrollees e on a.id_enrollee = e.id where a.id_faculty=?";
-    private static final String SQL_FIND_ADMITTED_ENROLLEES_FOR_FACULTY = "select enrollees.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from enrollees inner join applications a on enrollees.id = a.id_enrollee inner join statement c on a.id_app = c.id_application  where id_fac=?";
+    private static final String SQL_FIND_ENROLLEE_FROM_STATEMENT_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed, entered from statement join applications a on statement.id_application = a.id_app  JOIN enrollees e on a.id_enrollee = e.id where a.id_faculty=?";
+    private static final String SQL_FIND_ADMITTED_ENROLLEES_FOR_FACULTY = "select enrollees.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed, entered from enrollees inner join applications a on enrollees.id = a.id_enrollee inner join statement c on a.id_app = c.id_application  where id_fac=?";
     private static final String SQL_SET_RESULT = "insert into result (id_faculty, id_enrolee, allowed) VALUES (?,?,?) ";
 
-    private static final String SQL_FIND_ENROLLED_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed from result join enrollees e on result.id_enrolee = e.id where id_faculty=? and allowed=?";
+    private static final String SQL_FIND_ENROLLED_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed, entered from result join enrollees e on result.id_enrolee = e.id where id_faculty=? and allowed=?";
     private static final String SQL_CHECK_ENTERED = "SELECT entered from enrollees where id=?";
     private static final String SQL_SET_ENTERED = "update enrollees set entered=? where enrollees.id=?";
     private static final String SQL_REGISTER_ENROLLEE = "INSERT INTO enrollees (first_name, sec_name, last_name, email, password, city, region, school, certificate_img) VALUES (?, ?, ?, ?, ?,?,?,?,?)";
@@ -297,6 +297,7 @@ public class UserDAO {
         enrollee.setCity(rs.getString(Fields.USER_CITY));
         enrollee.setRegion(rs.getString(Fields.USER_REGION));
         enrollee.setAccessAllowed(rs.getBoolean(Fields.USER_ACCESS_ALLOWED));
+        enrollee.setEntranceStatus(rs.getInt("entered"));
         return enrollee;
     }
 
@@ -390,7 +391,7 @@ public class UserDAO {
 
     }
 
-    public Enrollee findEnroleeById(int enroleeId) throws DBException {
+    public Enrollee findEnroleeById(int enroleeId) {
         Enrollee enrollee = new Enrollee();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -404,7 +405,7 @@ public class UserDAO {
                 enrollee = extractEnrollee(rs);
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | DBException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {

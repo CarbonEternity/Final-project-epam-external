@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class BlockUnblockEnrollee extends Command {
+public class LockUnlockEnrollee extends Command {
 
-    private static final Logger LOG = Logger.getLogger(BlockUnblockEnrollee.class);
+    private static final Logger LOG = Logger.getLogger(LockUnlockEnrollee.class);
     private static final long serialVersionUID = 156778258689586513L;
 
     @Override

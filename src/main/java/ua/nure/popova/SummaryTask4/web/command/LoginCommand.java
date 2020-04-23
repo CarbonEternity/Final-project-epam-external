@@ -2,8 +2,10 @@ package ua.nure.popova.SummaryTask4.web.command;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
+import ua.nure.popova.SummaryTask4.db.EntranceStatus;
 import ua.nure.popova.SummaryTask4.db.Role;
 import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
+import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.AppException;
 import ua.nure.popova.SummaryTask4.exception.Messages;
@@ -73,8 +75,15 @@ public class LoginCommand extends Command {
     }
 
     private boolean enrolleeEntered(User user) {
-        boolean accessEnrolleeAllowed;
-        accessEnrolleeAllowed = new UserDAO().checkEnrolleeEntered(user);
+        boolean accessEnrolleeAllowed=false;
+//        accessEnrolleeAllowed = new UserDAO().checkEnrolleeEntered(user);
+
+        Enrollee enrollee = new UserDAO().findEnroleeById(Math.toIntExact(user.getId()));
+        EntranceStatus entrance = EntranceStatus.getEntranceStatus(enrollee);
+        if(entrance==EntranceStatus.ENTERED){
+            accessEnrolleeAllowed=true;
+        }
+
         return accessEnrolleeAllowed;
     }
 }

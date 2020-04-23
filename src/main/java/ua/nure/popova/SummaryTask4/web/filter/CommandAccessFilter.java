@@ -2,8 +2,10 @@ package ua.nure.popova.SummaryTask4.web.filter;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
+import ua.nure.popova.SummaryTask4.db.AccessStatus;
 import ua.nure.popova.SummaryTask4.db.Role;
 import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
+import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.DBException;
 import ua.nure.popova.SummaryTask4.exception.Messages;
@@ -91,8 +93,18 @@ public class CommandAccessFilter implements Filter {
         if(user!=null) {
             Role userRole = (Role)session.getAttribute("userRole");
             if(userRole==Role.CLIENT) {
-                accessEnrolleeAllowed = new UserDAO().checkEnrolleeAccess(user);
+//                accessEnrolleeAllowed = new UserDAO().checkEnrolleeAccess(user);
+                accessEnrolleeAllowed = hasEnrolleeEntranceStatus(user, accessEnrolleeAllowed);
             }
+        }
+        return accessEnrolleeAllowed;
+    }
+
+    private boolean hasEnrolleeEntranceStatus(User user, boolean accessEnrolleeAllowed) {
+        Enrollee enrollee = new UserDAO().findEnroleeById(Math.toIntExact(user.getId()));
+        AccessStatus status = AccessStatus.getAccessStatus(enrollee);
+        if(status == AccessStatus.LOCKED){
+            accessEnrolleeAllowed=false;
         }
         return accessEnrolleeAllowed;
     }
