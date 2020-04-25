@@ -28,13 +28,13 @@ public final class CommandContainer {
         commands.put("viewSettings", new ViewSettingsCommand());
         commands.put("noCommand", new NoCommand());
 
-//        // client commands
+        // client commands
         commands.put("sortFacultyList", new SortFacultiesForEnroleeCommand());
         commands.put("viewFacultyAndRequirements", new ShowRequirementsCommand());
         commands.put("createOrder", new ApplyForStudyCommand());
         commands.put("deleteApplication", new DeleteApplicationCommand());
 
-//        // admin commands
+        // admin commands
         commands.put("adminHome", new AdminHomeCommand());
         commands.put("actionWithFaculties", new ListFacultiesForAdminCommand()); //faculties with buttons
         commands.put("sortFaculties", new SortFacultiesCommand()); // just sort faculties
@@ -54,10 +54,6 @@ public final class CommandContainer {
         commands.put("runCompetition", new CalculateEnrolleedStudentsCommand());
         commands.put("showResult", new ShowResultCommand());
         commands.put("showEnrolleeCertificate", new ShowEnrolleeCertificateCommand());
-
-
-
-
 
 
         LOG.debug("Command container was successfully initialized");

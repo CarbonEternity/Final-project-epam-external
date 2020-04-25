@@ -83,3 +83,4 @@ out/
 
 
 /src/main/resources/logs/
+/src/main/resources/coverage.html/
