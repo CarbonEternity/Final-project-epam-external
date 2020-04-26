@@ -48,6 +48,16 @@ public class UserDAO {
 
     private static final String SQL_SELECT_IMAGE_ENROLLEE_BY_ID = "SELECT certificate_img from enrollees where id=?";
 
+    private final DBManager dbManager;
+
+    public UserDAO() {
+        this.dbManager = DBManager.getInstance();
+    }
+
+    public UserDAO(DBManager dbManager) {
+        this.dbManager = dbManager;
+    }
+
     public String getImageByEnrolleeId(int id) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -133,7 +143,7 @@ public class UserDAO {
         ResultSet rs = null;
         Connection con = null;
         try {
-            con = DBManager.getInstance().getConnection();
+            con = dbManager.getConnection();
             pstmt = con.prepareStatement(SQL_FIND_ENROLLEE_BY_EMAIL);
             pstmt.setString(1, email);
             rs = pstmt.executeQuery();
@@ -152,10 +162,10 @@ public class UserDAO {
             LOG.info("COMMIT");
             con.commit();
         } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(con);
+            dbManager.rollbackAndClose(con);
             throw new DBException(Messages.ERR_CANNOT_OBTAIN_USER_BY_LOGIN, ex);
         } finally {
-            DBManager.getInstance().close(con, pstmt, rs);
+            dbManager.close(con, pstmt, rs);
         }
         return user;
     }

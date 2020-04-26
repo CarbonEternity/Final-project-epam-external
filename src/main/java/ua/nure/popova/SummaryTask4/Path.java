@@ -1,5 +1,10 @@
 package ua.nure.popova.SummaryTask4;
 
+/**
+ * The type Path.
+ *
+ * @author A.Popova
+ */
 public final class Path {
 
     private Path() {
@@ -14,7 +19,6 @@ public final class Path {
     // commands
     public static final String COMMAND_ADMIN_HOME = "/controller?command=adminHome";
     public static final String COMMAND_LIST_FACULTIES = "/controller?command=sortFacultyList";
-    public static final String COMMAND_ENROLLEES_LIST = "/controller?command=actionWithEnrollees";
     public static final String COMMAND_SHOW_APPLICATIONS = "/controller?command=showApplications";
     public static final String COMMAND_SHOW_FACULTY_FOR_COMPETITION = "/controller?command=showFacultiesForCompetition";
     public static final String COMMAND_SHOW_RESULT= "/controller?command=showResult";

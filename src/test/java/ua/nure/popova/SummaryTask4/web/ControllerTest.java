@@ -3,8 +3,11 @@ package ua.nure.popova.SummaryTask4.web;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import ua.nure.popova.SummaryTask4.Path;
+import ua.nure.popova.SummaryTask4.exception.AppException;
+import ua.nure.popova.SummaryTask4.web.command.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
 
-public class ControllerTest{
+public class ControllerTest extends Mockito {
 
     @Mock
     HttpServletRequest request;
@@ -46,6 +49,4 @@ public class ControllerTest{
         verify(request, times(1)).getRequestDispatcher(errorPage);
         verify(dispatcher).forward(request, response);
     }
-
-
 }

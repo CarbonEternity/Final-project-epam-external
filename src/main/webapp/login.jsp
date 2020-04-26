@@ -5,6 +5,10 @@
   Time: 18:31
   To change this template use File | Settings | File Templates.
 --%>
+<%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
+<fmt:setLocale value="${locale}"/>
+
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/login.css">

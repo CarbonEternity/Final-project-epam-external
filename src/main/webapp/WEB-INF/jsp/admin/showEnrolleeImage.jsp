@@ -5,7 +5,10 @@
   Time: 20:47
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
+<fmt:setLocale value="${locale}"/>
+
 <!doctype html>
 <html lang="en">
 <head>

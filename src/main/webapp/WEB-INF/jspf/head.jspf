@@ -11,25 +11,9 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
-<%--    <fmt:setLocale value="${user.locale }"/>  TODO--%>
+    <fmt:setLocale value="${locale}"/>
     <style type="text/css">
-        html, body {
-            height: 100%;
-        }
 
-        #wrap {
-            min-height: 100%;
-        }
-
-        #main {
-            overflow:auto;
-            padding-bottom:150px; /* this needs to be bigger than footer height*/
-        }
-
-        .footer {
-
-            padding-top:19%;
-        }
     </style>
     <%--===========================================================================
     If you define http-equiv attribute, set the content type and the charset the same

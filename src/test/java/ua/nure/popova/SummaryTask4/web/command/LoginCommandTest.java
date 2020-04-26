@@ -1,27 +1,23 @@
 package ua.nure.popova.SummaryTask4.web.command;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
+import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.db.entity.User;
 import ua.nure.popova.SummaryTask4.exception.AppException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-public class LoginCommandTest{
+public class LoginCommandTest {
 
     @Mock
     HttpServletRequest request;
@@ -32,33 +28,57 @@ public class LoginCommandTest{
     @Mock
     HttpSession session;
 
-    @Spy
+    @Mock
     UserDAO userDAO;
 
-    @Spy
-    User user;
-
     @Before
-    public void setUp(){
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test (expected = AppException.class)
-    public void executeFailTest() throws Exception{
-        new LoginCommand().execute(request, response);
+    @Test(expected = AppException.class)
+    public void testExecuteFail() throws Exception {
+        new LoginCommand(userDAO).execute(request, response);
     }
 
- /*   @Test
-    public void executeRedirectToErrorPageTest() throws Exception{
+    @Test
+    public void testExecuteRedirectToAdminHomePage() throws Exception {
+        when(request.getParameter("password")).thenReturn("someAdminPassword");
+        when(request.getParameter("email")).thenReturn("someAdminEmail");
+        when(request.getSession()).thenReturn(session);
+
+        User user = new User();
+        user.setId(1L);
+        user.setEmail("someAdminEmail");
+        user.setPassword("someAdminPassword");
+
+        when(userDAO.findSomebodyByEmail("someAdminEmail")).thenReturn(user);
+
+        LoginCommand loginCommand = new LoginCommand(userDAO);
+        String forward = loginCommand.execute(request, response);
+
+        assertEquals(Path.PAGE_ADMIN_HOME, forward);
+    }
+
+    @Test (expected = AppException.class)
+    public void testExecuteRedirectToErrorPage() throws Exception {
         when(request.getParameter("password")).thenReturn("somePassword");
         when(request.getParameter("email")).thenReturn("someEmail");
         when(request.getSession()).thenReturn(session);
-        when(userDAO.findSomebodyByEmail(request.getParameter("email"))).thenReturn(user);
 
-        new LoginCommand().execute(request, response);
+        Enrollee user = new Enrollee();
+        user.setId(1L);
+        user.setEmail("someEmail");
+        user.setPassword("somePassword");
+        user.setRoleId(1);
+        user.setEntranceStatus(1);
 
+        when(userDAO.findSomebodyByEmail("someEmail")).thenReturn(user);
+        when(userDAO.findEnroleeById(1)).thenReturn(user);
 
-        assertEquals(Path.PAGE_ERROR_PAGE, new LoginCommand().execute(request, response));
-    }*/
+        LoginCommand loginCommand = new LoginCommand(userDAO);
+        loginCommand.execute(request, response);
+
+    }
 
 }

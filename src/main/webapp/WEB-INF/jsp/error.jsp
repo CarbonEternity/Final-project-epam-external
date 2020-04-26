@@ -6,9 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page isErrorPage="true" %>
-<%@ page import="java.io.PrintWriter" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -30,17 +29,12 @@
                 <c:set var="message" value="${requestScope['javax.servlet.error.message']}"/>
                 <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
 
-               <%-- <c:if test="${not empty code}">
+                <c:if test="${not empty code}">
                     <h3>Error code: ${code}</h3>
-                </c:if>--%>
-<%--
+                </c:if>
                 <c:if test="${not empty message}">
                     <h3>${message}</h3>
-                </c:if>--%>
-
-               <%-- <c:if test="${not empty exception}">
-                    <% exception.printStackTrace(new PrintWriter(out)); %>
-                </c:if>--%>
+                </c:if>
 
                 <%-- if we get this page using forward --%>
                 <c:if test="${not empty requestScope.errorMessage}">
@@ -48,15 +42,15 @@
                 </c:if>
 
                 <div class="error-details">
-                    Sorry, You do not have permission to access the requested resource.
+                    Sorry, some error has occurred.
                 </div>
                 <div class="error-actions">
                     <a href="/final" class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-arrow-left"></span>
                         Back to login </a>
 
-                    <a href="#" class="btn btn-default btn-lg">
-                        <span class="glyphicon glyphicon-envelope"></span> Contact Support </a>
+                    <%--<a href="#" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-envelope"></span> Contact Support </a>--%>
                 </div>
             </div>
         </div>

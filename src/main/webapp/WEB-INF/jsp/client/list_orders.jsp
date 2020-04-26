@@ -5,10 +5,10 @@
   Time: 23:56
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
+<%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
+<fmt:setLocale value="${locale}"/>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,17 +28,28 @@
 
 <div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="#" class="navbar-brand">Home</a>
+        <a href="#" class="navbar-brand"><fmt:message key="common.home"/></a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
-                <a href="#" class="nav-item nav-link">About</a>
-                <a href="#" class="nav-item nav-link">Never)</a>
+                <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
+                <a href="#" class="nav-item nav-link">Karazin University</a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
-                <a href="controller?command=logout" class="nav-item nav-link active">Logout</a>
+                <a href="controller?command=logout" class="nav-item nav-link active"><fmt:message key="common.logout"/></a>
+                <form action="controller" method="get">
+                    <input type="hidden" name="command" value="changeLocale">
+                    <!-- select-->
+                    <select class="mdb-select md-form colorful-select dropdown-primary" name="locale">
+                        <option selected><fmt:message key="common.locale.selectLocale"/></option>
+                            <option value="ru"><fmt:message key="common.locale.optionRULocale"/></option>
+                            <option value="en"><fmt:message key="common.locale.optionENLocale"/></option>
+                    </select>
+                    <!--/ select-->
+                    <button type="submit" class="btn btn-outline-light"><fmt:message key="common.locale.localeButton"/></button>
+                </form>
             </div>
             <form class="form-inline ml-auto">
 
@@ -46,18 +57,18 @@
                     <input type="hidden" name="command" value="sortFacultyList">
                     <!-- select-->
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="sort">
-                        <option selected>Select sort</option>
+                        <option selected><fmt:message key="common.selectSort"/></option>
                         <optgroup label="> by count">
-                            <option value="count_budget">Count budget</option>
-                            <option value="count_total">Count total</option>
+                            <option value="count_budget"><fmt:message key="client.sort.countBudget"/></option>
+                            <option value="count_total"><fmt:message key="client.sort.countTotal"/></option>
                         </optgroup>
                         <optgroup label="> by name">
-                            <option value="namefirst">Name A-Z</option>
-                            <option value="namelast">Name Z-A</option>
+                            <option value="namefirst"><fmt:message key="client.sort.NameAZ"/></option>
+                            <option value="namelast"><fmt:message key="client.sort.NameZA"/></option>
                         </optgroup>
                     </select>
                     <!--/ select-->
-                    <button type="submit" class="btn btn-outline-light">Sort</button>
+                    <button type="submit" class="btn btn-outline-light"><fmt:message key="common.sort.sortButton"/></button>
                 </form>
             </form>
         </div>
@@ -74,10 +85,10 @@
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Budget</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Action</th>
+                        <th scope="col"><fmt:message key="table.faculties.name"/></th>
+                        <th scope="col"><fmt:message key="table.faculties.budget"/></th>
+                        <th scope="col"><fmt:message key="table.faculties.total"/></th>
+                        <th scope="col"><fmt:message key="table.faculties.action"/></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -131,11 +142,5 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-<script lang="javascript">
-    // Material Select Initialization
-    $(document).ready(function () {
-        $('.mdb-select').materialSelect();
-    });
-</script>
 </body>
 </html>

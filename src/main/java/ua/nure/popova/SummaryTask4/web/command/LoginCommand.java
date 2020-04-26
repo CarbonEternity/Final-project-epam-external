@@ -20,13 +20,23 @@ public class LoginCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(LoginCommand.class);
 
+    private UserDAO userDAO;
+
+    public LoginCommand() {
+        this.userDAO = new UserDAO();
+    }
+
+    public LoginCommand(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         LOG.debug("Command login starts");
 
         HttpSession session = request.getSession();
 
-        UserDAO userDAO = new UserDAO();
+//        UserDAO userDAO = new UserDAO();
         String email = request.getParameter("email");
         LOG.trace("Request parameter: email --> " + email);
 
@@ -78,7 +88,7 @@ public class LoginCommand extends Command {
         boolean accessEnrolleeAllowed=false;
 //        accessEnrolleeAllowed = new UserDAO().checkEnrolleeEntered(user);
 
-        Enrollee enrollee = new UserDAO().findEnroleeById(Math.toIntExact(user.getId()));
+        Enrollee enrollee = userDAO.findEnroleeById(Math.toIntExact(user.getId()));
         EntranceStatus entrance = EntranceStatus.getEntranceStatus(enrollee);
         if(entrance==EntranceStatus.ENTERED){
             accessEnrolleeAllowed=true;

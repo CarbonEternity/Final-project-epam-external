@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
-import java.util.Collection;
 
 @MultipartConfig(maxFileSize = 5000000)
 public class RegistrationCommand extends Command {
@@ -21,17 +20,28 @@ public class RegistrationCommand extends Command {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(RegistrationCommand.class);
 
+    private UserDAO userDao;
+    private SendMail sendMail;
+
+    public RegistrationCommand(UserDAO userDao, SendMail sendMail) {
+        this.userDao = userDao;
+        this.sendMail = sendMail;
+    }
+
+    public RegistrationCommand() {
+        this.userDao = new UserDAO();
+        this.sendMail = new SendMail();
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        UserDAO userDao = new UserDAO();
-
         Enrollee enrollee = extractEnrollee(request);
         Part image = getPart(request);
 
         userDao.registerEmployee(enrollee, image);
 
-        /*SendMail sendMail = new SendMail();
-        sendMail.send("University entrance", "You have successfully registered for university!", enrollee.getEmail());*/
+
+        sendMail.send("University entrance", "You have successfully registered for university!", enrollee.getEmail());
 
        LOG.info("Mail was send");
 

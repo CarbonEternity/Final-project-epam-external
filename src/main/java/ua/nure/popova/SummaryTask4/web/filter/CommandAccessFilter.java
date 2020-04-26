@@ -7,14 +7,12 @@ import ua.nure.popova.SummaryTask4.db.Role;
 import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.db.entity.User;
-import ua.nure.popova.SummaryTask4.exception.DBException;
 import ua.nure.popova.SummaryTask4.exception.Messages;
 
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.*;
 
