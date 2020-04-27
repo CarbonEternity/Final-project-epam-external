@@ -1,23 +1,9 @@
 body {
-    background: url('../img/admin-back.jpg') no-repeat center;
+    background: url('../img/karazin-south.png') no-repeat center;
     background-size: cover;
 }
 
 .small {
     margin: 20px auto;
-    width: 40%;
-}
-
-.table,
-.table tr,
-.table td {
-    font-size: 16px;
-}
-
-.bs-example {
-    margin: 0;
-}
-
-.navbar {
-    position: relative;
+    width: 45%;
 }

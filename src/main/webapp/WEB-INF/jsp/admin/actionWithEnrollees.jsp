@@ -13,6 +13,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/actionsWithEnroleesStyles.css">
+    <title><fmt:message key="title.actionsWithEnrolees"/></title>
 </head>
 <body>
 

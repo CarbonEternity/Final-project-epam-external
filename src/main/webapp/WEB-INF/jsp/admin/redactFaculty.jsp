@@ -13,7 +13,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/redact.css">
-    <title>${faculty.name}</title>
+    <title><fmt:message key="title.redactFaculty"/></title>
 </head>
 <body>
 

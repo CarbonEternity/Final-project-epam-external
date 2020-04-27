@@ -13,7 +13,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/facultiesForCompetitionStyles.css">
-    <title>Faculties</title>
+    <title><fmt:message key="title.faculties"/></title>
 </head>
 <body>
 <div class="bs-example">

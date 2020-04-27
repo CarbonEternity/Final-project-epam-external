@@ -13,6 +13,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/allFacultiesStyles.css">
+    <title><fmt:message key="title.allFaculties"/></title>
 </head>
 <body>
 <div class="bs-example">

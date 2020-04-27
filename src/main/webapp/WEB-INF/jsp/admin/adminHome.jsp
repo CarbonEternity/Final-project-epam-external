@@ -13,6 +13,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/adminHomeStyles.css">
+    <title><fmt:message key="title.Home"/></title>
 </head>
 
 <body>

@@ -1,5 +1,5 @@
 body {
-    background: url('../img/admin-back.jpg') no-repeat fixed;
+    background: url('../img/karazin-south.png') no-repeat fixed;
     background-size: cover;
 }
 
@@ -10,20 +10,6 @@ body {
 
 h1 {
     color: white;
-}
-
-.table,
-.table tr,
-.table td {
-    font-size: 16px;
-}
-
-.bs-example {
-    margin: 0;
-}
-
-.navbar {
-    position: relative;
 }
 
 #button1{

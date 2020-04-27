@@ -7,56 +7,37 @@
 --%>
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="${locale}"/>
+<%@ include file="/WEB-INF/jspf/head.jspf"%>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/resultStyles.css">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <title>Result</title>
+    <title><fmt:message key="title.result"/></title>
 </head>
 <body>
 
-
 <div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="controller?command=adminHome" class="navbar-brand">Home</a>
+        <a href="#" class="navbar-brand">
+            <img src="style/icon/karazin-logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+            Karazin University</a>
+
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
-                <a href="controller?command=showFacultiesForCompetition" class="nav-item nav-link">Faculties with applications</a>
-                <a href="#" class="nav-item nav-link">About</a>
+                <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
+                <a href="controller?command=showFacultiesForCompetition" class="nav-item nav-link"><fmt:message key="admin.header.showFacultiesForCompetition"/></a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
             </div>
             <form class="form-inline ml-auto">
-                <a href="controller?command=logout" class="nav-item nav-link active">Logout</a>
+                <a href="controller?command=logout" class="nav-item nav-link active"><fmt:message key="common.logout"/></a>
             </form>
         </div>
     </nav>
-</div>
-
-
-<div id="container">
-    <form action="controller" method="get">
-        <input type="hidden" name="command" value="showEnrolee">
-        <input type="hidden" name="id_enr" value="${enroleeInfo.id}">
-        <input type="hidden" name="id_fac" value="${id_fac}">
-        <button type="submit" name= "back" class="btn btn-lg btn-outline-primary" id="button1">&#8592; Back</button>
-        <button type="submit" name="admit" class="btn btn-lg btn-outline-primary" id="button2">Admit</button>
-    </form>
 </div>
 
 <div class="general">
@@ -64,18 +45,18 @@
     <div class="block">
         <div class="table-mark">
 
-            <h3>ENROLLED</h3>
+            <h3><fmt:message key="admin.result.enrolledTableHead"/></h3>
             <c:choose>
                 <c:when test="${not empty enrolled}">
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Faculty</th>
-                            <th scope="col">First name</th>
-                            <th scope="col">Second name</th>
-                            <th scope="col">Last name</th>
-                            <th scope="col">City</th>
+                            <th scope="col"><fmt:message key="admin.result.facultyName"/></th>
+                            <th scope="col"><fmt:message key="admin.listEnrollees.firstName"/></th>
+                            <th scope="col"><fmt:message key="admin.listEnrollees.secName"/></th>
+                            <th scope="col"><fmt:message key="admin.listEnrollees.lastName"/></th>
+                            <th scope="col"><fmt:message key="admin.listEnrollees.city"/></th>
                             <th scope="col">@Email</th>
                         </tr>
                         </thead>
@@ -115,18 +96,18 @@
     <div class="block">
         <div class="table-mark">
 
-            <h3>NOT ENROLLED</h3>
+            <h3><fmt:message key="admin.result.notEnrolledTableHead"/></h3>
             <c:choose>
                 <c:when test="${not empty notEnrolled}">
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Faculty</th>
-                            <th scope="col">First name</th>
-                            <th scope="col">Second name</th>
-                            <th scope="col">Last name</th>
-                            <th scope="col">City</th>
+                            <th scope="col"><fmt:message key="admin.result.facultyName"/></th>
+                            <th scope="col"><fmt:message key="admin.listEnrollees.firstName"/></th>
+                            <th scope="col"><fmt:message key="admin.listEnrollees.secName"/></th>
+                            <th scope="col"><fmt:message key="admin.listEnrollees.lastName"/></th>
+                            <th scope="col"><fmt:message key="admin.listEnrollees.city"/></th>
                             <th scope="col">@Email</th>
                         </tr>
                         </thead>
@@ -164,5 +145,7 @@
     </div>
 
 </div>
+
+<%@ include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
 </html>

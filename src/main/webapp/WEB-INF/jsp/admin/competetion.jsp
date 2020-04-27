@@ -12,7 +12,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/competitionStyles.css">
-    <title>Competition</title>
+    <title><fmt:message key="title.competition"/></title>
 </head>
 <body>
 

@@ -7,57 +7,50 @@
 --%>
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="${locale}"/>
+<%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/showEnrolleeStyles.css">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <title>Enrolee info</title>
+    <title><fmt:message key="title.enrolleeInfo"/></title>
 </head>
-<style>
-</style>
 <body>
-
 
 <div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="controller?command=adminHome" class="navbar-brand">Home</a>
+        <a href="#" class="navbar-brand">
+            <img src="style/icon/karazin-logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+            Karazin University</a>
+
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
-                <a href="controller?command=showFacultiesForCompetition" class="nav-item nav-link">Faculties with applications</a>
-                <a href="#" class="nav-item nav-link">About</a>
+                <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
+                <a href="controller?command=showFacultiesForCompetition" class="nav-item nav-link"><fmt:message
+                        key="admin.header.showFacultiesForCompetition"/></a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
             </div>
             <form class="form-inline ml-auto">
-                <a href="controller?command=logout" class="nav-item nav-link active">Logout</a>
+                <a href="controller?command=logout" class="nav-item nav-link active"><fmt:message
+                        key="common.logout"/></a>
             </form>
         </div>
     </nav>
 </div>
-
 
 <div id="container">
     <form action="controller" method="get">
         <input type="hidden" name="command" value="showEnrolee">
         <input type="hidden" name="id_enr" value="${enroleeInfo.id}">
         <input type="hidden" name="id_fac" value="${id_fac}">
-    <button type="submit" name= "back" class="btn btn-lg btn-outline-warning" id="button1">&#8592; Back</button>
-    <button type="submit" name="admit" class="btn btn-lg btn-outline-warning" id="button2">Admit</button>
+        <button type="submit" name="back" class="btn btn-lg btn-outline-warning" id="button1">&#8592; <fmt:message
+                key="common.back"/></button>
+        <button type="submit" name="admit" class="btn btn-lg btn-outline-warning" id="button2"><fmt:message
+                key="admin.listEnrollees.admit"/></button>
     </form>
 </div>
 
@@ -65,17 +58,16 @@
 
     <div class="block">
         <div class="info">
-            <h3>INFO</h3>
-            <p><b>Name: </b> ${enroleeInfo.firstName}</p>
-            <p><b>Second-Name: </b> ${enroleeInfo.secName}</p>
-            <p><b>Last-Name: </b> ${enroleeInfo.lastName}</p>
+            <h3><fmt:message key="admin.enrolleeInfo.info"/></h3>
+            <p><b><fmt:message key="admin.enrolleeInfo.name"/>: </b> ${enroleeInfo.firstName}</p>
+            <p><b><fmt:message key="admin.enrolleeInfo.secname"/>: </b> ${enroleeInfo.secName}</p>
+            <p><b><fmt:message key="admin.enrolleeInfo.lastName"/>: </b> ${enroleeInfo.lastName}</p>
             <p><b>Email: </b> ${enroleeInfo.email}</p>
-            <p><b>City: </b> ${enroleeInfo.city}</p>
-            <p><b>Region: </b> ${enroleeInfo.region}</p>
-            <p><b>School: </b> ${enroleeInfo.school}</p>
+            <p><b><fmt:message key="admin.enrolleeInfo.city"/>: </b> ${enroleeInfo.city}</p>
+            <p><b><fmt:message key="admin.enrolleeInfo.region"/>: </b> ${enroleeInfo.region}</p>
+            <p><b><fmt:message key="admin.enrolleeInfo.school"/>: </b> ${enroleeInfo.school}</p>
         </div>
     </div>
-
 
 
     <div class="block">
@@ -87,8 +79,8 @@
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Discipline</th>
-                            <th scope="col">Mark</th>
+                            <th scope="col"><fmt:message key="admin.faculties.createFaculty.disciplineName"/></th>
+                            <th scope="col"><fmt:message key="admin.faculties.createFaculty.disciplineMark"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -112,25 +104,25 @@
             <input type="hidden" name="id_enr" value="${enroleeInfo.id}">
             <input type="hidden" name="id_fac" value="${id_fac}">
 
-            <button class="knopka btn btn-lg btn-outline-warning">BOGDAN JOPA</button>
+            <button class="knopka btn btn-lg btn-outline-warning"><fmt:message
+                    key="admin.enrolleeInfo.showCertificate"/></button>
         </form>
 
     </div>
 
 
-
     <div class="block">
         <div class="table-mark">
 
-            <h3>CERTIFICATE</h3>
+            <h3><fmt:message key="admin.enrolleeInfo.certificate"/></h3>
             <c:choose>
                 <c:when test="${not empty enroleeCertificate}">
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Dicipline</th>
-                            <th scope="col">Mark</th>
+                            <th scope="col"><fmt:message key="admin.faculties.createFaculty.disciplineName"/></th>
+                            <th scope="col"><fmt:message key="admin.faculties.createFaculty.disciplineMark"/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -150,23 +142,9 @@
             </c:choose>
 
         </div>
-
     </div>
-
 </div>
 
-
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+<%@ include file="/WEB-INF/jspf/footer.jspf" %>
 </body>
 </html>
