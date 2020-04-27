@@ -88,11 +88,11 @@
         </init-param>
         <init-param>
             <param-name>common</param-name>
-            <param-value>logout noCommand changeLocale</param-value>
+            <param-value>logout noCommand</param-value>
         </init-param>
         <init-param>
             <param-name>out-of-control</param-name>
-            <param-value>login register</param-value>
+            <param-value>login register changeLocale</param-value>
         </init-param>
     </filter>
 

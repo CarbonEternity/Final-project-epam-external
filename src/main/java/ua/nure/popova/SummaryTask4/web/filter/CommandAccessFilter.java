@@ -36,10 +36,7 @@ public class CommandAccessFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         LOG.debug("Filter starts");
 
-        if (accessAllowed(request)) {
-            if(!checkEnrolleeAccess(request)){
-                setForward(request, response,  Messages.ENROLLEE_BLOCKED);
-            }
+        if (accessAllowed(request, response)) {
             LOG.debug("Filter finished");
             chain.doFilter(request, response);
         } else {
@@ -56,7 +53,7 @@ public class CommandAccessFilter implements Filter {
                 .forward(request, response);
     }
 
-    private boolean accessAllowed(ServletRequest request) {
+    private boolean accessAllowed(ServletRequest request, ServletResponse response) throws ServletException, IOException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
         String commandName = request.getParameter("command");
@@ -78,6 +75,10 @@ public class CommandAccessFilter implements Filter {
             return false;
         }
 
+        if(!checkEnrolleeAccess(request)){
+            setForward(request, response,  Messages.ENROLLEE_BLOCKED);
+        }
+
         return accessMap.get(userRole).contains(commandName)
                 || commons.contains(commandName);
     }
@@ -92,13 +93,13 @@ public class CommandAccessFilter implements Filter {
             Role userRole = (Role)session.getAttribute("userRole");
             if(userRole==Role.CLIENT) {
 //                accessEnrolleeAllowed = new UserDAO().checkEnrolleeAccess(user);
-                accessEnrolleeAllowed = hasEnrolleeEntranceStatus(user, accessEnrolleeAllowed);
+                accessEnrolleeAllowed = hasEnrolleeAccess(user, accessEnrolleeAllowed);
             }
         }
         return accessEnrolleeAllowed;
     }
 
-    private boolean hasEnrolleeEntranceStatus(User user, boolean accessEnrolleeAllowed) {
+    private boolean hasEnrolleeAccess(User user, boolean accessEnrolleeAllowed) {
         Enrollee enrollee = new UserDAO().findEnroleeById(Math.toIntExact(user.getId()));
         AccessStatus status = AccessStatus.getAccessStatus(enrollee);
         if(status == AccessStatus.LOCKED){
