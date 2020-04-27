@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Command for lock/unlock enrollee.
+ *
+ * @author A.Popova
+ */
 public class LockUnlockEnrollee extends Command {
 
     private static final Logger LOG = Logger.getLogger(LockUnlockEnrollee.class);

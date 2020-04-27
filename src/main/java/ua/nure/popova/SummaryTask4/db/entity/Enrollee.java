@@ -2,6 +2,11 @@ package ua.nure.popova.SummaryTask4.db.entity;
 
 import java.util.Objects;
 
+/**
+ * Enrollee entity
+ *
+ * @author A.Popova
+ */
 public class Enrollee extends User implements Comparable<Enrollee> {
 
     private static final long serialVersionUID = 5692708766041889396L;

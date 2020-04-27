@@ -15,6 +15,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Command user home.
+ *
+ * @author A.Popova
+ */
 public class UserHomeCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(UserHomeCommand.class);

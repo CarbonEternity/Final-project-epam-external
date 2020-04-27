@@ -17,6 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Command apply for study.
+ *
+ * @author A.Popova
+ */
 public class ApplyForStudyCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ApplyForStudyCommand.class);

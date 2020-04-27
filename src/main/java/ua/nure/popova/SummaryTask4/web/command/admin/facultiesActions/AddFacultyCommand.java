@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Command add faculty.
+ *
+ * @author A.Ppopova
+ */
 public class AddFacultyCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(AddFacultyCommand.class);

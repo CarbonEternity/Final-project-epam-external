@@ -13,6 +13,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * The type Db manager.
+ *
+ * @author A.Popova
+ */
 public class DBManager {
 
     private static final Logger LOG = Logger.getLogger(DBManager.class);
@@ -20,6 +25,11 @@ public class DBManager {
     private static DBManager instance;
     private DataSource ds;
 
+    /**
+     * Gets instance.
+     *
+     * @return the instance
+     */
     public static synchronized DBManager getInstance() {
         if (instance == null) {
             instance = new DBManager();
@@ -54,6 +64,7 @@ public class DBManager {
      * your WEB_APP_ROOT/META-INF/context.xml file.
      *
      * @return DB connection.
+     * @throws DBException the db exception
      */
     public Connection getConnection() throws DBException {
         Connection con;
@@ -66,11 +77,21 @@ public class DBManager {
         return con;
     }
 
+    /**
+     * Rollback and close.
+     *
+     * @param con the con
+     */
     public void rollbackAndClose(Connection con) {
         rollback(con);
         close(con);
     }
 
+    /**
+     * Commit and close.
+     *
+     * @param con the con
+     */
     public void commitAndClose(Connection con) {
         commit(con);
         close(con);
@@ -79,8 +100,7 @@ public class DBManager {
     /**
      * Closes a connection.
      *
-     * @param con
-     *            Connection to be closed.
+     * @param con Connection to be closed.
      */
     public void close(Connection con) {
         if (con != null) {
@@ -94,6 +114,8 @@ public class DBManager {
 
     /**
      * Closes a statement object.
+     *
+     * @param stmt the stmt
      */
     public void close(Statement stmt) {
         if (stmt != null) {
@@ -107,6 +129,8 @@ public class DBManager {
 
     /**
      * Closes a result set object.
+     *
+     * @param rs the rs
      */
     public void close(ResultSet rs) {
         if (rs != null) {
@@ -120,6 +144,10 @@ public class DBManager {
 
     /**
      * Closes resources.
+     *
+     * @param con  the con
+     * @param stmt the stmt
+     * @param rs   the rs
      */
     public void close(Connection con, Statement stmt, ResultSet rs) {
         close(rs);
@@ -130,8 +158,7 @@ public class DBManager {
     /**
      * Rollbacks a connection.
      *
-     * @param con
-     *            Connection to be rollbacked.
+     * @param con Connection to be rollbacked.
      */
     public void rollback(Connection con) {
         if (con != null) {
@@ -143,6 +170,11 @@ public class DBManager {
         }
     }
 
+    /**
+     * Commit.
+     *
+     * @param con the con
+     */
     public void commit(Connection con) {
         if (con != null) {
             try {

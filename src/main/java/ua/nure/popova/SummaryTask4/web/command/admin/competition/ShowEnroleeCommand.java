@@ -9,12 +9,16 @@ import ua.nure.popova.SummaryTask4.web.command.Command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Command show enrolee and add him to statement.
+ *
+ * @author A.Popova
+ */
 public class ShowEnroleeCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowEnroleeCommand.class);
     private static final long serialVersionUID = 1L;
 
-    // add enrollee to the competitions table
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         LOG.info("Command start");

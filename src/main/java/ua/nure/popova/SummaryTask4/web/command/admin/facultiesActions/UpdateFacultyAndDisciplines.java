@@ -16,6 +16,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Command update faculty and disciplines.
+ *
+ * @author A.Ppopova
+ */
 public class UpdateFacultyAndDisciplines extends Command {
 
     private static final Logger LOG = Logger.getLogger(UpdateFacultyAndDisciplines.class);

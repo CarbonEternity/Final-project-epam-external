@@ -13,13 +13,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type Statement dao.
+ *
+ * @author A.Popova
+ */
 public class StatementDAO {
 
     private static final Logger LOG = Logger.getLogger(StatementDAO.class);
+
     private static final String SQL_ADD_ENROLEE_TO_COMPETITION = "insert into statement (id_application, id_fac) values ((select applications.id_app from applications where id_enrollee=? and id_faculty=?), ?)";
     private static final String SQL_REMOVE_COMPETITION = "DELETE FROM statement";
 
 
+    /**
+     * Add enrollee to competition.
+     *
+     * @param enrolleeId the enrollee id
+     * @param facultyId  the faculty id
+     * @return int
+     * @throws DBException the db exception
+     */
     public int addEnrolleeToCompetition(int enrolleeId, int facultyId) throws DBException {
         PreparedStatement pstmt;
         Connection con = null;
@@ -45,6 +59,12 @@ public class StatementDAO {
         return result;
     }
 
+    /**
+     * Gets statement.
+     *
+     * @return the statement
+     * @throws DBException the db exception
+     */
     public Map<Faculty, List<Enrollee>> getStatement() throws DBException {
         FacultiesDAO facultiesDAO = new FacultiesDAO();
         UserDAO userDAO = new UserDAO();
@@ -59,6 +79,13 @@ public class StatementDAO {
         return listMap;
     }
 
+    /**
+     * Gets result.
+     *
+     * @param allowed the allowed
+     * @return the result
+     * @throws DBException the db exception
+     */
     public Map<Faculty, List<Enrollee>> getResult(boolean allowed) throws DBException {
         FacultiesDAO facultiesDAO = new FacultiesDAO();
         UserDAO userDAO = new UserDAO();
@@ -74,6 +101,12 @@ public class StatementDAO {
     }
 
 
+    /**
+     * Remove stetement.
+     *
+     * @return int
+     * @throws DBException the db exception
+     */
     public int removeStetement() throws DBException {
         PreparedStatement pstmt;
         Connection con = null;

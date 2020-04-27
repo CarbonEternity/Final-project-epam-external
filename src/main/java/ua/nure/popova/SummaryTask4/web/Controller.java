@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Main servlet Controller.
+ *
+ * @author A.Popova
+ */
 @MultipartConfig(maxFileSize = 5000000)
 public class Controller extends HttpServlet {
 

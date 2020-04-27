@@ -16,6 +16,11 @@ import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Command sort faculties.
+ *
+ * @author A.Popova
+ */
 public class SortFacultiesCommand extends Command {
 
     private static final long serialVersionUID = 1893978254689586513L;

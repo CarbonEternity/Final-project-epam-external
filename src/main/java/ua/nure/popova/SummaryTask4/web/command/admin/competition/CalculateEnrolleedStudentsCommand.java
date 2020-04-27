@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+/**
+ * Command for calculate enrolleed students.
+ */
 public class CalculateEnrolleedStudentsCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(CalculateEnrolleedStudentsCommand.class);

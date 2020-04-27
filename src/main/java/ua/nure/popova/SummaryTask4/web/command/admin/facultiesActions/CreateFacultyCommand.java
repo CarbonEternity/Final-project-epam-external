@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command create faculty.
+ *
+ * @author A.Ppopova
+ */
 public class CreateFacultyCommand extends Command {
 
     private static final long serialVersionUID = -3071536593627696473L;

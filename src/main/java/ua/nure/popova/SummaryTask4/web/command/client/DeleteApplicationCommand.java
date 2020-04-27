@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command delete application.
+ *
+ * @author A.Popova
+ */
 public class DeleteApplicationCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(DeleteApplicationCommand.class);

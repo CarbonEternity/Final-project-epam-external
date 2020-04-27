@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Command show statement.
+ *
+ * @author A.Popova
+ */
 public class ShowStatementCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowStatementCommand.class);

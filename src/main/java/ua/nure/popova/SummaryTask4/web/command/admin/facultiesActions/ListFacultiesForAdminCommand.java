@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * Command show list faculties for admin.
+ *
+ * @author A.Ppopova
+ */
 public class ListFacultiesForAdminCommand extends Command {
 
     private static final long serialVersionUID = 1863978258689586513L;

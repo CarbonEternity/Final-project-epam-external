@@ -12,6 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Command show requirements.
+ *
+ * @author A.Popova
+ */
 public class ShowRequirementsCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowRequirementsCommand.class);
@@ -25,7 +30,7 @@ public class ShowRequirementsCommand extends Command {
 
         Faculty facultyInfo = new FacultiesDAO().findFacultyById(id);
         List<Discipline> disciplineList = new FacultiesDAO().findDisciplinesByFacultyId(id);
-        List<Discipline> certificateDisciplineList = new FacultiesDAO().findDisciplineList();
+        List<Discipline> certificateDisciplineList = new FacultiesDAO().getAllDisciplines();
 
 
         if (facultyInfo == null && disciplineList == null) {

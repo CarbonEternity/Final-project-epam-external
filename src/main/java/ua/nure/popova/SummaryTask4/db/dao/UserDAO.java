@@ -20,6 +20,11 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type User dao.
+ *
+ * @author A.Popova
+ */
 public class UserDAO {
 
     private static final Logger LOG = Logger.getLogger(UserDAO.class);
@@ -50,14 +55,28 @@ public class UserDAO {
 
     private final DBManager dbManager;
 
+    /**
+     * Instantiates a new User dao.
+     */
     public UserDAO() {
         this.dbManager = DBManager.getInstance();
     }
 
+    /**
+     * Instantiates a new User dao.
+     *
+     * @param dbManager the db manager
+     */
     public UserDAO(DBManager dbManager) {
         this.dbManager = dbManager;
     }
 
+    /**
+     * Gets image by enrollee id.
+     *
+     * @param id the id
+     * @return the image by enrollee id
+     */
     public String getImageByEnrolleeId(int id) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -98,6 +117,13 @@ public class UserDAO {
         return base64Image;
     }
 
+    /**
+     * Register employee.
+     *
+     * @param enrollee the enrollee
+     * @param part     the part
+     * @return int
+     */
     public int registerEmployee(Enrollee enrollee, Part part) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -135,7 +161,7 @@ public class UserDAO {
      *
      * @param email Enrollee email.
      * @return Enrollee entity.
-     * @throws DBException
+     * @throws DBException the db exception
      */
     public User findSomebodyByEmail(String email) throws DBException {
         User user = null;
@@ -189,6 +215,12 @@ public class UserDAO {
     }
 
 
+    /**
+     * Check enrollee access.
+     *
+     * @param user the user
+     * @return boolean
+     */
     public boolean checkEnrolleeAccess(User user) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -217,6 +249,12 @@ public class UserDAO {
     }
 
 
+    /**
+     * Check enrollee entered.
+     *
+     * @param user the user
+     * @return boolean
+     */
     public boolean checkEnrolleeEntered(User user) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -244,6 +282,11 @@ public class UserDAO {
         return accessAllowed;
     }
 
+    /**
+     * Find all enrollees list.
+     *
+     * @return the list
+     */
     public List<Enrollee> findAllEnrollees() {
         List<Enrollee> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -267,6 +310,12 @@ public class UserDAO {
         return list;
     }
 
+    /**
+     * Find admitted enrollees by faculty id.
+     *
+     * @param facultyId the faculty id
+     * @return the list
+     */
     public List<Enrollee> findAdmittedEnrolleesByFacultyId(int facultyId) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -296,6 +345,13 @@ public class UserDAO {
         return list;
     }
 
+    /**
+     * Extracts an enrollee entity from the result set.
+     *
+     * @param rs Result set from which an enrollee entity will be extracted.
+     * @return Enrollee entity
+     * @throws SQLException exeption
+     */
     private Enrollee extractEnrollee(ResultSet rs) throws SQLException {
         Enrollee enrollee = new Enrollee();
         enrollee.setId(rs.getLong(Fields.ENTITY_ID));
@@ -311,6 +367,12 @@ public class UserDAO {
         return enrollee;
     }
 
+    /**
+     * Block enrollee byid.
+     *
+     * @param enrolleeId the enrollee id
+     * @return int
+     */
     public int blockEnrolleeByid(int enrolleeId) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -333,6 +395,12 @@ public class UserDAO {
         return result;
     }
 
+    /**
+     * Unblock enrollee byid.
+     *
+     * @param enrolleeId the enrollee id
+     * @return int
+     */
     public int unblockEnrolleeByid(int enrolleeId) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -353,6 +421,12 @@ public class UserDAO {
         return result;
     }
 
+    /**
+     * Sort enrollees.
+     *
+     * @param query the query
+     * @return the list
+     */
     public List<Enrollee> sortEnrollees(String query) {
         List<Enrollee> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -376,6 +450,12 @@ public class UserDAO {
         return list;
     }
 
+    /**
+     * Find enrolees from applications by faculty id.
+     *
+     * @param facultyId the faculty id
+     * @return the list
+     */
     public List<Enrollee> findEnroleesFromApplicationsByFacultyId(int facultyId) {
         List<Enrollee> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -401,6 +481,12 @@ public class UserDAO {
 
     }
 
+    /**
+     * Find enrolee by id enrollee.
+     *
+     * @param enroleeId the enrolee id
+     * @return the enrollee
+     */
     public Enrollee findEnroleeById(int enroleeId) {
         Enrollee enrollee = new Enrollee();
         PreparedStatement pstmt;
@@ -426,6 +512,12 @@ public class UserDAO {
 
     }
 
+    /**
+     * Find certificate by enrolee id.
+     *
+     * @param enrolleeId the enrollee id
+     * @return the list
+     */
     public List<Discipline> findCertificateByEnroleeId(int enrolleeId) {
         List<Discipline> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -451,6 +543,13 @@ public class UserDAO {
 
     }
 
+    /**
+     * Find zno by enrolee id.
+     *
+     * @param enrolleeId the enrollee id
+     * @param facId      the fac id
+     * @return the list
+     */
     public List<Discipline> findZnoByEnroleeId(int enrolleeId, int facId) {
         List<Discipline> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -477,7 +576,13 @@ public class UserDAO {
 
     }
 
-
+    /**
+     * Extract Discipline entity from ResultSet
+     *
+     * @param rs ResultSet
+     * @return discipline entity
+     * @throws SQLException exeption
+     */
     private Discipline extractDiscipline(ResultSet rs) throws SQLException {
         Discipline discipline = new Discipline();
         discipline.setId(rs.getLong(Fields.ENTITY_ID));
@@ -486,6 +591,12 @@ public class UserDAO {
         return discipline;
     }
 
+    /**
+     * Find all enrollees from statement by faculty id.
+     *
+     * @param id the id
+     * @return the list
+     */
     public List<Enrollee> findAllEnrolleesFromStatementByFacultyId(Long id) {
         List<Enrollee> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -511,6 +622,13 @@ public class UserDAO {
 
     }
 
+    /**
+     * Sets result.
+     *
+     * @param mapOfList the map Map<Faculty, List<Enrollee>>
+     * @param allowed   the allowed status
+     * @return the result
+     */
     public boolean setResult(Map<Faculty, List<Enrollee>> mapOfList, boolean allowed) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -544,6 +662,13 @@ public class UserDAO {
         return result;
     }
 
+    /**
+     * Sets enrollee entered the university status
+     *
+     * @param enrolleeId id enrollee
+     * @param allowed allowed to study at university
+     * @return boolean
+     */
     private boolean setEntered(Long enrolleeId, boolean allowed) {
         PreparedStatement pstmt;
         Connection con = null;
@@ -567,6 +692,13 @@ public class UserDAO {
         return result;
     }
 
+    /**
+     * Find enrolled by faculty id.
+     *
+     * @param facultyId the faculty id
+     * @param allowed   the allowed
+     * @return the list
+     */
     public List<Enrollee> findEnrolledByFacultyId(int facultyId, boolean allowed) {
         PreparedStatement pstmt;
         Connection con = null;

@@ -1,5 +1,10 @@
 package ua.nure.popova.SummaryTask4.db.entity;
 
+/**
+ * Discipline entity
+ *
+ * @author A.Popova
+ */
 public class Discipline extends Entity {
 
     private static final long serialVersionUID = 5692708766041889376L;

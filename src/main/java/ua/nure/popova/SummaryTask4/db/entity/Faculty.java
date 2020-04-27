@@ -2,6 +2,11 @@ package ua.nure.popova.SummaryTask4.db.entity;
 
 import java.util.Objects;
 
+/**
+ * Faculty entity
+ *
+ * @author A.Popova
+ */
 public class Faculty extends Entity implements Comparable<Faculty>{
 
     private static final long serialVersionUID = 1L;

@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Command for show applications by faculty.
+ *
+ * @author A.Popova
+ */
 public class ShowApplicationsCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowApplicationsCommand.class);

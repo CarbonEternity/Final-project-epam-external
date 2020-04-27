@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Command sort enrollees.
+ *
+ * @author A.Popova
+ */
 public class SortEnrolleesCommand extends Command {
 
     private static final long serialVersionUID = 1844978254689586513L;

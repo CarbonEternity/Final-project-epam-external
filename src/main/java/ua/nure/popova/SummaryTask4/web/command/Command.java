@@ -8,13 +8,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * The type Command.
+ *
+ * @author A.Popova
+ */
 public abstract class Command implements Serializable {
     private static final long serialVersionUID = 8879403039606311780L;
 
     /**
      * Execution method for command.
      *
+     * @param request  the request
+     * @param response the response
      * @return Address to go once the command is executed.
+     * @throws IOException      the io exception
+     * @throws ServletException the servlet exception
+     * @throws AppException     the app exception
      */
     public abstract String execute(HttpServletRequest request,
                                    HttpServletResponse response) throws IOException, ServletException,

@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * Command Login.
+ *
+ * @author A.Popova
+ */
 public class LoginCommand extends Command {
 
     private static final long serialVersionUID = -3071536593627692473L;
@@ -22,10 +27,18 @@ public class LoginCommand extends Command {
 
     private UserDAO userDAO;
 
+    /**
+     * Instantiates a new Login command.
+     */
     public LoginCommand() {
         this.userDAO = new UserDAO();
     }
 
+    /**
+     * Instantiates a new Login command.
+     *
+     * @param userDAO the user dao
+     */
     public LoginCommand(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
@@ -86,8 +99,6 @@ public class LoginCommand extends Command {
 
     private boolean enrolleeEntered(User user) {
         boolean accessEnrolleeAllowed=false;
-//        accessEnrolleeAllowed = new UserDAO().checkEnrolleeEntered(user);
-
         Enrollee enrollee = userDAO.findEnroleeById(Math.toIntExact(user.getId()));
         EntranceStatus entrance = EntranceStatus.getEntranceStatus(enrollee);
         if(entrance==EntranceStatus.ENTERED){

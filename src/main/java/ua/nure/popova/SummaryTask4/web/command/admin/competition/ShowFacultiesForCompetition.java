@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Command show faculties for add enrollees to competition.
+ *
+ * @author A.Popova
+ */
 public class ShowFacultiesForCompetition extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowFacultiesForCompetition.class);

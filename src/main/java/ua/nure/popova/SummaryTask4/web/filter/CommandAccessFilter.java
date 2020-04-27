@@ -16,6 +16,11 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * Command access filter.
+ *
+ * @author A.Popova
+ */
 @MultipartConfig
 public class CommandAccessFilter implements Filter {
 

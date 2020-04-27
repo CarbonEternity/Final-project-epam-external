@@ -15,6 +15,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * The type Faculties dao.
+ *
+ * @author A.Popova
+ */
 public class FacultiesDAO {
 
     private static final Logger LOG = Logger.getLogger(FacultiesDAO.class);
@@ -47,6 +52,11 @@ public class FacultiesDAO {
     private static final String SQL_INSERT_REQUIREMENTS = "INSERT INTO requirements (id_faculty, id_subject, min_mark) VALUES (?,?,?)";
 
 
+    /**
+     * Find all faculties list.
+     *
+     * @return the list
+     */
     public List<Faculty> findAllFaculties() {
         List<Faculty> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -70,6 +80,12 @@ public class FacultiesDAO {
         return list;
     }
 
+    /**
+     * Find discipline by name discipline.
+     *
+     * @param name the name
+     * @return the discipline
+     */
     public Discipline findDisciplineByName(String name) {
         Discipline discipline = new Discipline();
         PreparedStatement pstmt;
@@ -96,6 +112,12 @@ public class FacultiesDAO {
         return discipline;
     }
 
+    /**
+     * Sort faculties list.
+     *
+     * @param query the query
+     * @return the list
+     */
     public List<Faculty> sortFaculties(String query)  {
         List<Faculty> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -119,6 +141,12 @@ public class FacultiesDAO {
         return list;
     }
 
+    /**
+     * Find faculty by name faculty.
+     *
+     * @param name the name
+     * @return the faculty
+     */
     public Faculty findFacultyByName(String name)  {
         Faculty faculty = new Faculty();
         PreparedStatement pstmt;
@@ -144,6 +172,12 @@ public class FacultiesDAO {
         return faculty;
     }
 
+    /**
+     * Find faculty by id faculty.
+     *
+     * @param id the id
+     * @return the faculty
+     */
     public Faculty findFacultyById(Integer id) {
         Faculty faculty = new Faculty();
         PreparedStatement pstmt;
@@ -167,7 +201,12 @@ public class FacultiesDAO {
         return faculty;
     }
 
-    public List<Discipline> findDisciplineList()  {
+    /**
+     * Get disciplines list.
+     *
+     * @return the list
+     */
+    public List<Discipline> getAllDisciplines()  {
         List<Discipline> list = new ArrayList<>();
         PreparedStatement pstmt;
         ResultSet rs;
@@ -190,6 +229,12 @@ public class FacultiesDAO {
         return list;
     }
 
+    /**
+     * Find ordered faculties list.
+     *
+     * @param userId the user id
+     * @return the list
+     */
     public List<Faculty> findOrderedFaculties(Long userId)  {
         List<Faculty> list = new ArrayList<>();
 
@@ -214,6 +259,12 @@ public class FacultiesDAO {
         return list;
     }
 
+    /**
+     * Find disciplines by faculty id.
+     *
+     * @param id the faculty id
+     * @return the list
+     */
     public List<Discipline> findDisciplinesByFacultyId(Integer id)  {
         List<Discipline> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -237,6 +288,13 @@ public class FacultiesDAO {
         return list;
     }
 
+    /**
+     * Insert into applications.
+     *
+     * @param facultyId  the faculty id
+     * @param enrolleeId the enrollee id
+     * @return the boolean
+     */
     public boolean insertIntoApplications(Long facultyId, Long enrolleeId)  {
         LOG.info("start insert application");
         PreparedStatement pstmt;
@@ -264,6 +322,13 @@ public class FacultiesDAO {
         return flag;
     }
 
+    /**
+     * Gets application id.
+     *
+     * @param facultyId  the faculty id
+     * @param enrolleeId the enrollee id
+     * @return the application id
+     */
     public int getApplicationId(Long facultyId, Long enrolleeId)  {
         LOG.info("get application's id");
         PreparedStatement pstmt;
@@ -317,7 +382,14 @@ public class FacultiesDAO {
         return discipline;
     }
 
-    // на сколько сдал зно
+    /**
+     * Insert zno.
+     *
+     * @param enrolleeId the enrollee id
+     * @param key        the key
+     * @param values     the values
+     * @return the boolean
+     */
     public boolean insertZNO(Long enrolleeId, String key, String[] values)  {
         PreparedStatement pstmt;
         Connection con = null;
@@ -414,7 +486,14 @@ public class FacultiesDAO {
         return flag;
     }
 
-    //занесении результата атестата
+    /**
+     * Insert certificate.
+     *
+     * @param enrolleeId the enrollee id
+     * @param key        the key
+     * @param values     the values
+     * @return the boolean
+     */
     public boolean insertCertificate(Long enrolleeId, String key, String[] values)  {
         PreparedStatement pstmt;
         Connection con = null;
@@ -448,6 +527,13 @@ public class FacultiesDAO {
         return flag;
     }
 
+    /**
+     * Delete application by faculty and enrolee id.
+     *
+     * @param idFaculty the id faculty
+     * @param userId    the user id
+     * @return int
+     */
     public int deleteApplicationByFacultyAndEnroleeId(long idFaculty, Long userId)  {
         PreparedStatement pstmt;
         Connection con = null;
@@ -471,6 +557,12 @@ public class FacultiesDAO {
         return result;
     }
 
+    /**
+     * Delete result by application id.
+     *
+     * @param applicationId the application id
+     * @return int
+     */
     public int deleteResultByApplicationId(int applicationId)  {
         PreparedStatement pstmt;
         Connection con = null;
@@ -493,6 +585,12 @@ public class FacultiesDAO {
         return result;
     }
 
+    /**
+     * Delete faculty by id.
+     *
+     * @param facultyId the faculty id
+     * @return int
+     */
     public int deleteFacultyById(int facultyId)  {
         PreparedStatement pstmt;
         Connection con = null;
@@ -514,6 +612,13 @@ public class FacultiesDAO {
         return result;
     }
 
+    /**
+     * Update disciplines by faculty id.
+     *
+     * @param disciplines the disciplines
+     * @param facultyId   the faculty id
+     * @return boolean
+     */
     public boolean updateDisciplinesByFacultyId(List<Discipline> disciplines, Long facultyId)  {
         PreparedStatement pstmt;
         Connection con = null;
@@ -587,6 +692,11 @@ public class FacultiesDAO {
     }
 
 
+    /**
+     * Update faculty.
+     *
+     * @param newFaculty the new faculty
+     */
     public void updateFaculty(Faculty newFaculty)  {
         PreparedStatement pstmt;
         Connection con = null;
@@ -609,6 +719,11 @@ public class FacultiesDAO {
         LOG.info("faculty updated");
     }
 
+    /**
+     * Find all disciplines names.
+     *
+     * @return the list
+     */
     public List<String> findAllDisciplinesNames()  {
         List<String> list = new ArrayList<>();
         PreparedStatement pstmt;
@@ -632,6 +747,12 @@ public class FacultiesDAO {
         return list;
     }
 
+    /**
+     * Add faculty.
+     *
+     * @param newFaculty the new faculty
+     * @return the faculty
+     */
     public Faculty addFaculty(Faculty newFaculty)  {
         PreparedStatement pstmt;
         Connection con = null;
@@ -654,6 +775,13 @@ public class FacultiesDAO {
         return findFacultyByName(newFaculty.getName());
     }
 
+    /**
+     * Add requirements.
+     *
+     * @param idFaculty   the id faculty
+     * @param disciplines the disciplines
+     * @return int
+     */
     public int addRequirements(Long idFaculty, List<Discipline> disciplines)  {
         PreparedStatement pstmt;
         Connection con = null;

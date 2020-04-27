@@ -20,6 +20,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Command redact faculty.
+ *
+ * @author A.Ppopova
+ */
 public class RedactFacultyCommand extends Command {
 
 

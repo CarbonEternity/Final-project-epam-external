@@ -10,6 +10,12 @@ import ua.nure.popova.SummaryTask4.web.command.client.*;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * The type Command container.
+ * Contains all command
+ *
+ * @author A.Popova
+ */
 public final class CommandContainer {
 
     private CommandContainer(){
@@ -61,6 +67,12 @@ public final class CommandContainer {
         LOG.trace("Number of commands --> " + commands.size());
     }
 
+    /**
+     * Get command.
+     *
+     * @param commandName the command name
+     * @return the command
+     */
     public static Command get(String commandName) {
         if (commandName == null || !commands.containsKey(commandName)) {
             LOG.trace("Command not found, name --> " + commandName);

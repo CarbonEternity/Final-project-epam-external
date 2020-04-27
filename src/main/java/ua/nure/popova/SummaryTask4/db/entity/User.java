@@ -1,5 +1,10 @@
 package ua.nure.popova.SummaryTask4.db.entity;
 
+/**
+ * User entity
+ *
+ * @author A.Popova
+ */
 public class User extends Entity {
 
     private static final long serialVersionUID = -6889036256149495388L;

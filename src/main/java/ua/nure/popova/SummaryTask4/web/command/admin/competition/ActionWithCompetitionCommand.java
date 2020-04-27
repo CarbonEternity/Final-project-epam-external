@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Command for show enrollee's profile or add him to competition.
+ *
+ * @author A.Popova
+ */
 public class ActionWithCompetitionCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ActionWithCompetitionCommand.class);

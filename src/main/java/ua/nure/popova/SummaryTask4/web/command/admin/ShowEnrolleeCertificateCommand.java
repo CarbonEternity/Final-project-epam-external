@@ -10,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Command show enrollee certificate.
+ *
+ * @author A.Popova
+ */
 public class ShowEnrolleeCertificateCommand extends Command {
 
     @Override

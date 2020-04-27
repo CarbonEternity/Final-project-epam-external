@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * Command sort faculties for enrolee.
+ *
+ * @author A.Popova
+ */
 public class SortFacultiesForEnroleeCommand extends Command {
 
     private static final long serialVersionUID = 1863978254689586513L;
@@ -38,23 +42,23 @@ public class SortFacultiesForEnroleeCommand extends Command {
             list = facultiesDAO.findAllFaculties();    // at the beginning
         } else { // when button *sort* was clicked
             StringBuilder sr = new StringBuilder("ORDER BY "); //part of SQL query
-            if(!sort.contains("name")){
+            if (!sort.contains("name")) {
                 sr.append(sort);
-            }else {
+            } else {
                 sr.append(Fields.ENTITY_NAME);
             }
 
             list = facultiesDAO.sortFaculties(sr.toString());
-            if(sort.contains("namelast")){     // sort like namelast (Z-A) OR namefirst (A-Z) ?
+            if (sort.contains("namelast")) {     // sort like namelast (Z-A) OR namefirst (A-Z) ?
                 list.sort(Collections.reverseOrder());
-            }else if(sort.contains("namefirst")){
+            } else if (sort.contains("namefirst")) {
                 Collections.sort(list);
             }
         }
 
         List<Faculty> applications = facultiesDAO.findOrderedFaculties(user.getId());
         List<Long> ids = new ArrayList<>();
-        applications.forEach(x-> ids.add(x.getId()));
+        applications.forEach(x -> ids.add(x.getId()));
         request.setAttribute("listApplications", ids);
 
         request.setAttribute("listFaculties", list);

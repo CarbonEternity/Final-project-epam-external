@@ -1,5 +1,10 @@
 package ua.nure.popova.SummaryTask4.db;
 
+/**
+ * The type Fields.
+ *
+ * @author A.Popova
+ */
 public final class Fields {
 
     private Fields() {

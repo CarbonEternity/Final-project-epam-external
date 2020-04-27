@@ -11,6 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * Command change locale.
+ *
+ * @author A.Popova
+ */
 public class ChangeLocaleCommand extends Command {
 
     private static final long serialVersionUID = -77776616686657267L;

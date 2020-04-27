@@ -16,6 +16,11 @@ import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Command registration.
+ *
+ * @author A.Popova
+ */
 @MultipartConfig(maxFileSize = 5000000)
 public class RegistrationCommand extends Command {
 
@@ -25,11 +30,20 @@ public class RegistrationCommand extends Command {
     private UserDAO userDao;
     private SendMail sendMail;
 
+    /**
+     * Instantiates a new Registration command.
+     *
+     * @param userDao  the user dao
+     * @param sendMail the send mail
+     */
     public RegistrationCommand(UserDAO userDao, SendMail sendMail) {
         this.userDao = userDao;
         this.sendMail = sendMail;
     }
 
+    /**
+     * Instantiates a new Registration command.
+     */
     public RegistrationCommand() {
         this.userDao = new UserDAO();
         this.sendMail = new SendMail();

@@ -6,6 +6,11 @@ import ua.nure.popova.SummaryTask4.Path;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Command No command.
+ *
+ * @author A.Popova
+ */
 public class NoCommand extends Command {
 
     private static final long serialVersionUID = -2785976616686657267L;

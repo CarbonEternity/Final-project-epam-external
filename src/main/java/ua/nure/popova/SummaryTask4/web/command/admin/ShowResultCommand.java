@@ -15,6 +15,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Command show result.
+ *
+ * @author A.Popova
+ */
 public class ShowResultCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowResultCommand.class);

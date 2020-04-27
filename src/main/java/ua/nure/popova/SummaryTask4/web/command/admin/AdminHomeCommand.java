@@ -7,6 +7,11 @@ import ua.nure.popova.SummaryTask4.web.command.Command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Command show admin home.
+ *
+ * @author A.Popova
+ */
 public class AdminHomeCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(AdminHomeCommand.class);
