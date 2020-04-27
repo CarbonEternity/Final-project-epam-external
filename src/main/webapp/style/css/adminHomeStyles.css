@@ -77,7 +77,7 @@ button {
 
 
 body {
-    background: url('admin-back.jpg');
+    background: url('../img/admin-back.jpg');
     background-repeat: no-repeat;
     background-size: cover;
 }

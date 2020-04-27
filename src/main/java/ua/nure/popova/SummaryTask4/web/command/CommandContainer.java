@@ -25,7 +25,6 @@ public final class CommandContainer {
         commands.put("register", new RegistrationCommand());
         commands.put("login", new LoginCommand());
         commands.put("logout", new LogoutCommand());
-        commands.put("viewSettings", new ViewSettingsCommand());
         commands.put("noCommand", new NoCommand());
         commands.put("changeLocale", new ChangeLocaleCommand());
 
@@ -33,6 +32,7 @@ public final class CommandContainer {
         commands.put("sortFacultyList", new SortFacultiesForEnroleeCommand());
         commands.put("viewFacultyAndRequirements", new ShowRequirementsCommand());
         commands.put("createOrder", new ApplyForStudyCommand());
+        commands.put("userHome", new UserHomeCommand());
         commands.put("deleteApplication", new DeleteApplicationCommand());
 
         // admin commands

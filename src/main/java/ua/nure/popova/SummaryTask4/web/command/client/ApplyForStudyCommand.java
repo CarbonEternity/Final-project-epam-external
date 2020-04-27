@@ -28,16 +28,6 @@ public class ApplyForStudyCommand extends Command {
         LOG.debug("Command start");
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        Role role = (Role) session.getAttribute("userRole");
-        if (user == null || role == null) {
-            return Path.PAGE_LOGIN;
-        }
-
-        if (role != Role.CLIENT) {
-            String errorMessage = "error.invalid.permission";
-            request.setAttribute("errorMessage", errorMessage);
-            return Path.PAGE_ERROR_PAGE;
-        }
 
         parseDisciplinesAndZNO(request, user);
         FacultiesDAO facultiesDAO = new FacultiesDAO();
@@ -46,11 +36,11 @@ public class ApplyForStudyCommand extends Command {
         Faculty faculty = facultiesDAO.findFacultyByName(title);
         facultiesDAO.insertIntoApplications(faculty.getId(), user.getId());
 
-
         List<Faculty> applications = facultiesDAO.findOrderedFaculties(user.getId());
 
         request.setAttribute("listApplications", applications);
 
+        LOG.debug("Command finished");
         return Path.PAGE_USER_HOME;
     }
 

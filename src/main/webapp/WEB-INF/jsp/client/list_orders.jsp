@@ -29,7 +29,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
                 <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
-                <a href="#" class="nav-item nav-link"><fmt:message key="client.home"/></a>
+                <a href="controller?command=userHome" class="nav-item nav-link"><fmt:message key="client.home"/></a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
 
                 <form action="controller" method="get">

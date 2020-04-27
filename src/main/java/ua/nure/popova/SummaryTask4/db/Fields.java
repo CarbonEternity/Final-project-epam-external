@@ -29,4 +29,6 @@ public final class Fields {
     public static final String DISCIPLINE_NAME = "discipline_name";
     public static final String DISCIPLINE_MIN_MARK = "min_mark";
     public static final String DISCIPLINE_MARK = "mark";
+
+    public static final String APPLICATIONS_ID = "id_app";
 }

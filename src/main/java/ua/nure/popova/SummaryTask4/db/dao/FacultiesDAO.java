@@ -278,7 +278,7 @@ public class FacultiesDAO {
             pstmt.setLong(2, enrolleeId);
             rs = pstmt.executeQuery();
             while (rs.next()) {
-                applicationId = rs.getInt(Fields.ENTITY_ID);
+                applicationId = rs.getInt(Fields.APPLICATIONS_ID);
             }
             rs.close();
             pstmt.close();

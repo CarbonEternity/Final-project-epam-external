@@ -30,7 +30,7 @@
             <div class="navbar-nav">
                 <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
                 <a href="controller?command=sortFacultyList" class="nav-item nav-link"><fmt:message key="client.header.allFaculties"/></a>
-                <a href="#" class="nav-item nav-link"><fmt:message key="client.home"/></a>
+                <a href="controller?command=userHome" class="nav-item nav-link"><fmt:message key="client.home"/></a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
             </div>
             <form class="form-inline ml-auto">

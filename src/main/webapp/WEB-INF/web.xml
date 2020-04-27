@@ -84,7 +84,7 @@
         </init-param>
         <init-param>
             <param-name>client</param-name>
-            <param-value>deleteApplication sortFacultyList viewFacultyAndRequirements createOrder</param-value>
+            <param-value>deleteApplication sortFacultyList viewFacultyAndRequirements createOrder userHome</param-value>
         </init-param>
         <init-param>
             <param-name>common</param-name>
