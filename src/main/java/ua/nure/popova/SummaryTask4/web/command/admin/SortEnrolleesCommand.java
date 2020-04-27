@@ -31,11 +31,7 @@ public class SortEnrolleesCommand extends Command {
         if(request.getParameterMap().containsKey("sort")){
             sort = request.getParameter("sort");
             page = Path.PAGE_ACTIONS_WITH_ENROLLEES;
-        }else if(request.getParameterMap().containsKey("sortForCompetition")){
-            sort = request.getParameter("sortForCompetition");
-            page =Path.PAGE_COMPETITION;
         }
-
 
         if (sort == null || (!sort.contains("name"))) {
             list = facultiesDAO.findAllEnrollees();    // at the beginning

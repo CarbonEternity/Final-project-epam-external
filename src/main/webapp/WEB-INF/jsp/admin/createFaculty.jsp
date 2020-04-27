@@ -7,155 +7,36 @@
 --%>
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="${locale}"/>
+<%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="../../../style/css/redact.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
-            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-            crossorigin="anonymous"></script>
-
-    <title>${faculty.name}</title>
-
-    <style>
-        body {
-            background: url('admin-back.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-
-        .table,
-        .table tr,
-        .table td {
-            font-size: 16px;
-        }
-
-        .bs-example {
-            margin: 0;
-        }
-
-        .navbar {
-            position: relative;
-        }
-
-        #redact_form {
-            position: relative;
-            max-width: 600px;
-            padding: 30px 50px;
-            margin: 150px auto;
-            background: rgba(3, 3, 59, 0.767);
-        }
-
-        #redact_form:before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.233), rgba(255, 255, 255, 0.233));
-        }
-
-        .form-inner {
-            position: relative;
-        }
-
-        .form-inner h3 {
-            position: relative;
-            margin-top: 0;
-            color: rgba(255, 255, 255, 0.603);
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            font-weight: 300;
-            font-size: 24px;
-            text-transform: uppercase;
-        }
-
-        .form-inner label {
-            display: block;
-            padding-left: 15px;
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            color: rgba(255, 255, 255, 0.774);
-            text-transform: uppercase;
-            font-size: 14px;
-        }
-
-
-        .form-inner input {
-            display: block;
-            width: 70%;
-            padding: 0 35px;
-            margin: 10px auto;
-            border-width: 0;
-            line-height: 35px;
-            border-radius: 10px;
-            color: rgba(255, 227, 66, 0.932);
-            font-size: 18px;
-            background: rgba(163, 163, 163, 0.2);
-            font-family: 'Roboto', sans-serif;
-        }
-
-        .form-inner fieldset {
-            border-radius: 10px;
-            border: 2px;
-            border-style: solid;
-            border-color: rgb(250, 247, 64);
-            margin: 10px 0;
-            background-color: rgba(223, 221, 211, 0);
-            transition: background-color 1.5s linear;
-        }
-
-        .form-inner fieldset:hover {
-
-            background-color: rgba(3, 15, 53, 0.836);
-        }
-
-        .form-inner legend {
-            color: rgb(241, 231, 87);
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            font-weight: 300;
-            font-size: 24px;
-            text-transform: uppercase;
-        }
-
-
-        .form-inner input[type="submit"]:hover {
-            background: rgba(12, 20, 43, 0.719);
-        }
-
-        .form-inner input[type="submit"] {
-            background: rgba(1, 8, 26, 0.719);
-        }
-    </style>
-
-
+    <link rel="stylesheet" type="text/css" media="screen" href="style/css/createFacultyStyles.css">
+    <title><fmt:message key="admin.faculties.addFaculty"/></title>
 </head>
 <body>
 
 <div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="controller?command=adminHome" class="navbar-brand">Home</a>
+        <a href="#" class="navbar-brand">
+            <img src="style/icon/karazin-logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+            Karazin University</a>
+
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
-                <a href="#" class="nav-item nav-link">About</a>
-                <a href="#" class="nav-item nav-link">Maybe)</a>
+                <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
+                <a href="controller?command=adminHome" class="nav-item nav-link"><fmt:message key="admin.home"/></a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
-                <a href="controller?command=logout" class="nav-item nav-link active">Logout</a>
             </div>
+            <form class="form-inline ml-auto">
+                <a href="controller?command=logout" class="nav-item nav-link active"><fmt:message
+                        key="common.logout"/></a>
+            </form>
         </div>
     </nav>
 </div>
@@ -167,66 +48,65 @@
     <div class="form-inner">
 
         <fieldset>
-            <label for="faculty_name">Name faculty</label>
+            <label for="faculty_name"><fmt:message key="admin.faculties.createFaculty.facultyName"/></label>
             <input type="text" name="faculty_name"/>
 
-            <label for="count_budget">Count budget</label>
+            <label for="count_budget"><fmt:message key="admin.faculties.createFaculty.countBudget"/></label>
             <input type="number" min="50" max="200" name="count_budget"/>
 
-            <label for="count_total">Count total</label>
+            <label for="count_total"><fmt:message key="admin.faculties.createFaculty.countTotal"/></label>
             <input type="number" min="70" max="220" name="count_total"/>
 
         </fieldset>
-        <input type="submit" value="save">
+        <input type="submit" value="<fmt:message key="admin.faculties.saveButton"/>">
     </div>
 
     <div class="col align-self-center">
-                <table class="table table-light table-striped table-hover">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Mark</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
-                                    <c:forEach var="newDisc" items="${allDisciplines}">
-                                        <option value="${newDisc}">${newDisc}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td><input type="number" step="10" min="100" name="mark"  max="200"></td>
-                        </tr>
+        <table class="table table-light table-striped table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col"><fmt:message key="admin.faculties.createFaculty.disciplineName"/></th>
+                <th scope="col"><fmt:message key="admin.faculties.createFaculty.disciplineMark"/></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
+                        <c:forEach var="newDisc" items="${allDisciplines}">
+                            <option value="${newDisc}">${newDisc}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td><input type="number" step="10" min="100" name="mark" max="200"></td>
+            </tr>
 
-                        <tr>
-                            <td>
-                                <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
-                                    <c:forEach var="newDisc" items="${allDisciplines}">
-                                        <option value="${newDisc}">${newDisc}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td><input type="number" step="10" min="100" name="mark"  max="200"></td>
-                        </tr>
+            <tr>
+                <td>
+                    <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
+                        <c:forEach var="newDisc" items="${allDisciplines}">
+                            <option value="${newDisc}">${newDisc}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td><input type="number" step="10" min="100" name="mark" max="200"></td>
+            </tr>
 
-                        <tr>
-                            <td>
-                                <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
-                                    <c:forEach var="newDisc" items="${allDisciplines}">
-                                        <option value="${newDisc}">${newDisc}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td><input type="number" step="10" min="100" name="mark"  max="200"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+            <tr>
+                <td>
+                    <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
+                        <c:forEach var="newDisc" items="${allDisciplines}">
+                            <option value="${newDisc}">${newDisc}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td><input type="number" step="10" min="100" name="mark" max="200"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </form>
 
-
+<%@ include file="/WEB-INF/jspf/footer.jspf" %>
 </body>
 </html>

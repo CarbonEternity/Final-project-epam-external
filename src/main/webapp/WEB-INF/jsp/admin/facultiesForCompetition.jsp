@@ -7,38 +7,30 @@
 --%>
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="${locale}"/>
+<%@ include file="/WEB-INF/jspf/head.jspf"%>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/facultiesForCompetitionStyles.css">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <title>${title}</title>
-
+    <title>Faculties</title>
 </head>
 <body>
 <div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="controller?command=adminHome" class="navbar-brand">Home</a>
+        <a href="#" class="navbar-brand">
+            <img src="style/icon/karazin-logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+            Karazin University</a>
+
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
-                <a href="#" class="nav-item nav-link">About</a>
-                <a href="#" class="nav-item nav-link">Maybe)</a>
+                <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
+                <a href="controller?command=adminHome" class="nav-item nav-link"><fmt:message key="admin.home"/></a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
-                <a href="controller?command=logout" class="nav-item nav-link active">Logout</a>
             </div>
             <form class="form-inline ml-auto">
 
@@ -46,19 +38,22 @@
                     <input type="hidden" name="command" value="sortFaculties">
                     <!-- select-->
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="sortFacultiesForCompetition">
-                        <option selected>Select sort</option>
-                        <optgroup label="> by count">
-                            <option value="count_budget">Count budget</option>
-                            <option value="count_total">Count total</option>
+                        <option selected disabled><fmt:message key="common.selectSort"/></option>
+                        <optgroup label="<fmt:message key="common.sort.label.by.count"/>">
+                            <option value="count_budget"><fmt:message key="common.sort.countBudget"/></option>
+                            <option value="count_total"><fmt:message key="common.sort.countTotal"/></option>
                         </optgroup>
-                        <optgroup label="> by name">
-                            <option value="namefirst">Name A-Z</option>
-                            <option value="namelast">Name Z-A</option>
+                        <optgroup label="<fmt:message key="common.sort.label.by.name"/>">
+                            <option value="namefirst"><fmt:message key="common.sort.NameAZ"/></option>
+                            <option value="namelast"><fmt:message key="common.sort.NameZA"/></option>
                         </optgroup>
                     </select>
                     <!--/ select-->
-                    <button type="submit" class="btn btn-outline-light">Sort</button>
+                    <button type="submit" class="btn btn-outline-light"><fmt:message
+                            key="common.sort.sortButton"/></button>
                 </form>
+                <a href="controller?command=logout" class="btn btn-primary" id="logoutButton"><fmt:message
+                        key="common.logout"/></a>
             </form>
         </div>
     </nav>
@@ -73,17 +68,18 @@
                     <thead class="thead-dark">
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Budget</th>
-                        <th scope="col">Total</th>
-                        <th scope="col"></th>
+                        <th scope="col"><fmt:message key="table.faculties.name"/></th>
+                        <th scope="col"><fmt:message key="table.faculties.budget"/></th>
+                        <th scope="col"><fmt:message key="table.faculties.total"/></th>
+                        <th scope="col"><fmt:message key="table.faculties.action"/></th>
                     </tr>
                     </thead>
                     <tbody>
+                    <c:set var="k" value="0"/>
                     <c:forEach var="item" items="${listFaculties}">
-
+                        <c:set var="k" value="${k+1}"/>
                         <tr>
-                            <th>${item.id}</th>
+                            <th>${k}</th>
                             <td>${item.name}</td>
                             <td>${item.countBudget}</td>
                             <td>${item.countTotal}</td>
@@ -92,7 +88,7 @@
                                     <input type="hidden" name="command" value="showApplications">
                                     <input type="hidden" name="id_fac" value=${item.id}>
 
-                                    <button type="submit" class="btn btn-outline-primary">Show applications</button>
+                                    <button type="submit" class="btn btn-outline-primary"><fmt:message key="admin.faculties.showApplications"/></button>
                                 </form>
                             </td>
                         </tr>
@@ -107,7 +103,7 @@
     </div>
 </div>
 
-
+<%@ include file="/WEB-INF/jspf/footer.jspf"%>
 </body>
 </html>
 
