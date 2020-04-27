@@ -7,40 +7,34 @@
 --%>
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="${locale}"/>
+<%@ include file="/WEB-INF/jspf/head.jspf"%>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/viewRequirementsStyles.css">
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <title>${title}</title>
-
 </head>
 <body>
 
 <div class="bs-example">
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="#" class="navbar-brand">Home</a>
+        <a href="#" class="navbar-brand">
+            <img src="style/icon/karazin-logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+            Karazin University</a>
+
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
-                <a href="#" class="nav-item nav-link">About</a>
-                <a href="controller?command=sortFacultyList" class="nav-item nav-link">All faculties</a>
-                <a href="#" class="nav-item nav-link">Never again)</a>
+                <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
+                <a href="controller?command=sortFacultyList" class="nav-item nav-link"><fmt:message key="client.header.allFaculties"/></a>
+                <a href="#" class="nav-item nav-link"><fmt:message key="client.home"/></a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
             </div>
             <form class="form-inline ml-auto">
-                <a href="controller?command=logout" class="nav-item nav-link active">Logout</a>
+                <a href="controller?command=logout" class="btn btn-primary" id="logoutButton"><fmt:message key="common.logout"/></a>
             </form>
         </div>
     </nav>
@@ -54,11 +48,11 @@
         <p>${facultyInfo.name}</p>
         <div class="faculty_info">
             <ul>
-                <li>Count budget ->  ${facultyInfo.countBudget}</li>
-                <li>Count total ->  ${facultyInfo.countTotal}</li>
+                <li><fmt:message key="common.faculty.info.countBudget"/> ${facultyInfo.countBudget}</li>
+                <li><fmt:message key="common.faculty.info.countTotal"/> ${facultyInfo.countTotal}</li>
             </ul>
         </div>
-        <input id="want" class="btn btn-success" type="submit" value="I want study here!">
+        <input id="want" class="btn btn-success" type="submit" value="<fmt:message key="common.faculty.applyForStudy"/>">
     </div>
 
 
@@ -74,9 +68,9 @@
                             <table class="table table-light table-striped table-hover">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Minimal needed mark</th>
-                                    <th scope="col">Your mark</th>
+                                    <th scope="col"><fmt:message key="table.faculties.name"/></th>
+                                    <th scope="col"><fmt:message key="table.faculties.recommended_mark"/></th>
+                                    <th scope="col"><fmt:message key="table.faculties.your_mark"/></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -84,8 +78,10 @@
                                     <tr>
                                         <td>${item.disciplineName}</td>
                                         <td>${item.mark}</td>
-                                        <td><input type="number" min="100" max="200" required
-                                                   name="zno_${item.disciplineName}" class="form-control"></td>
+                                        <td>
+                                            <input type="number" min="100" max="200" required
+                                                   name="zno_${item.disciplineName}" class="form-control">
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -107,8 +103,8 @@
                                 <thead class="thead-dark">
                                 <tr>
                                     <th scope="col"> #</th>
-                                    <th scope="col"> Discipline</th>
-                                    <th scope="col"> Mark</th>
+                                    <th scope="col"> <fmt:message key="table.faculties.disciplinesName"/></th>
+                                    <th scope="col"> <fmt:message key="table.faculties.disciplinesMark"/></th>
                                 </tr>
                                 </thead>
                                 <tbody>

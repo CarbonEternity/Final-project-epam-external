@@ -144,7 +144,7 @@
 
 <div class="bs-example">
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="#" class="navbar-brand">Home</a>
+        <a href="controller?command=adminHome" class="navbar-brand">Home</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>

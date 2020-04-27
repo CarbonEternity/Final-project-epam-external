@@ -7,28 +7,21 @@
 --%>
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<fmt:setLocale value="${locale}"/>
+<%@ include file="/WEB-INF/jspf/head.jspf"%>
 
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <link rel="stylesheet" href="style/css/listFaculties.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-    <title>List faculties</title>
 </head>
 <body>
 
 <div class="bs-example">
-    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <a href="#" class="navbar-brand"><fmt:message key="common.home"/></a>
+    <nav class="navbar  fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <a href="#" class="navbar-brand">
+            <img src="style/icon/karazin-logo.png" width="30" height="30" class="d-inline-block align-top" alt="logo">
+            Karazin University</a>
+
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse1">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -36,33 +29,34 @@
         <div class="collapse navbar-collapse" id="navbarCollapse1">
             <div class="navbar-nav">
                 <a href="#" class="nav-item nav-link"><fmt:message key="common.about"/></a>
-                <a href="#" class="nav-item nav-link">Karazin University</a>
+                <a href="#" class="nav-item nav-link"><fmt:message key="client.home"/></a>
                 <a href="#" class="nav-item nav-link">${user.firstName} (${user.email})</a>
-                <a href="controller?command=logout" class="nav-item nav-link active"><fmt:message key="common.logout"/></a>
+
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="changeLocale">
                     <!-- select-->
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="locale">
                         <option selected><fmt:message key="common.locale.selectLocale"/></option>
-                            <option value="ru"><fmt:message key="common.locale.optionRULocale"/></option>
-                            <option value="en"><fmt:message key="common.locale.optionENLocale"/></option>
+                        <option value="ru"><fmt:message key="common.locale.optionRULocale"/></option>
+                        <option value="en"><fmt:message key="common.locale.optionENLocale"/></option>
                     </select>
                     <!--/ select-->
                     <button type="submit" class="btn btn-outline-light"><fmt:message key="common.locale.localeButton"/></button>
                 </form>
+
             </div>
             <form class="form-inline ml-auto">
 
-                <form action="controller" method="get">
+                <form action="controller" method="get" id="formController">
                     <input type="hidden" name="command" value="sortFacultyList">
                     <!-- select-->
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="sort">
                         <option selected><fmt:message key="common.selectSort"/></option>
-                        <optgroup label="> by count">
+                        <optgroup label="<fmt:message key="common.sort.label.by.count"/>">
                             <option value="count_budget"><fmt:message key="client.sort.countBudget"/></option>
                             <option value="count_total"><fmt:message key="client.sort.countTotal"/></option>
                         </optgroup>
-                        <optgroup label="> by name">
+                        <optgroup label="<fmt:message key="common.sort.label.by.name"/>">
                             <option value="namefirst"><fmt:message key="client.sort.NameAZ"/></option>
                             <option value="namelast"><fmt:message key="client.sort.NameZA"/></option>
                         </optgroup>
@@ -70,6 +64,8 @@
                     <!--/ select-->
                     <button type="submit" class="btn btn-outline-light"><fmt:message key="common.sort.sortButton"/></button>
                 </form>
+
+                <a href="controller?command=logout" class="btn btn-primary" id="logoutButton"><fmt:message key="common.logout"/></a>
             </form>
         </div>
     </nav>
@@ -105,14 +101,14 @@
                                         <form action="controller" method="get">
                                             <input type="hidden" name="command" value="deleteApplication">
                                             <input type="hidden" name="id_faculty" value="${item.id}">
-                                            <input class="btn btn-primary" type="submit" value="delete application">
+                                            <input class="btn btn-primary" type="submit" value="<fmt:message key="client.facultiesTable.deleteApplication"/>">
                                         </form>
                                     </c:when>
                                     <c:otherwise>
                                         <form action="controller" method="get">
                                             <input type="hidden" name="command" value="viewFacultyAndRequirements">
                                             <input type="hidden" name="id_faculty" value="${item.id}">
-                                            <input class="btn btn-success" type="submit" value="show requirements">
+                                            <input class="btn btn-success" type="submit" value="<fmt:message key="client.facultiesTable.showRequirements"/>">
                                         </form>
                                     </c:otherwise>
                                 </c:choose>
@@ -128,19 +124,6 @@
 
     </div>
 </div>
-
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 
 </body>
 </html>

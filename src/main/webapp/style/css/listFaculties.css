@@ -17,17 +17,4 @@ h1 {
     color: white;
 }
 
-.table,
-.table tr,
-.table td {
-    /*background-color: #e2e2e2 !important;*/
-    font-size: 16px;
-}
 
-.bs-example {
-    margin: 0;
-}
-
-.navbar {
-    position: relative;
-}

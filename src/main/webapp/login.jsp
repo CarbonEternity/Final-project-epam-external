@@ -11,6 +11,7 @@
 
 <html lang="en">
 <head>
+    <link rel="icon" href="style/icon/karazin.ico">
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/login.css">
 
     <meta charset="utf-8">
