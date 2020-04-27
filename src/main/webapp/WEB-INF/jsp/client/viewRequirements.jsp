@@ -68,14 +68,18 @@
                             <table class="table table-light table-striped table-hover">
                                 <thead class="thead-dark">
                                 <tr>
+                                    <th scope="col"> #</th>
                                     <th scope="col"><fmt:message key="table.faculties.name"/></th>
                                     <th scope="col"><fmt:message key="table.faculties.recommended_mark"/></th>
                                     <th scope="col"><fmt:message key="table.faculties.your_mark"/></th>
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <c:set var="k" value="0"/>
                                 <c:forEach var="item" items="${disciplineList}">
+                                    <c:set var="k" value="${k+1}"/>
                                     <tr>
+                                        <td>${k}</td>
                                         <td>${item.disciplineName}</td>
                                         <td>${item.mark}</td>
                                         <td>
@@ -108,9 +112,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <c:set var="k" value="0"/>
                                 <c:forEach var="item2" items="${certificateDisciplineList}">
+                                    <c:set var="k" value="${k+1}"/>
                                     <tr>
-                                        <td>${item2.id}</td>
+                                        <td>${k}</td>
                                         <td>${item2.disciplineName}</td>
                                         <td><input type="number" required min="1" max="12"
                                                    name="cert_${item2.disciplineName}" class="form-control"></td>
