@@ -52,7 +52,7 @@ ul{
 .small{
     width: 30%;
     /* сверху | справа | снизу | слева */
-    margin: 6% auto 20px 30%;
+    margin: 6% auto 60px 30%;
 }
 .one{
     width: 40%;

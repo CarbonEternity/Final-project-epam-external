@@ -1,7 +1,7 @@
 <%--===========================================================================
 Footer (bottom area).
 ===========================================================================--%>
-<footer id="footer" class=" bg-dark text-white-50">
+<footer id="footer" class="bg-dark text-white-50">
     <div class="container text-center">
         <small>Copyright &copy; A.Popova (EPAM-KNURE Java Training), 2020</small>
     </div>
