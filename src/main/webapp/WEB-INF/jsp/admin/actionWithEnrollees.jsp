@@ -87,7 +87,7 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${item.accessAllowed==true}">
-                                        <form action="controller" method="get">
+                                        <form action="controller" method="post">
                                             <input type="hidden" name="command" value="actionWithEnrollees">
 
                                             <input type="hidden" name="block" value="${item.id}">
@@ -95,7 +95,7 @@
                                         </form>
                                     </c:when>
                                     <c:otherwise>
-                                        <form action="controller" method="get">
+                                        <form action="controller" method="post">
                                             <input type="hidden" name="command" value="actionWithEnrollees">
 
                                             <input type="hidden" name="unblock" value="${item.id}">
@@ -110,7 +110,15 @@
                     </tbody>
                 </table>
             </c:when>
-            <c:otherwise><h4><fmt:message key="error.enrolleesList.empty"/></h4></c:otherwise>
+            <c:otherwise>
+                <div class="errorBlock">
+                    <div class="errorMessage">
+                        <p>
+                        <h4><fmt:message key="error.enrolleesList.empty"/></h4>
+                        </p>
+                    </div>
+                </div>
+                </c:otherwise>
         </c:choose>
 
     </div>

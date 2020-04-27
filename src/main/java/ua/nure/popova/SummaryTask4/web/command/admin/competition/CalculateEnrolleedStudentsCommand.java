@@ -32,9 +32,8 @@ public class CalculateEnrolleedStudentsCommand extends Command {
 
         mapOfList.forEach((k,v)->{
             if (!mapOfList.get(k).isEmpty()){
-                List<Integer> allMarks = new ArrayList<>();
                 List<Enrollee> fromStetementByFaculty = userDAO.findAllEnrolleesFromStatementByFacultyId(k.getId());
-                allMarks.addAll(findEnroleesMarks(fromStetementByFaculty, k.getId()));
+                List<Integer> allMarks = new ArrayList<>(findEnroleesMarks(fromStetementByFaculty, k.getId()));
 
                 if(!allMarks.isEmpty()) {
                     double avg = calculateAverage(allMarks);

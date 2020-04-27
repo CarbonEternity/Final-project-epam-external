@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
+import ua.nure.popova.SummaryTask4.exception.AppException;
 import ua.nure.popova.SummaryTask4.web.util.SendMail;
 
 import javax.servlet.ServletException;
@@ -52,7 +53,7 @@ public class RegistrationCommandTest {
     }
 
     @Test
-    public void testExecute() {
+    public void testExecute() throws AppException {
         Enrollee enrollee = extractEnrollee(request);
         when(userDAO.registerEmployee(enrollee, part)).thenReturn(1);
 
@@ -63,7 +64,7 @@ public class RegistrationCommandTest {
     }
 
     @Test
-    public void testExecuteSendMail() {
+    public void testExecuteSendMail() throws AppException {
         Enrollee enrollee = extractEnrollee(request);
         when(userDAO.registerEmployee(enrollee, part)).thenReturn(1);
 

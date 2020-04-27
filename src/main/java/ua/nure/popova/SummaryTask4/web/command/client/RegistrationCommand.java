@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.db.dao.UserDAO;
 import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
+import ua.nure.popova.SummaryTask4.exception.AppException;
 import ua.nure.popova.SummaryTask4.web.command.Command;
 import ua.nure.popova.SummaryTask4.web.util.SendMail;
 
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.util.List;
 
 @MultipartConfig(maxFileSize = 5000000)
 public class RegistrationCommand extends Command {
@@ -34,16 +36,30 @@ public class RegistrationCommand extends Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         Enrollee enrollee = extractEnrollee(request);
         Part image = getPart(request);
 
+        if(image==null){
+            throw new AppException("Please, add the scan of your cerfificate");
+        }
+
+        List<Enrollee> registeredUsers = userDao.findAllEnrollees();
+        registeredUsers.forEach(user-> {
+            if(user.getEmail().equals(enrollee.getEmail())){
+                try {
+                    throw new AppException("Such email already exists");
+                } catch (AppException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         userDao.registerEmployee(enrollee, image);
 
+        sendMail.send("University entrance", "You have successfully registered to apply for training at Karazin University!", enrollee.getEmail());
 
-        sendMail.send("University entrance", "You have successfully registered for university!", enrollee.getEmail());
-
-       LOG.info("Mail was send");
+        LOG.info("Mail was send");
 
         return Path.PAGE_LOGIN;
     }

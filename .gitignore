@@ -84,3 +84,4 @@ out/
 
 /src/main/resources/logs/
 /src/main/resources/coverage.html/
+/src/main/resources/email.properties

@@ -57,6 +57,28 @@
             margin-top: 15px;
         }
 
+        /*---------error------------------*/
+
+        .errorBlock{
+            border: 10px solid white;
+            border-radius: 20px;
+            text-align: center;
+            width: 650px;
+            height: 100px;
+            color: whitesmoke;
+            background: rgba(49, 51, 53, 0.9);
+            position: fixed;
+
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .errorMessage{
+            padding-top: 10px;
+        }
+
     </style>
 
 </head>

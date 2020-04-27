@@ -34,7 +34,7 @@
             </div>
             <form class="form-inline ml-auto">
 
-                <form action="controller" method="get">
+                <form action="controller" method="post">
                     <input type="hidden" name="command" value="changeLocale">
                     <!-- select-->
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="locale">

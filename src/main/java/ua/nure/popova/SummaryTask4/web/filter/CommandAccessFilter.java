@@ -41,13 +41,15 @@ public class CommandAccessFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             String errorMessasge = Messages.ERR_DONT_HAVE_PERMISSION;
-            setForward(request, response, errorMessasge);
+            setForward(request, response, errorMessasge, false);
         }
     }
 
-    private void setForward(ServletRequest request, ServletResponse response, String errorMessage) throws ServletException, IOException {
+    private void setForward(ServletRequest request, ServletResponse response, String errorMessage, boolean enrolleeBlocked) throws ServletException, IOException {
         request.setAttribute("errorMessage", errorMessage);
         LOG.trace("Set the request attribute: errorMessage --> " + errorMessage);
+
+        request.setAttribute("enrolleeBlocked", enrolleeBlocked);
 
         request.getRequestDispatcher(Path.PAGE_ERROR_PAGE)
                 .forward(request, response);
@@ -76,7 +78,7 @@ public class CommandAccessFilter implements Filter {
         }
 
         if(!checkEnrolleeAccess(request)){
-            setForward(request, response,  Messages.ENROLLEE_BLOCKED);
+            setForward(request, response,  Messages.ENROLLEE_BLOCKED, true);
         }
 
         return accessMap.get(userRole).contains(commandName)
@@ -92,7 +94,6 @@ public class CommandAccessFilter implements Filter {
         if(user!=null) {
             Role userRole = (Role)session.getAttribute("userRole");
             if(userRole==Role.CLIENT) {
-//                accessEnrolleeAllowed = new UserDAO().checkEnrolleeAccess(user);
                 accessEnrolleeAllowed = hasEnrolleeAccess(user, accessEnrolleeAllowed);
             }
         }

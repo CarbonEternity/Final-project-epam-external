@@ -45,9 +45,13 @@
                     Sorry, some error has occurred.
                 </div>
                 <div class="error-actions">
-                    <a href="/final" class="btn btn-primary btn-lg">
+
+                    <c:if test="${enrolleeBlocked}">
+                    <a href="controller?command=sortFacultyList" class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-arrow-left"></span>
-                        Back to login </a>
+                        Back to faculty list</a>
+                    </c:if>
+
 
                     <%--<a href="#" class="btn btn-default btn-lg">
                         <span class="glyphicon glyphicon-envelope"></span> Contact Support </a>--%>
