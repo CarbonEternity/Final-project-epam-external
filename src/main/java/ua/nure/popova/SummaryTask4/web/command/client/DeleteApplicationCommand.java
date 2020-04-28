@@ -22,7 +22,7 @@ import java.io.IOException;
 public class DeleteApplicationCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(DeleteApplicationCommand.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 85743634843937L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {

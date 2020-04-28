@@ -23,7 +23,7 @@ import java.util.Map;
 public class ShowResultCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowResultCommand.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5483725254749L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {

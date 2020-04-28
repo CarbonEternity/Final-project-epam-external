@@ -29,8 +29,8 @@ public class UserDAO {
 
     private static final Logger LOG = Logger.getLogger(UserDAO.class);
 
-    private static final String SQL_FIND_ADMIN_BY_EMAIL = "SELECT * FROM admins WHERE email=? ";
-    private static final String SQL_FIND_ENROLLEE_BY_EMAIL = "SELECT * FROM enrollees WHERE email=?";
+    private static final String SQL_FIND_ADMIN_BY_EMAIL = "SELECT * FROM admins WHERE password = MD5(?)";
+    private static final String SQL_FIND_ENROLLEE_BY_EMAIL = "SELECT * FROM enrollees where password = MD5(?)";
 
     private static final String SQL_SELECT_ALL_ENROLLEES = "select * from enrollees";
     private static final String SQL_CHECK_ACCESS_ALLOWED = "SELECT accessAllowed from enrollees where id=?";
@@ -157,13 +157,13 @@ public class UserDAO {
 
 
     /**
-     * Returns a user with the given login.
+     * Returns a user with the given password.
      *
-     * @param email Enrollee email.
+     * @param password Enrollee password.
      * @return Enrollee entity.
      * @throws DBException the db exception
      */
-    public User findSomebodyByEmail(String email) throws DBException {
+    public User findSomebodyByPassword(String password) throws DBException {
         User user = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -171,14 +171,14 @@ public class UserDAO {
         try {
             con = dbManager.getConnection();
             pstmt = con.prepareStatement(SQL_FIND_ENROLLEE_BY_EMAIL);
-            pstmt.setString(1, email);
+            pstmt.setString(1, password);
             rs = pstmt.executeQuery();
             if (rs.next()) {
                 LOG.info("FIND USER");
                 user = extractUser(rs);
             } else {
                 pstmt = con.prepareStatement(SQL_FIND_ADMIN_BY_EMAIL);
-                pstmt.setString(1, email);
+                pstmt.setString(1, password);
                 rs = pstmt.executeQuery();
                 if (rs.next()) {
                     LOG.info("FIND ADMIN");

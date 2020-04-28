@@ -38,19 +38,19 @@ To change this template use File | Settings | File Templates.
                 <legend>PERSONAL INFORMATION</legend>
 
                 <label for="firstName">Name</label>
-                <input type="text" name="firstName" required pattern="[A-Za-z0-9]+"/>
+                <input type="text" name="firstName" required pattern="\w"/>
 
                 <label for="secName">Second Name</label>
-                <input type="text" name="secName" required pattern="[A-Za-z0-9]+"/>
+                <input type="text" name="secName" required pattern="\w"/>
 
                 <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" required pattern="[A-Za-z0-9]+"/>
+                <input type="text" name="lastName" required pattern="\w"/>
 
                 <label for="city">City</label>
-                <input type="text" name="city" required pattern="[A-Za-z0-9]+"/>
+                <input type="text" name="city" required pattern="\w"/>
 
                 <label for="region">Region</label>
-                <input type="text" name="region" required pattern="[A-Za-z0-9]+"/>
+                <input type="text" name="region" required pattern="\w"/>
 
                 <label for="school">School</label>
                 <input type="number" name="school" required/>

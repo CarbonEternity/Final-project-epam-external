@@ -29,7 +29,7 @@
         <fieldset>
             <legend>LOG IN</legend>
             <label for="email">Email</label>
-            <input type="email" autocomplete="on" name="email" pattern="\w"/>
+            <input type="email" autocomplete="on" name="email"/>
 
             <label for="password">Password</label>
             <input type="password" name="password" pattern="[A-Za-z0-9]+"/>

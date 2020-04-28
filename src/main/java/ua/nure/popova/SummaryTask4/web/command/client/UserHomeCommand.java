@@ -23,7 +23,7 @@ import java.util.List;
 public class UserHomeCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(UserHomeCommand.class);
-    private static final long serialVersionUID = 2L;
+    private static final long serialVersionUID = 667775448882L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {

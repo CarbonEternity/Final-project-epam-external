@@ -13,8 +13,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class NoCommand extends Command {
 
-    private static final long serialVersionUID = -2785976616686657267L;
-
+    private static final long serialVersionUID = 2785976616686637267L;
     private static final Logger LOG = Logger.getLogger(NoCommand.class);
 
     @Override

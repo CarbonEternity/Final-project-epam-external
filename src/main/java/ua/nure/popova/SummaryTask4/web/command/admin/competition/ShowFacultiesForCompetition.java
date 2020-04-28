@@ -18,7 +18,7 @@ import java.util.List;
 public class ShowFacultiesForCompetition extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowFacultiesForCompetition.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5478378378444L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

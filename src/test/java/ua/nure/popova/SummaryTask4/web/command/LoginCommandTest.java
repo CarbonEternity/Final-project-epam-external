@@ -52,7 +52,7 @@ public class LoginCommandTest {
         user.setEmail("someAdminEmail");
         user.setPassword("someAdminPassword");
 
-        when(userDAO.findSomebodyByEmail("someAdminEmail")).thenReturn(user);
+        when(userDAO.findSomebodyByPassword("someAdminEmail")).thenReturn(user);
 
         LoginCommand loginCommand = new LoginCommand(userDAO);
         String forward = loginCommand.execute(request, response);
@@ -73,7 +73,7 @@ public class LoginCommandTest {
         user.setRoleId(1);
         user.setEntranceStatus(1);
 
-        when(userDAO.findSomebodyByEmail("someEmail")).thenReturn(user);
+        when(userDAO.findSomebodyByPassword("someEmail")).thenReturn(user);
         when(userDAO.findEnroleeById(1)).thenReturn(user);
 
         LoginCommand loginCommand = new LoginCommand(userDAO);

@@ -18,8 +18,7 @@ import java.io.IOException;
  */
 public class ChangeLocaleCommand extends Command {
 
-    private static final long serialVersionUID = -77776616686657267L;
-
+    private static final long serialVersionUID = 77776616686657267L;
     private static final Logger LOG = Logger.getLogger(ChangeLocaleCommand.class);
 
     @Override

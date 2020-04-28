@@ -24,7 +24,7 @@ import java.util.List;
 @MultipartConfig(maxFileSize = 5000000)
 public class RegistrationCommand extends Command {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 3465843112222L;
     private static final Logger LOG = Logger.getLogger(RegistrationCommand.class);
 
     private UserDAO userDao;

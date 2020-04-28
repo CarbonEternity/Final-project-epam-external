@@ -59,11 +59,11 @@ public class LoginCommand extends Command {
             throw new AppException("Email/password cannot be empty");
         }
 
-        User user = userDAO.findSomebodyByEmail(email);
+        User user = userDAO.findSomebodyByPassword(password);
 
         LOG.info("Found in DB: user --> " + user);
 
-        if (user == null || !password.equals(user.getPassword())) {
+        if (user == null) {
             throw new AppException("Cannot find user with such email/password");
         }
 

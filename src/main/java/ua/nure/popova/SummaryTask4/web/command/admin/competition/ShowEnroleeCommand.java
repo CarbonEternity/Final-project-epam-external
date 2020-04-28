@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ShowEnroleeCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowEnroleeCommand.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 435632563478439L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

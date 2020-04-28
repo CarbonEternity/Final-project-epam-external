@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class Faculty extends Entity implements Comparable<Faculty>{
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 563683645373L;
 
     private String name;
     private int countBudget;

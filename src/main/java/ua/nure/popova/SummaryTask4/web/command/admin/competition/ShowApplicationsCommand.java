@@ -19,7 +19,7 @@ import java.util.List;
 public class ShowApplicationsCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowApplicationsCommand.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 34567656789323425L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

@@ -25,7 +25,7 @@ import java.util.Set;
 public class ApplyForStudyCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ApplyForStudyCommand.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 868453854385L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

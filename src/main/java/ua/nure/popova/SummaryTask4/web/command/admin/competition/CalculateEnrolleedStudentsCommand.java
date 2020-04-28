@@ -20,7 +20,7 @@ import java.util.*;
 public class CalculateEnrolleedStudentsCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(CalculateEnrolleedStudentsCommand.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 34567876543L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

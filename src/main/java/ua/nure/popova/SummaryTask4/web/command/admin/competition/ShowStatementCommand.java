@@ -20,7 +20,7 @@ import java.util.Map;
 public class ShowStatementCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(ShowStatementCommand.class);
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 98980778L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

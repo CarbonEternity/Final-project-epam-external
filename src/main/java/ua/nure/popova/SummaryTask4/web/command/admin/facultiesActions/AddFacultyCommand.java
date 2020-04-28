@@ -18,7 +18,7 @@ import java.util.List;
 public class AddFacultyCommand extends Command {
 
     private static final Logger LOG = Logger.getLogger(AddFacultyCommand.class);
-    private static final long serialVersionUID = 156778258689586513L;
+    private static final long serialVersionUID = 156778689586513L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {

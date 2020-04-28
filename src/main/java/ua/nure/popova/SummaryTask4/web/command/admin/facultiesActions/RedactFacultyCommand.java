@@ -29,7 +29,7 @@ public class RedactFacultyCommand extends Command {
 
 
     private static final Logger LOG = Logger.getLogger(RedactFacultyCommand.class);
-    private static final long serialVersionUID = 156778258689586513L;
+    private static final long serialVersionUID = 1778258689586513L;
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
