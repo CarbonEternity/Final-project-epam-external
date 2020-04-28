@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Command show statement.
@@ -28,10 +29,28 @@ public class ShowStatementCommand extends Command {
 
         Map<Faculty, List<Enrollee>> mapOfList = new StatementDAO().getStatement();
 
+        if(!mapOfList.isEmpty()){
+            request.setAttribute("mapOfList", mapOfList);
+        }
 
-        request.setAttribute("mapOfList", mapOfList);
+        boolean enrolleesExists= false;
+        enrolleesExists = isEnrolleesExistsInStatement(mapOfList, enrolleesExists);
+
+        request.setAttribute("enrolleesExists", enrolleesExists);
+
         LOG.info("Command finished");
         return Path.PAGE_SHOW_STATEMENT;
+    }
+
+    private boolean isEnrolleesExistsInStatement(Map<Faculty, List<Enrollee>> mapOfList, boolean enrolleesExists) {
+        for (Map.Entry<Faculty, List<Enrollee>> entry : mapOfList.entrySet()) {
+            List<Enrollee> v = entry.getValue();
+            if (!v.isEmpty()) {
+                enrolleesExists = true;
+                break;
+            }
+        }
+        return enrolleesExists;
     }
 
 

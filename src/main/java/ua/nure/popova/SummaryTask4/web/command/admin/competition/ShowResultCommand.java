@@ -1,4 +1,4 @@
-package ua.nure.popova.SummaryTask4.web.command.admin;
+package ua.nure.popova.SummaryTask4.web.command.admin.competition;
 
 import org.apache.log4j.Logger;
 import ua.nure.popova.SummaryTask4.Path;

@@ -1,7 +1,9 @@
 package ua.nure.popova.SummaryTask4.web.command;
 
 import org.apache.log4j.Logger;
-import ua.nure.popova.SummaryTask4.web.command.admin.*;
+import ua.nure.popova.SummaryTask4.web.command.admin.AdminHomeCommand;
+import ua.nure.popova.SummaryTask4.web.command.admin.SortEnrolleesCommand;
+import ua.nure.popova.SummaryTask4.web.command.admin.SortFacultiesCommand;
 import ua.nure.popova.SummaryTask4.web.command.admin.blockUnblockEnrolees.LockUnlockEnrollee;
 import ua.nure.popova.SummaryTask4.web.command.admin.competition.*;
 import ua.nure.popova.SummaryTask4.web.command.admin.facultiesActions.*;

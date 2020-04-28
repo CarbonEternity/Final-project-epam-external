@@ -13,7 +13,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/statementStyles.css">
-    <title><fmt:message key="title.statement"/></title>
+    <title>Statement</title>
 </head>
 <body>
 
@@ -44,16 +44,19 @@
 
 <div id="container">
     <form action="controller" method="get">
-        <input type="hidden" name="command" value="runCompetition">
-        <button type="submit" name="run" class="btn btn-lg btn-outline-warning" id="button1"><fmt:message
-                key="admin.statement.runCompetition"/></button>
+            <core:if test="${enrolleesExists}">
+                <input type="hidden" name="command" value="runCompetition">
+                <button type="submit" name="run" class="btn btn-lg btn-outline-warning" id="button1"><fmt:message
+                        key="admin.statement.runCompetition"/></button>
+            </core:if>
     </form>
 </div>
+
 
 <div class="small">
     <div class="col align-self-center">
         <core:choose>
-            <core:when test="${not empty mapOfList}">
+            <core:when test="${enrolleesExists}">
 
                 <table class="table table-light table-striped table-hover">
                     <thead class="thead-dark">
@@ -102,7 +105,7 @@
                         </p>
                     </div>
                 </div>
-                </core:otherwise>
+            </core:otherwise>
         </core:choose>
 
     </div>
