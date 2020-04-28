@@ -73,9 +73,9 @@
             <tr>
                 <td>
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
-                        <c:forEach var="newDisc" items="${allDisciplines}">
+                        <core:forEach var="newDisc" items="${allDisciplines}">
                             <option value="${newDisc}">${newDisc}</option>
-                        </c:forEach>
+                        </core:forEach>
                     </select>
                 </td>
                 <td><input type="number" step="10" min="100" name="mark" max="200"></td>
@@ -84,9 +84,9 @@
             <tr>
                 <td>
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
-                        <c:forEach var="newDisc" items="${allDisciplines}">
+                        <core:forEach var="newDisc" items="${allDisciplines}">
                             <option value="${newDisc}">${newDisc}</option>
-                        </c:forEach>
+                        </core:forEach>
                     </select>
                 </td>
                 <td><input type="number" step="10" min="100" name="mark" max="200"></td>
@@ -95,9 +95,9 @@
             <tr>
                 <td>
                     <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
-                        <c:forEach var="newDisc" items="${allDisciplines}">
+                        <core:forEach var="newDisc" items="${allDisciplines}">
                             <option value="${newDisc}">${newDisc}</option>
-                        </c:forEach>
+                        </core:forEach>
                     </select>
                 </td>
                 <td><input type="number" step="10" min="100" name="mark" max="200"></td>

@@ -25,32 +25,32 @@
             <div class="error-template">
                 <h1> Oops!</h1>
                 <%-- this way we obtain an information about an exception (if it has been occurred) --%>
-                <c:set var="code" value="${requestScope['javax.servlet.error.status_code']}"/>
-                <c:set var="message" value="${requestScope['javax.servlet.error.message']}"/>
-                <c:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
+                <core:set var="code" value="${requestScope['javax.servlet.error.status_code']}"/>
+                <core:set var="message" value="${requestScope['javax.servlet.error.message']}"/>
+                <core:set var="exception" value="${requestScope['javax.servlet.error.exception']}"/>
 
-                <c:if test="${not empty code}">
+                <core:if test="${not empty code}">
                     <h3>Error code: ${code}</h3>
-                </c:if>
-                <c:if test="${not empty message}">
+                </core:if>
+                <core:if test="${not empty message}">
                     <h3>${message}</h3>
-                </c:if>
+                </core:if>
 
                 <%-- if we get this page using forward --%>
-                <c:if test="${not empty requestScope.errorMessage}">
+                <core:if test="${not empty requestScope.errorMessage}">
                     <h3>${requestScope.errorMessage}</h3>
-                </c:if>
+                </core:if>
 
                 <div class="error-details">
                     Sorry, some error has occurred.
                 </div>
                 <div class="error-actions">
 
-                    <c:if test="${enrolleeBlocked}">
+                    <core:if test="${enrolleeBlocked}">
                     <a href="controller?command=sortFacultyList" class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-arrow-left"></span>
                         Back to faculty list</a>
-                    </c:if>
+                    </core:if>
 
 
                     <%--<a href="#" class="btn btn-default btn-lg">

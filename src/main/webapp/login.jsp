@@ -29,10 +29,10 @@
         <fieldset>
             <legend>LOG IN</legend>
             <label for="email">Email</label>
-            <input type="email" autocomplete="on" name="email"/>
+            <input type="email" autocomplete="on" name="email" pattern="\w"/>
 
             <label for="password">Password</label>
-            <input type="password" name="password"/>
+            <input type="password" name="password" pattern="[A-Za-z0-9]+"/>
         </fieldset>
         <input type="submit" value="login"/>
 

@@ -52,8 +52,8 @@
 
 <div class="small">
     <div class="col align-self-center">
-        <c:choose>
-            <c:when test="${not empty mapOfList}">
+        <core:choose>
+            <core:when test="${not empty mapOfList}">
 
                 <table class="table table-light table-striped table-hover">
                     <thead class="thead-dark">
@@ -68,14 +68,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:set var="k" value="0"/>
-                    <c:forEach var="list" items="${mapOfList}">
+                    <core:set var="k" value="0"/>
+                    <core:forEach var="list" items="${mapOfList}">
 
-                        <c:choose>
-                            <c:when test="${not empty list.value}">
+                        <core:choose>
+                            <core:when test="${not empty list.value}">
 
-                                <c:forEach var="listItem" items="${list.value}">
-                                    <c:set var="k" value="${k+1}"/>
+                                <core:forEach var="listItem" items="${list.value}">
+                                    <core:set var="k" value="${k+1}"/>
                                     <tr>
                                         <td>${k}</td>
                                         <td>${list.key.name}</td>
@@ -85,16 +85,16 @@
                                         <td>${listItem.city}</td>
                                         <td>${listItem.email}</td>
                                     </tr>
-                                </c:forEach>
+                                </core:forEach>
 
-                            </c:when>
-                        </c:choose>
+                            </core:when>
+                        </core:choose>
 
-                    </c:forEach>
+                    </core:forEach>
                     </tbody>
                 </table>
-            </c:when>
-            <c:otherwise>
+            </core:when>
+            <core:otherwise>
                 <div class="errorBlock">
                     <div class="errorMessage">
                         <p>
@@ -102,8 +102,8 @@
                         </p>
                     </div>
                 </div>
-                </c:otherwise>
-        </c:choose>
+                </core:otherwise>
+        </core:choose>
 
     </div>
 </div>

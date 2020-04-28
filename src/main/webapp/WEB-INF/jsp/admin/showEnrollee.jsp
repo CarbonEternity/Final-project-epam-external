@@ -74,8 +74,8 @@
         <div class="zno">
 
             <h3>ZNO</h3>
-            <c:choose>
-                <c:when test="${not empty enroleeZno}">
+            <core:choose>
+                <core:when test="${not empty enroleeZno}">
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
@@ -84,17 +84,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="zno" items="${enroleeZno}">
+                        <core:forEach var="zno" items="${enroleeZno}">
                             <tr>
                                 <td>${zno.disciplineName}</td>
                                 <td>${zno.mark}</td>
                             </tr>
-                        </c:forEach>
+                        </core:forEach>
                         </tbody>
                     </table>
-                </c:when>
-                <c:otherwise><h4><fmt:message key="error.enroleeZno.empty"/></h4></c:otherwise>
-            </c:choose>
+                </core:when>
+                <core:otherwise><h4><fmt:message key="error.enroleeZno.empty"/></h4></core:otherwise>
+            </core:choose>
 
         </div>
 
@@ -115,8 +115,8 @@
         <div class="table-mark">
 
             <h3><fmt:message key="admin.enrolleeInfo.certificate"/></h3>
-            <c:choose>
-                <c:when test="${not empty enroleeCertificate}">
+            <core:choose>
+                <core:when test="${not empty enroleeCertificate}">
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
@@ -126,20 +126,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:set var="k" value="0"/>
-                        <c:forEach var="certificate" items="${enroleeCertificate}">
-                            <c:set var="k" value="${k+1}"/>
+                        <core:set var="k" value="0"/>
+                        <core:forEach var="certificate" items="${enroleeCertificate}">
+                            <core:set var="k" value="${k+1}"/>
                             <tr>
                                 <td>${k}</td>
                                 <td>${certificate.disciplineName}</td>
                                 <td>${certificate.mark}</td>
                             </tr>
-                        </c:forEach>
+                        </core:forEach>
                         </tbody>
                     </table>
-                </c:when>
-                <c:otherwise><h4><fmt:message key="error.enroleeCertificate.empty"/></h4></c:otherwise>
-            </c:choose>
+                </core:when>
+                <core:otherwise><h4><fmt:message key="error.enroleeCertificate.empty"/></h4></core:otherwise>
+            </core:choose>
 
         </div>
     </div>

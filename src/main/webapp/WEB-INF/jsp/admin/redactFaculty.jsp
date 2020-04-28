@@ -62,8 +62,8 @@
     </div>
 
     <div class="col align-self-center">
-        <c:choose>
-            <c:when test="${not empty listExams}">
+        <core:choose>
+            <core:when test="${not empty listExams}">
 
                 <table class="table table-light table-striped table-hover">
                     <thead class="thead-dark">
@@ -73,25 +73,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="item" items="${listExams}">
+                    <core:forEach var="item" items="${listExams}">
                         <tr>
                             <td>
                                 <select class="mdb-select md-form colorful-select dropdown-primary" name="disciplineName">
                                     <option selected value="${item.disciplineName}">${item.disciplineName}</option>
 
-                                    <c:forEach var="newDisc" items="${allDisciplines}">
+                                    <core:forEach var="newDisc" items="${allDisciplines}">
                                         <option value="${newDisc}">${newDisc}</option>
-                                    </c:forEach>
+                                    </core:forEach>
                                 </select>
                             </td>
                             <td><input type="number" step="10" min="100" name="mark"  max="200" value="${item.mark}"></td>
                         </tr>
-                    </c:forEach>
+                    </core:forEach>
                     </tbody>
                 </table>
-            </c:when>
-            <c:otherwise><h4><fmt:message key="error.listExams.empty"/></h4></c:otherwise>
-        </c:choose>
+            </core:when>
+            <core:otherwise><h4><fmt:message key="error.listExams.empty"/></h4></core:otherwise>
+        </core:choose>
 
     </div>
 

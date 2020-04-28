@@ -48,8 +48,8 @@
 
 <div class="small">
     <div class="col align-self-center">
-        <c:choose>
-            <c:when test="${not empty enrolleesList}">
+        <core:choose>
+            <core:when test="${not empty enrolleesList}">
 
                 <table class="table table-light table-striped table-hover">
                     <thead class="thead-dark">
@@ -64,9 +64,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:set var="k" value="0"/>
-                    <c:forEach var="item" items="${enrolleesList}">
-                        <c:set var="k" value="${k+1}"/>
+                    <core:set var="k" value="0"/>
+                    <core:forEach var="item" items="${enrolleesList}">
+                        <core:set var="k" value="${k+1}"/>
                         <tr>
                             <td>${k}</td>
                             <td>${item.firstName}</td>
@@ -75,8 +75,8 @@
                             <td>${item.city}</td>
                             <td>${item.email}</td>
                             <td>
-                                <c:choose>
-                                    <c:when test="${admittedEnrollees.contains(item)==false}">
+                                <core:choose>
+                                    <core:when test="${admittedEnrollees.contains(item)==false}">
                                         <form action="controller" method="post">
                                             <input type="hidden" name="command" value="competition">
                                             <input type="hidden" name="id_enr" value=${item.id}>
@@ -91,23 +91,23 @@
                                             <!--/ select-->
                                             <button type="submit" class="btn btn-outline-primary"><fmt:message key="common.button.apply"/></button>
                                         </form>
-                                    </c:when>
-                                    <c:otherwise>
+                                    </core:when>
+                                    <core:otherwise>
                                         <select class="mdb-select md-form colorful-select" name="action">
                                             <option selected disabled><fmt:message key="admin.listEnrollees.enrolleeAdmitted"/></option>
                                         </select>
                                         <button type="submit" class="btn btn-outline-success" disabled><fmt:message key="admin.listEnrollees.noActionButton"/>
                                         </button>
-                                    </c:otherwise>
-                                </c:choose>
+                                    </core:otherwise>
+                                </core:choose>
                             </td>
                         </tr>
 
-                    </c:forEach>
+                    </core:forEach>
                     </tbody>
                 </table>
-            </c:when>
-            <c:otherwise>
+            </core:when>
+            <core:otherwise>
                 <div class="errorBlock">
                     <div class="errorMessage">
                         <p>
@@ -115,8 +115,8 @@
                         </p>
                     </div>
                 </div>
-                </c:otherwise>
-        </c:choose>
+                </core:otherwise>
+        </core:choose>
 
     </div>
 </div>

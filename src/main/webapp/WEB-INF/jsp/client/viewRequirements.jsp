@@ -67,8 +67,8 @@
 
                 <div class="one">
                     <div class="col align-self-center">
-                        <c:choose>
-                            <c:when test="${not empty disciplineList}">
+                        <core:choose>
+                            <core:when test="${not empty disciplineList}">
 
                                 <table class="table table-light table-striped table-hover">
                                     <thead class="thead-dark">
@@ -80,9 +80,9 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:set var="k" value="0"/>
-                                    <c:forEach var="item" items="${disciplineList}">
-                                        <c:set var="k" value="${k+1}"/>
+                                    <core:set var="k" value="0"/>
+                                    <core:forEach var="item" items="${disciplineList}">
+                                        <core:set var="k" value="${k+1}"/>
                                         <tr>
                                             <td>${k}</td>
                                             <td>${item.disciplineName}</td>
@@ -92,21 +92,21 @@
                                                        name="zno_${item.disciplineName}" class="form-control">
                                             </td>
                                         </tr>
-                                    </c:forEach>
+                                    </core:forEach>
                                     </tbody>
                                 </table>
-                            </c:when>
-                            <c:otherwise><h4><fmt:message key="error.disciplineList.empty"/></h4>
-                            </c:otherwise>
-                        </c:choose>
+                            </core:when>
+                            <core:otherwise><h4><fmt:message key="error.disciplineList.empty"/></h4>
+                            </core:otherwise>
+                        </core:choose>
 
                     </div>
                 </div>
 
                 <div class="small">
                     <div class="col align-self-center">
-                        <c:choose>
-                            <c:when test="${not empty certificateDisciplineList}">
+                        <core:choose>
+                            <core:when test="${not empty certificateDisciplineList}">
 
                                 <table class="table table-dark table-striped table-hover">
                                     <thead class="thead-dark">
@@ -117,22 +117,22 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:set var="k" value="0"/>
-                                    <c:forEach var="item2" items="${certificateDisciplineList}">
-                                        <c:set var="k" value="${k+1}"/>
+                                    <core:set var="k" value="0"/>
+                                    <core:forEach var="item2" items="${certificateDisciplineList}">
+                                        <core:set var="k" value="${k+1}"/>
                                         <tr>
                                             <td>${k}</td>
                                             <td>${item2.disciplineName}</td>
                                             <td><input type="number" required min="1" max="12"
                                                        name="cert_${item2.disciplineName}" class="form-control"></td>
                                         </tr>
-                                    </c:forEach>
+                                    </core:forEach>
                                     </tbody>
                                 </table>
-                            </c:when>
-                            <c:otherwise><h4><fmt:message key="error.certificateDisciplineList.empty"/></h4>
-                            </c:otherwise>
-                        </c:choose>
+                            </core:when>
+                            <core:otherwise><h4><fmt:message key="error.certificateDisciplineList.empty"/></h4>
+                            </core:otherwise>
+                        </core:choose>
 
 
                     </div>

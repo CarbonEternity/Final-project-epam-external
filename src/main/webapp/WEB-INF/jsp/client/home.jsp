@@ -45,8 +45,8 @@
 <form>
     <div class="small">
         <div class="col align-self-center">
-            <c:choose>
-                <c:when test="${not empty listApplications}">
+            <core:choose>
+                <core:when test="${not empty listApplications}">
 
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
@@ -57,7 +57,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach var="item" items="${listApplications}">
+                        <core:forEach var="item" items="${listApplications}">
                             <tr>
                                 <td>${item.name}</td>
                                 <td><fmt:message key="table.faculties.statusAllowed"/></td>
@@ -70,11 +70,11 @@
                                     </form>
                                 </td>
                             </tr>
-                        </c:forEach>
+                        </core:forEach>
                         </tbody>
                     </table>
-                </c:when>
-                <c:otherwise>
+                </core:when>
+                <core:otherwise>
                     <div class="errorBlock">
                         <div class="errorMessage">
                             <p>
@@ -83,8 +83,8 @@
                         </div>
                     </div>
 
-                </c:otherwise>
-            </c:choose>
+                </core:otherwise>
+            </core:choose>
 
         </div>
     </div>

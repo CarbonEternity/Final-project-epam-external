@@ -78,8 +78,8 @@
 
 <div class="small">
     <div class="col align-self-center">
-        <c:choose>
-            <c:when test="${not empty listFaculties}">
+        <core:choose>
+            <core:when test="${not empty listFaculties}">
 
                 <table class="table table-dark table-striped table-hover">
                     <thead class="thead-dark">
@@ -92,41 +92,41 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:set var="k" value="0"/>
-                    <c:forEach var="item" items="${listFaculties}">
-                        <c:set var="k" value="${k+1}"/>
+                    <core:set var="k" value="0"/>
+                    <core:forEach var="item" items="${listFaculties}">
+                        <core:set var="k" value="${k+1}"/>
                         <tr>
                             <td>${k}</td>
                             <td>${item.name}</td>
                             <td>${item.countBudget}</td>
                             <td>${item.countTotal}</td>
                             <td>
-                                <c:choose>
-                                    <c:when test="${listApplications.contains(item.id)}">
+                                <core:choose>
+                                    <core:when test="${listApplications.contains(item.id)}">
                                         <form action="controller" method="get">
                                             <input type="hidden" name="command" value="deleteApplication">
                                             <input type="hidden" name="id_faculty" value="${item.id}">
                                             <input class="btn btn-primary" type="submit"
                                                    value="<fmt:message key="client.facultiesTable.deleteApplication"/>">
                                         </form>
-                                    </c:when>
-                                    <c:otherwise>
+                                    </core:when>
+                                    <core:otherwise>
                                         <form action="controller" method="get">
                                             <input type="hidden" name="command" value="viewFacultyAndRequirements">
                                             <input type="hidden" name="id_faculty" value="${item.id}">
                                             <input class="btn btn-success" type="submit"
                                                    value="<fmt:message key="client.facultiesTable.showRequirements"/>">
                                         </form>
-                                    </c:otherwise>
-                                </c:choose>
+                                    </core:otherwise>
+                                </core:choose>
                             </td>
                         </tr>
 
-                    </c:forEach>
+                    </core:forEach>
                     </tbody>
                 </table>
-            </c:when>
-            <c:otherwise>
+            </core:when>
+            <core:otherwise>
                 <div class="errorBlock">
                     <div class="errorMessage">
                         <p>
@@ -134,8 +134,8 @@
                         </p>
                     </div>
                 </div>
-                </c:otherwise>
-        </c:choose>
+                </core:otherwise>
+        </core:choose>
 
     </div>
 </div>

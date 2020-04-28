@@ -46,8 +46,8 @@
         <div class="table-mark">
 
             <h3><fmt:message key="admin.result.enrolledTableHead"/></h3>
-            <c:choose>
-                <c:when test="${not empty enrolled}">
+            <core:choose>
+                <core:when test="${not empty enrolled}">
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
@@ -61,14 +61,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:set var="k" value="0"/>
-                        <c:forEach var="list" items="${enrolled}">
+                        <core:set var="k" value="0"/>
+                        <core:forEach var="list" items="${enrolled}">
 
-                            <c:choose>
-                                <c:when test="${not empty list.value}">
+                            <core:choose>
+                                <core:when test="${not empty list.value}">
 
-                                    <c:forEach var="listItem" items="${list.value}">
-                                        <c:set var="k" value="${k+1}"/>
+                                    <core:forEach var="listItem" items="${list.value}">
+                                        <core:set var="k" value="${k+1}"/>
                                         <tr>
                                             <td>${k}</td>
                                             <td>${list.key.name}</td>
@@ -78,17 +78,17 @@
                                             <td>${listItem.city}</td>
                                             <td>${listItem.email}</td>
                                         </tr>
-                                    </c:forEach>
+                                    </core:forEach>
 
-                                </c:when>
-                            </c:choose>
+                                </core:when>
+                            </core:choose>
 
-                        </c:forEach>
+                        </core:forEach>
                         </tbody>
                     </table>
-                </c:when>
-                <c:otherwise><h4><fmt:message key="error.enrolled.empty"/></h4></c:otherwise>
-            </c:choose>
+                </core:when>
+                <core:otherwise><h4><fmt:message key="error.enrolled.empty"/></h4></core:otherwise>
+            </core:choose>
 
         </div>
     </div>
@@ -97,8 +97,8 @@
         <div class="table-mark">
 
             <h3><fmt:message key="admin.result.notEnrolledTableHead"/></h3>
-            <c:choose>
-                <c:when test="${not empty notEnrolled}">
+            <core:choose>
+                <core:when test="${not empty notEnrolled}">
                     <table class="table table-light table-striped table-hover">
                         <thead class="thead-dark">
                         <tr>
@@ -112,14 +112,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <c:set var="k" value="0"/>
-                        <c:forEach var="list" items="${notEnrolled}">
+                        <core:set var="k" value="0"/>
+                        <core:forEach var="list" items="${notEnrolled}">
 
-                            <c:choose>
-                                <c:when test="${not empty list.value}">
+                            <core:choose>
+                                <core:when test="${not empty list.value}">
 
-                                    <c:forEach var="listItem" items="${list.value}">
-                                        <c:set var="k" value="${k+1}"/>
+                                    <core:forEach var="listItem" items="${list.value}">
+                                        <core:set var="k" value="${k+1}"/>
                                         <tr>
                                             <td>${k}</td>
                                             <td>${list.key.name}</td>
@@ -129,17 +129,17 @@
                                             <td>${listItem.city}</td>
                                             <td>${listItem.email}</td>
                                         </tr>
-                                    </c:forEach>
+                                    </core:forEach>
 
-                                </c:when>
-                            </c:choose>
+                                </core:when>
+                            </core:choose>
 
-                        </c:forEach>
+                        </core:forEach>
                         </tbody>
                     </table>
-                </c:when>
-                <c:otherwise><h4><fmt:message key="error.notEnrolled.empty"/></h4></c:otherwise>
-            </c:choose>
+                </core:when>
+                <core:otherwise><h4><fmt:message key="error.notEnrolled.empty"/></h4></core:otherwise>
+            </core:choose>
 
         </div>
     </div>

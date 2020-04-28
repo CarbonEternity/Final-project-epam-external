@@ -7,15 +7,14 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import ua.nure.popova.SummaryTask4.Path;
 import ua.nure.popova.SummaryTask4.exception.AppException;
-import ua.nure.popova.SummaryTask4.web.command.*;
+import ua.nure.popova.SummaryTask4.web.command.CommandContainer;
+import ua.nure.popova.SummaryTask4.web.command.LoginCommand;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
 
 public class ControllerTest extends Mockito {
 
@@ -34,7 +33,7 @@ public class ControllerTest extends Mockito {
     }
 
     @Test
-    public void testDoGetForward() throws ServletException, IOException {
+    public void testDoGetForward() throws ServletException, IOException{
         String errorPage = Path.PAGE_ERROR_PAGE;
 
         when(request.getParameter("command")).thenReturn("login");

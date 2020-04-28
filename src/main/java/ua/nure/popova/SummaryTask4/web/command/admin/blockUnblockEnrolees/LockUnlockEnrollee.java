@@ -23,11 +23,20 @@ public class LockUnlockEnrollee extends Command {
     private static final Logger LOG = Logger.getLogger(LockUnlockEnrollee.class);
     private static final long serialVersionUID = 156778258689586513L;
 
+    private UserDAO dao;
+
+    public LockUnlockEnrollee(UserDAO dao) {
+        this.dao = dao;
+    }
+
+    public LockUnlockEnrollee() {
+        this.dao = new UserDAO();
+    }
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, AppException {
         LOG.info("Command start");
 
-        UserDAO dao = new UserDAO();
         int enrolleeId;
 
         if (request.getParameterMap().containsKey("block")) {
@@ -40,7 +49,7 @@ public class LockUnlockEnrollee extends Command {
             dao.unblockEnrolleeByid(enrolleeId);
         }
 
-        List<Enrollee> enrollees = new UserDAO().findAllEnrollees();
+        List<Enrollee> enrollees = dao.findAllEnrollees();
         request.setAttribute("enrolleesList", enrollees);
 
         LOG.info("Command finished");

@@ -12,10 +12,11 @@ To change this template use File | Settings | File Templates.
 <!doctype html>
 <html lang="en">
 <head>
-    <script
-            src="https://code.jquery.com/jquery-3.4.1.min.js"
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
             crossorigin="anonymous"></script>
+
+    <script src="style/js/registrationScript.js"></script>
 
     <link rel="stylesheet" type="text/css" media="screen" href="style/css/register.css">
 
@@ -37,22 +38,22 @@ To change this template use File | Settings | File Templates.
                 <legend>PERSONAL INFORMATION</legend>
 
                 <label for="firstName">Name</label>
-                <input type="text" name="firstName" required/>
+                <input type="text" name="firstName" required pattern="[A-Za-z0-9]+"/>
 
                 <label for="secName">Second Name</label>
-                <input type="text" name="secName" required/>
+                <input type="text" name="secName" required pattern="[A-Za-z0-9]+"/>
 
                 <label for="lastName">Last Name</label>
-                <input type="text" name="lastName" required/>
+                <input type="text" name="lastName" required pattern="[A-Za-z0-9]+"/>
 
                 <label for="city">City</label>
-                <input type="text" name="city" required/>
+                <input type="text" name="city" required pattern="[A-Za-z0-9]+"/>
 
                 <label for="region">Region</label>
-                <input type="text" name="region" required/>
+                <input type="text" name="region" required pattern="[A-Za-z0-9]+"/>
 
                 <label for="school">School</label>
-                <input type="text" name="school" required/>
+                <input type="number" name="school" required/>
 
                 <label for="img">Certificate</label>
                 <input type="file" id="file" name="img" accept="image/jpeg, image/png" required/>
@@ -64,7 +65,7 @@ To change this template use File | Settings | File Templates.
                 <input type="email" name="email"/>
 
                 <label for="password">Password</label>
-                <input type="password" name="password"/>
+                <input type="password" name="password" pattern="[A-Za-z0-9]+"/>
             </fieldset>
 
 
@@ -75,21 +76,5 @@ To change this template use File | Settings | File Templates.
 
 </form>
 
-
-<script type="javascript">
-    var uploadField = document.getElementById("file");
-    uploadField.onchange = function () {
-        if (this.files[0].size > 5000000) {
-            alert("File is too big!");
-            this.value = "";
-        }
-    };
-
-
-    function submitForm() {
-        document.getElementById("reg_form").submit();
-        document.getElementById("form1").submit();
-    }
-</script>
 </body>
 </html>

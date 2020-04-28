@@ -59,8 +59,8 @@
 
 <div class="small">
     <div class="col align-self-center">
-        <c:choose>
-            <c:when test="${not empty enrolleesList}">
+        <core:choose>
+            <core:when test="${not empty enrolleesList}">
 
                 <table class="table table-dark table-striped table-hover">
                     <thead class="thead-dark">
@@ -74,9 +74,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:set var="k" value="0"/>
-                    <c:forEach var="item" items="${enrolleesList}">
-                        <c:set var="k" value="${k+1}"/>
+                    <core:set var="k" value="0"/>
+                    <core:forEach var="item" items="${enrolleesList}">
+                        <core:set var="k" value="${k+1}"/>
                         <tr>
                             <td>${k}</td>
                             <td>${item.firstName}</td>
@@ -85,32 +85,32 @@
                             <td>${item.city}</td>
                             <td>${item.email}</td>
                             <td>
-                                <c:choose>
-                                    <c:when test="${item.accessAllowed==true}">
+                                <core:choose>
+                                    <core:when test="${item.accessAllowed==true}">
                                         <form action="controller" method="post">
                                             <input type="hidden" name="command" value="actionWithEnrollees">
 
                                             <input type="hidden" name="block" value="${item.id}">
                                             <input class="btn btn-warning" type="submit" value="<fmt:message key="admin.listEnrollees.lock"/>">
                                         </form>
-                                    </c:when>
-                                    <c:otherwise>
+                                    </core:when>
+                                    <core:otherwise>
                                         <form action="controller" method="post">
                                             <input type="hidden" name="command" value="actionWithEnrollees">
 
                                             <input type="hidden" name="unblock" value="${item.id}">
                                             <input class="btn btn-danger" type="submit" value="<fmt:message key="admin.listEnrollees.unlock"/>">
                                         </form>
-                                    </c:otherwise>
-                                </c:choose>
+                                    </core:otherwise>
+                                </core:choose>
                             </td>
                         </tr>
 
-                    </c:forEach>
+                    </core:forEach>
                     </tbody>
                 </table>
-            </c:when>
-            <c:otherwise>
+            </core:when>
+            <core:otherwise>
                 <div class="errorBlock">
                     <div class="errorMessage">
                         <p>
@@ -118,8 +118,8 @@
                         </p>
                     </div>
                 </div>
-                </c:otherwise>
-        </c:choose>
+                </core:otherwise>
+        </core:choose>
 
     </div>
 </div>

@@ -67,8 +67,8 @@
 
 <div class="small">
     <div class="col align-self-center">
-        <c:choose>
-            <c:when test="${not empty listFaculties}">
+        <core:choose>
+            <core:when test="${not empty listFaculties}">
 
                 <table class="table table-light table-striped table-hover">
                     <thead class="thead-dark">
@@ -81,9 +81,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:set var="k" value="0"/>
-                    <c:forEach var="item" items="${listFaculties}">
-                        <c:set var="k" value="${k+1}"/>
+                    <core:set var="k" value="0"/>
+                    <core:forEach var="item" items="${listFaculties}">
+                        <core:set var="k" value="${k+1}"/>
                         <tr>
                             <td>${k}</td>
                             <td>${item.name}</td>
@@ -104,11 +104,11 @@
                             </td>
                         </tr>
 
-                    </c:forEach>
+                    </core:forEach>
                     </tbody>
                 </table>
-            </c:when>
-            <c:otherwise>
+            </core:when>
+            <core:otherwise>
                 <div class="errorBlock">
                     <div class="errorMessage">
                         <p>
@@ -117,8 +117,8 @@
                     </div>
                 </div>
 
-                </c:otherwise>
-        </c:choose>
+                </core:otherwise>
+        </core:choose>
 
     </div>
 </div>
