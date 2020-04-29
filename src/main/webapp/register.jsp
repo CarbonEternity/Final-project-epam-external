@@ -62,14 +62,14 @@ To change this template use File | Settings | File Templates.
             <fieldset>
                 <legend>REGISTRATION INFO</legend>
                 <label for="email">Email</label>
-                <input type="email" name="email"/>
+                <input type="email" name="email" required/>
 
                 <label for="password">Password</label>
-                <input type="password" name="password" pattern="[A-Za-z0-9]+"/>
+                <input type="password" name="password" pattern="[A-Za-z0-9]+" required/>
             </fieldset>
 
 
-            <button type="submit">submit</button>
+            <input type="submit">submit</input>
         </div>
 
     </form>
