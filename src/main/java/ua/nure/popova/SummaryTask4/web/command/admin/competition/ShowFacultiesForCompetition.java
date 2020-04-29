@@ -8,7 +8,9 @@ import ua.nure.popova.SummaryTask4.exception.AppException;
 import ua.nure.popova.SummaryTask4.web.command.Command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Command show faculties for add enrollees to competition.
@@ -24,8 +26,20 @@ public class ShowFacultiesForCompetition extends Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws AppException {
         LOG.info("Command start");
 
+        Map<Faculty, Integer> map = new HashMap<>();;
+
         List<Faculty> faculties = new FacultiesDAO().findAllFaculties();
-        request.setAttribute("listFaculties", faculties);
+
+        faculties.forEach(faculty -> {
+            map.put(faculty, new FacultiesDAO().getCountOfApplication(faculty));
+        });
+
+
+
+//        request.setAttribute("listFaculties", faculties);
+        request.setAttribute("mapFaculties", map);
+
+
 
         LOG.info("Command finished");
         return Path.PAGE_FACULTIES_FOR_APPLICATIONS;

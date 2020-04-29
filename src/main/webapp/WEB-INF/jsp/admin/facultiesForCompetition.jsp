@@ -7,7 +7,7 @@
 --%>
 <%@ include file="/WEB-INF/jspf/directive/page.jspf" %>
 <%@ include file="/WEB-INF/jspf/directive/taglib.jspf" %>
-<%@ include file="/WEB-INF/jspf/head.jspf"%>
+<%@ include file="/WEB-INF/jspf/head.jspf" %>
 
 <!doctype html>
 <html lang="en">
@@ -37,7 +37,8 @@
                 <form action="controller" method="get">
                     <input type="hidden" name="command" value="sortFaculties">
                     <!-- select-->
-                    <select class="mdb-select md-form colorful-select dropdown-primary" name="sortFacultiesForCompetition">
+                    <select class="mdb-select md-form colorful-select dropdown-primary"
+                            name="sortFacultiesForCompetition">
                         <option selected disabled><fmt:message key="common.selectSort"/></option>
                         <optgroup label="<fmt:message key="common.sort.label.by.count"/>">
                             <option value="count_budget"><fmt:message key="common.sort.countBudget"/></option>
@@ -62,7 +63,7 @@
 <div class="small">
     <div class="col align-self-center">
         <core:choose>
-            <core:when test="${not empty listFaculties}">
+            <core:when test="${not empty mapFaculties}">
 
                 <table class="table table-light table-striped table-hover">
                     <thead class="thead-dark">
@@ -72,28 +73,38 @@
                         <th scope="col"><fmt:message key="table.faculties.budget"/></th>
                         <th scope="col"><fmt:message key="table.faculties.total"/></th>
                         <th scope="col"><fmt:message key="table.faculties.action"/></th>
+                        <th scope="col">Count Applications</th>
                     </tr>
                     </thead>
                     <tbody>
                     <core:set var="k" value="0"/>
-                    <core:forEach var="item" items="${listFaculties}">
-                        <core:set var="k" value="${k+1}"/>
-                        <tr>
-                            <th>${k}</th>
-                            <td>${item.name}</td>
-                            <td>${item.countBudget}</td>
-                            <td>${item.countTotal}</td>
-                            <td>
-                                <form action="controller" method="get">
-                                    <input type="hidden" name="command" value="showApplications">
-                                    <input type="hidden" name="id_fac" value=${item.id}>
+                    <core:forEach var="list" items="${mapFaculties}">
 
-                                    <button type="submit" class="btn btn-outline-primary"><fmt:message key="admin.faculties.showApplications"/></button>
-                                </form>
-                            </td>
-                        </tr>
 
-                    </core:forEach>
+                        <core:set var="fac" value="${list.key}" scope="page"/>
+                        <core:set var="count" value="${list.value}" scope="page"/>
+
+                            <core:set var="k" value="${k+1}"/>
+                            <tr>
+                                <th>${k}</th>
+                                <td>${fac.name}</td>
+                                <td>${fac.countBudget}</td>
+                                <td>${fac.countTotal}</td>
+                                <td>${count}</td>
+                                <td>
+                                    <form action="controller" method="get">
+                                        <input type="hidden" name="command" value="showApplications">
+                                        <input type="hidden" name="id_fac" value=${fac.id}>
+
+                                        <button type="submit" class="btn btn-outline-primary"><fmt:message
+                                                key="admin.faculties.showApplications"/></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </core:forEach>
+
+
+
                     </tbody>
                 </table>
             </core:when>
@@ -101,17 +112,17 @@
                 <div class="errorBlock">
                     <div class="errorMessage">
                         <p>
-                        <h4><fmt:message key="error.listFaculties.empty"/></h4>
+                        <h4><fmt:message key="error.mapFaculties.empty"/></h4>
                         </p>
                     </div>
                 </div>
-                </core:otherwise>
+            </core:otherwise>
         </core:choose>
 
     </div>
 </div>
 
-<%@ include file="/WEB-INF/jspf/footer.jspf"%>
+<%@ include file="/WEB-INF/jspf/footer.jspf" %>
 </body>
 </html>
 

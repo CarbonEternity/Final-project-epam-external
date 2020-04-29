@@ -49,7 +49,7 @@ public class UserDAO {
     private static final String SQL_FIND_ENROLLED_BY_FACULTY_ID = "select e.id, first_name, sec_name, last_name,city,email, school, region, accessAllowed, entered from result join enrollees e on result.id_enrolee = e.id where id_faculty=? and allowed=?";
     private static final String SQL_CHECK_ENTERED = "SELECT entered from enrollees where id=?";
     private static final String SQL_SET_ENTERED = "update enrollees set entered=? where enrollees.id=?";
-    private static final String SQL_REGISTER_ENROLLEE = "INSERT INTO enrollees (first_name, sec_name, last_name, email, password, city, region, school, certificate_img) VALUES (?, ?, ?, ?, ?,?,?,?,?)";
+    private static final String SQL_REGISTER_ENROLLEE = "INSERT INTO enrollees (first_name, sec_name, last_name, email, city, region, school, certificate_img, password) VALUES (?, ?, ?, ?, ?,?,?,?, MD5(?))";
 
     private static final String SQL_SELECT_IMAGE_ENROLLEE_BY_ID = "SELECT certificate_img from enrollees where id=?";
 
@@ -132,18 +132,24 @@ public class UserDAO {
         try {
             con = DBManager.getInstance().getConnection();
             pstmt = con.prepareStatement(SQL_REGISTER_ENROLLEE);
+            //first_name, sec_name, last_name, email, city, region, school, certificate_img, password
 
             pstmt.setString(1, enrollee.getFirstName());
             pstmt.setString(2, enrollee.getSecName());
             pstmt.setString(3, enrollee.getLastName());
             pstmt.setString(4, enrollee.getEmail());
-            pstmt.setString(5, enrollee.getPassword());
-            pstmt.setString(6, enrollee.getCity());
-            pstmt.setString(7, enrollee.getRegion());
-            pstmt.setString(8, enrollee.getSchool());
+            pstmt.setString(5, enrollee.getCity());
+            pstmt.setString(6, enrollee.getRegion());
+            pstmt.setString(7, enrollee.getSchool());
+
 
             InputStream is = part.getInputStream();
-            pstmt.setBlob(9, is);
+            pstmt.setBlob(8, is);
+
+
+            pstmt.setString(9, enrollee.getPassword());
+
+
 
             result = pstmt.executeUpdate();
 

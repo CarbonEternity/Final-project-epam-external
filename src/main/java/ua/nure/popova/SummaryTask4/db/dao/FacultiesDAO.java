@@ -50,6 +50,7 @@ public class FacultiesDAO {
     private static final String SQL_SELECT_ALL_DISCIPLINES = "SELECT discipline_name from disciplines order by id_d";
     private static final String SELECT_ID_FROM_REQUIREMENTS_BY_ID_FACULTY = "select id from requirements where id_faculty = ";
     private static final String SQL_INSERT_REQUIREMENTS = "INSERT INTO requirements (id_faculty, id_subject, min_mark) VALUES (?,?,?)";
+    private static final String SQL_COUNT_APPLICATION_BY_FACULTY_ID = "SELECT COUNT(*) as count FROM applications WHERE id_faculty = ?";
 
     private final DBManager dbManager;
 
@@ -827,5 +828,35 @@ public class FacultiesDAO {
             dbManager.commitAndClose(con);
         }
         return result;
+    }
+
+    public Integer getCountOfApplication(Faculty faculty) {
+        PreparedStatement pstmt;
+        Connection con = null;
+        ResultSet rs;
+        int countApplication=0;
+        try {
+            con = dbManager.getConnection();
+            pstmt = con.prepareStatement(SQL_COUNT_APPLICATION_BY_FACULTY_ID);
+            pstmt.setInt(1, Math.toIntExact(faculty.getId()));
+
+            rs = pstmt.executeQuery();
+            if(rs.isBeforeFirst()){
+                while (rs.next()){
+                    countApplication=rs.getInt("count");
+                }
+            }
+
+            rs.close();
+            pstmt.close();
+        } catch (SQLException | DBException ex) {
+            dbManager.rollbackAndClose(con);
+            ex.printStackTrace();
+
+        } finally {
+            assert con != null;
+            dbManager.commitAndClose(con);
+        }
+        return countApplication;
     }
 }
