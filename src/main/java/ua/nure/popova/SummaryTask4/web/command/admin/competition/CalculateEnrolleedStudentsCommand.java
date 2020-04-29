@@ -9,6 +9,7 @@ import ua.nure.popova.SummaryTask4.db.entity.Enrollee;
 import ua.nure.popova.SummaryTask4.db.entity.Faculty;
 import ua.nure.popova.SummaryTask4.exception.AppException;
 import ua.nure.popova.SummaryTask4.web.command.Command;
+import ua.nure.popova.SummaryTask4.web.util.SendMail;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,9 +71,26 @@ public class CalculateEnrolleedStudentsCommand extends Command {
         setResultOfCompetetion(mapOfList, false);
         setResultOfCompetetion(mapEnrolled, true);
 
+        sendEmailToEnrolled(mapEnrolled, "invited");
+        sendEmailToEnrolled(mapOfList, "not invited");
+
+
         new StatementDAO().removeStetement();
         LOG.info("Command finished. Statement removed");
         return Path.COMMAND_SHOW_RESULT;
+    }
+
+    private void sendEmailToEnrolled(Map<Faculty, List<Enrollee>> mapEnrolled, String message) {
+        SendMail sendMail = new SendMail();
+
+        mapEnrolled.forEach((k,v)-> {
+            v.forEach(enrollee -> {
+                sendMail.send("University entrance",
+                        "You are "+message+" to study at the faculty of "+k.getName()+ "at karazin university!",
+                        enrollee.getEmail());
+            });
+
+        });
     }
 
     private void setResultOfCompetetion(Map<Faculty, List<Enrollee>> resultOfCompetetion, boolean res){
